@@ -190,10 +190,10 @@
       "status": {
         "abstractGameCode": "F",
         "abstractGameState": "Final",
-        "codedGameState": "O",
-        "detailedState": "Game Over",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "O"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
@@ -300,7 +300,7 @@
             "ties": 0,
             "wins": 52
           },
-          "score": 1,
+          "score": 2,
           "seriesNumber": 34,
           "splitSquad": false,
           "team": {
@@ -394,7 +394,7 @@
       }
     }
   ],
-  "observedAt": "2026-07-23T21:29:02.975551Z",
+  "observedAt": "2026-07-23T21:43:14.754468Z",
   "parity": [
     {
       "askSum": 1.0099999999999998,
@@ -405,28 +405,28 @@
         {
           "ask": {
             "price": 0.32999999999999996,
-            "size": 730875.66
+            "size": 402254.25
           },
           "bid": {
             "price": 0.32,
-            "size": 236254.78
+            "size": 233828.96
           },
           "name": "Kansas City",
           "ticker": "KXMLBGAME-26JUL231840KCDET-KC",
-          "volume": 170354.54
+          "volume": 200105.94
         },
         {
           "ask": {
             "price": 0.6799999999999999,
-            "size": 723996.68
+            "size": 788658.14
           },
           "bid": {
             "price": 0.67,
-            "size": 136459.61
+            "size": 70227.41
           },
           "name": "Detroit",
           "ticker": "KXMLBGAME-26JUL231840KCDET-DET",
-          "volume": 335417.1
+          "volume": 416592.06
         }
       ],
       "signal": "NO TRADE",
@@ -434,36 +434,36 @@
       "title": "Kansas City vs Detroit"
     },
     {
-      "askSum": 1.02,
+      "askSum": 1.01,
       "event": "KXMLBGAME-26JUL231715AZSTL",
-      "grossEdge": -0.020000000000000018,
-      "netEdge": -0.04000000000000002,
+      "grossEdge": -0.010000000000000009,
+      "netEdge": -0.03000000000000001,
       "outcomes": [
         {
           "ask": {
-            "price": 0.22999999999999998,
-            "size": 113320.62
+            "price": 0.21999999999999997,
+            "size": 156418.36
           },
           "bid": {
-            "price": 0.22,
-            "size": 7244.49
+            "price": 0.21,
+            "size": 41931.22
           },
           "name": "Arizona",
           "ticker": "KXMLBGAME-26JUL231715AZSTL-AZ",
-          "volume": 1173612.19
+          "volume": 1649480.59
         },
         {
           "ask": {
             "price": 0.79,
-            "size": 48062.11
+            "size": 75572.99
           },
           "bid": {
             "price": 0.78,
-            "size": 52857.41
+            "size": 59844.0
           },
           "name": "St. Louis",
           "ticker": "KXMLBGAME-26JUL231715AZSTL-STL",
-          "volume": 1241384.47
+          "volume": 1512567.21
         }
       ],
       "signal": "NO TRADE",
@@ -471,13 +471,119 @@
       "title": "Arizona vs St. Louis"
     }
   ],
+  "polymarket": [
+    {
+      "askSum": 1.01,
+      "conditionId": "0xb1c3b1aa624b68d2f3e32b044fc25ee9852a0a6f14b7ae9ae17ca0d23d4763a9",
+      "eventId": "713732",
+      "feesEnabled": true,
+      "gameId": 10078831,
+      "gameStartTime": "2026-07-23 22:40:00+00",
+      "grossEdge": -0.010000000000000009,
+      "liquidity": 531847.2885,
+      "makerBaseFee": 1000,
+      "outcomes": [
+        {
+          "ask": {
+            "price": 0.33,
+            "size": 110495.54
+          },
+          "bid": {
+            "price": 0.32,
+            "size": 243803.91
+          },
+          "bookHash": "7dd64360aa97819e7cf9be4738c7a8a95264ec1e",
+          "bookTimestamp": "1784842992984",
+          "lastTradePrice": 0.32,
+          "name": "Kansas City Royals",
+          "tickSize": "0.01",
+          "tokenId": "66893369134053222164005368137451678555462899057124936937829644756270151186132"
+        },
+        {
+          "ask": {
+            "price": 0.68,
+            "size": 243803.91
+          },
+          "bid": {
+            "price": 0.67,
+            "size": 110495.54
+          },
+          "bookHash": "11a37fcff8cf06032daec7fa80c646d5c2d905aa",
+          "bookTimestamp": "1784842992984",
+          "lastTradePrice": 0.32,
+          "name": "Detroit Tigers",
+          "tickSize": "0.01",
+          "tokenId": "64783242042333989924600589788182275070397064704755034733092697669488274767046"
+        }
+      ],
+      "signal": "NO TRADE",
+      "slug": "mlb-kc-det-2026-07-23",
+      "status": "active",
+      "takerBaseFee": 1000,
+      "title": "Kansas City Royals vs. Detroit Tigers",
+      "volume": 106546.91911
+    },
+    {
+      "askSum": 1.01,
+      "conditionId": "0xd639ab51a4ff3c0359c4a0bbc05283f088524c007692746778cd2618236859ec",
+      "eventId": "611849",
+      "feesEnabled": true,
+      "gameId": 10078501,
+      "gameStartTime": "2026-07-23 21:15:00+00",
+      "grossEdge": -0.010000000000000009,
+      "liquidity": 153300.9957,
+      "makerBaseFee": 1000,
+      "outcomes": [
+        {
+          "ask": {
+            "price": 0.22,
+            "size": 51359.66
+          },
+          "bid": {
+            "price": 0.21,
+            "size": 3301.4
+          },
+          "bookHash": "a4dbeb97baf81a0a7867c6c34b8a525a88b8776f",
+          "bookTimestamp": "1784842993914",
+          "lastTradePrice": 0.78,
+          "name": "Arizona Diamondbacks",
+          "tickSize": "0.01",
+          "tokenId": "46779723381704339196945414642157562369699423381301456693265473805729782194057"
+        },
+        {
+          "ask": {
+            "price": 0.79,
+            "size": 3301.4
+          },
+          "bid": {
+            "price": 0.78,
+            "size": 51359.66
+          },
+          "bookHash": "2ae8b036875b94830a5ef1ede4e387d2d0653554",
+          "bookTimestamp": "1784842993914",
+          "lastTradePrice": 0.78,
+          "name": "St. Louis Cardinals",
+          "tickSize": "0.01",
+          "tokenId": "71856455118493709297632503907487243818721512819680089446567991379519689617161"
+        }
+      ],
+      "signal": "NO TRADE",
+      "slug": "mlb-ari-stl-2026-06-25",
+      "status": "active",
+      "takerBaseFee": 1000,
+      "title": "Arizona Diamondbacks vs. St. Louis Cardinals",
+      "volume": 751961.5892040007
+    }
+  ],
   "schemaVersion": 1,
   "sourceHealth": {
     "kalshiOpenEvents": 46,
     "kalshiStatus": 200,
     "kalshiTodayMarkets": 4,
-    "marketObservedAt": "2026-07-23T21:29:02.975551Z",
+    "marketObservedAt": "2026-07-23T21:43:14.754468Z",
     "mlbStatus": 200,
+    "polymarketMarkets": 2,
+    "polymarketStatus": 200,
     "relay": "github-actions",
     "usingSnapshot": false
   }

@@ -19,6 +19,8 @@ from zoneinfo import ZoneInfo
 
 KALSHI = "https://external-api.kalshi.com/trade-api/v2"
 MLB = "https://statsapi.mlb.com/api/v1"
+POLYMARKET_GAMMA = "https://gamma-api.polymarket.com"
+POLYMARKET_CLOB = "https://clob.polymarket.com"
 EASTERN = ZoneInfo("America/New_York")
 MONTHS = {
     "JAN": "01",
@@ -93,6 +95,143 @@ def orderbook(market: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def json_list(value: Any) -> list[Any]:
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str):
+        decoded = json.loads(value)
+        return decoded if isinstance(decoded, list) else []
+    return []
+
+
+def polymarket_book(token_id: str) -> dict[str, Any]:
+    query = urllib.parse.urlencode({"token_id": token_id})
+    payload = get_json(f"{POLYMARKET_CLOB}/book?{query}")
+    bids = sorted(
+        payload.get("bids") or [],
+        key=lambda level: float(level["price"]),
+        reverse=True,
+    )
+    asks = sorted(
+        payload.get("asks") or [],
+        key=lambda level: float(level["price"]),
+    )
+    return {
+        "bid": (
+            {"price": float(bids[0]["price"]), "size": float(bids[0]["size"])}
+            if bids
+            else None
+        ),
+        "ask": (
+            {"price": float(asks[0]["price"]), "size": float(asks[0]["size"])}
+            if asks
+            else None
+        ),
+        "lastTradePrice": (
+            float(payload["last_trade_price"])
+            if payload.get("last_trade_price") is not None
+            else None
+        ),
+        "tickSize": payload.get("tick_size"),
+        "bookTimestamp": payload.get("timestamp"),
+        "bookHash": payload.get("hash"),
+    }
+
+
+def collect_polymarket(date: str) -> list[dict[str, Any]]:
+    candidates: list[dict[str, Any]] = []
+    for offset in range(0, 500, 100):
+        query = urllib.parse.urlencode(
+            {
+                "series_id": 3,
+                "closed": "false",
+                "limit": 100,
+                "offset": offset,
+                "order": "id",
+                "ascending": "false",
+            }
+        )
+        page = get_json(f"{POLYMARKET_GAMMA}/events?{query}")
+        if not isinstance(page, list):
+            break
+        candidates.extend(page)
+        if len(page) < 100:
+            break
+
+    result = []
+    seen_conditions: set[str] = set()
+    for event in candidates:
+        markets = event.get("markets") or []
+        starts_today = any(
+            str(market.get("gameStartTime") or "").startswith(date)
+            for market in markets
+        )
+        if not starts_today:
+            continue
+        moneyline = next(
+            (
+                market
+                for market in markets
+                if market.get("question") == event.get("title")
+                and market.get("active")
+                and not market.get("closed")
+                and market.get("acceptingOrders")
+            ),
+            None,
+        )
+        if not moneyline:
+            continue
+        condition_id = str(moneyline.get("conditionId") or "")
+        if not condition_id or condition_id in seen_conditions:
+            continue
+        outcomes = json_list(moneyline.get("outcomes"))
+        token_ids = json_list(moneyline.get("clobTokenIds"))
+        if len(outcomes) != 2 or len(token_ids) != 2:
+            continue
+        seen_conditions.add(condition_id)
+        outcome_books = []
+        for outcome, token_id in zip(outcomes, token_ids):
+            outcome_books.append(
+                {
+                    "name": str(outcome),
+                    "tokenId": str(token_id),
+                    **polymarket_book(str(token_id)),
+                }
+            )
+        asks = [
+            outcome["ask"]["price"]
+            for outcome in outcome_books
+            if outcome.get("ask") is not None
+        ]
+        ask_sum = sum(asks) if len(asks) == 2 else None
+        gross_edge = 1 - ask_sum if ask_sum is not None else None
+        result.append(
+            {
+                "eventId": str(event.get("id") or ""),
+                "conditionId": condition_id,
+                "gameId": event.get("gameId"),
+                "slug": event.get("slug"),
+                "title": event.get("title") or moneyline.get("question"),
+                "gameStartTime": moneyline.get("gameStartTime"),
+                "status": "active",
+                "outcomes": outcome_books,
+                "liquidity": float(moneyline.get("liquidity") or 0),
+                "volume": float(moneyline.get("volume") or 0),
+                "feesEnabled": bool(moneyline.get("feesEnabled")),
+                "takerBaseFee": moneyline.get("takerBaseFee"),
+                "makerBaseFee": moneyline.get("makerBaseFee"),
+                "askSum": ask_sum,
+                "grossEdge": gross_edge,
+                "signal": (
+                    "VERIFY LIVE"
+                    if gross_edge is not None and gross_edge > 0
+                    else "NO TRADE"
+                ),
+            }
+        )
+    return result
+
+
 def collect() -> dict[str, Any]:
     date = datetime.now(EASTERN).date().isoformat()
     schedule_query = urllib.parse.urlencode({"sportId": 1, "date": date})
@@ -116,6 +255,7 @@ def collect() -> dict[str, Any]:
         for event in events_payload.get("events", [])
         if event_date(event.get("event_ticker", "")) == date
     ]
+    polymarket = collect_polymarket(date)
 
     parity = []
     for event in events:
@@ -152,6 +292,7 @@ def collect() -> dict[str, Any]:
         "observedAt": now,
         "games": games,
         "parity": parity,
+        "polymarket": polymarket,
         "sourceHealth": {
             "mlbStatus": 200,
             "kalshiStatus": 200,
@@ -162,6 +303,8 @@ def collect() -> dict[str, Any]:
             "usingSnapshot": False,
             "marketObservedAt": now,
             "relay": "github-actions",
+            "polymarketStatus": 200,
+            "polymarketMarkets": len(polymarket),
         },
     }
 
@@ -189,6 +332,7 @@ def main() -> None:
                 "observedAt": payload["observedAt"],
                 "games": len(payload["games"]),
                 "markets": len(payload["parity"]),
+                "polymarketMarkets": len(payload["polymarket"]),
                 "output": str(args.output),
             }
         )

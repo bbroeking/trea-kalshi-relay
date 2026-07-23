@@ -1,14 +1,15 @@
 # TREA Kalshi relay
 
 Zero-cost hosted collector for the TREA Market Lab. A scheduled GitHub Actions
-runner reads official public MLB and Kalshi market-data endpoints every five
-minutes and publishes a single JSON snapshot:
+runner reads official public MLB, Kalshi, and Polymarket market-data endpoints
+every five minutes and publishes a single JSON snapshot:
 
 `https://raw.githubusercontent.com/bbroeking/trea-kalshi-relay/main/data/tonight.json`
 
 The relay has no exchange credentials and cannot place orders. It records
 executable top-of-book bids and asks, observation time, volume, the official MLB
-slate, and the complement-parity calculation used by the dashboard.
+slate, and the complement-parity calculation used by the dashboard. Polymarket
+metadata comes from Gamma and executable depth comes from the public CLOB.
 
 ## Run locally
 
