@@ -1,0 +1,36 @@
+name: Collect tonight's books
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kalshi-relay
+  cancel-in-progress: true
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect public MLB and Kalshi data
+        run: python collector.py --output data/tonight.json
+      - name: Publish changed snapshot
+        run: |
+          git config user.name "trea-relay[bot]"
+          git config user.email "trea-relay[bot]@users.noreply.github.com"
+          git add data/tonight.json
+          if git diff --cached --quiet; then
+            echo "Snapshot unchanged"
+          else
+            git commit -m "data: refresh tonight snapshot"
+            git push
+          fi
