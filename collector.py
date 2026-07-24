@@ -104,6 +104,14 @@ def json_list(value: Any) -> list[Any]:
     return []
 
 
+def event_local_date(event: dict[str, Any]) -> str | None:
+    match = re.search(
+        r"-(\d{4}-\d{2}-\d{2})$",
+        str(event.get("slug") or ""),
+    )
+    return match.group(1) if match else None
+
+
 def polymarket_book(token_id: str) -> dict[str, Any]:
     query = urllib.parse.urlencode({"token_id": token_id})
     payload = get_json(f"{POLYMARKET_CLOB}/book?{query}")
@@ -162,9 +170,12 @@ def collect_polymarket(date: str) -> list[dict[str, Any]]:
     seen_conditions: set[str] = set()
     for event in candidates:
         markets = event.get("markets") or []
-        starts_today = any(
-            str(market.get("gameStartTime") or "").startswith(date)
-            for market in markets
+        starts_today = (
+            event_local_date(event) == date
+            or any(
+                str(market.get("gameStartTime") or "").startswith(date)
+                for market in markets
+            )
         )
         if not starts_today:
             continue

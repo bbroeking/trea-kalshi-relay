@@ -28,9 +28,16 @@ curl http://localhost:8080/data/tonight.json
 The service refreshes in one background thread, preserves the last successful
 snapshot during transient upstream errors, and reports readiness only while the
 last success is within `MAXIMUM_AGE_SECONDS` (120 seconds by default). It uses
-only the Python standard library and public market-data endpoints. Hosted
-containers identify themselves as `continuous-http` in source health; scheduled
-snapshots retain the `github-actions` label.
+the Python standard library, the `websockets` client, and public market-data
+endpoints only. Hosted
+containers maintain dynamic subscriptions to the public Polymarket market
+WebSocket and identify themselves as `continuous-websocket` in source health;
+scheduled snapshots retain the `github-actions` label. Periodic REST books
+remain the discovery and reconciliation path.
+
+Polymarket game slugs are treated as the authoritative local game date for
+discovery. This retains evening games whose UTC `gameStartTime` falls on the
+following date.
 
 Build the included container with:
 
@@ -53,9 +60,15 @@ railway up
 - Collection runs every five minutes and can also be manually dispatched.
 - The container service refreshes every 30 seconds by default; the GitHub
   Actions snapshot remains a low-frequency fallback.
+- Polymarket WebSocket subscriptions reconnect after errors or when REST
+  discovery changes the active token set.
 - HTTP 429 responses honor `Retry-After` and use bounded retries.
 - Output is written atomically so readers never receive partial JSON.
 - The dashboard treats stale relay data as degraded, never as an executable
   signal.
 - `/healthz` returns HTTP 503 before the first successful refresh or whenever
   the last successful refresh is stale.
+
+The container acceptance test on 2026-07-24 discovered all 15 MLB moneylines,
+subscribed 30 outcome tokens, applied 339 public WebSocket messages without a
+reconnect, and returned HTTP 200 with both REST and WebSocket health green.
