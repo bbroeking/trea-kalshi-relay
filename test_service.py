@@ -362,6 +362,8 @@ class EventArchiveTests(unittest.TestCase):
             archive.stop()
         self.assertEqual(first["maximumId"], 2)
         self.assertEqual(first["events"][0]["source"], "polymarket")
+        self.assertIsInstance(first["events"][0]["monotonicNs"], int)
+        self.assertTrue(first["events"][0]["processId"])
         self.assertEqual(second["events"][0]["sequence"], 2)
         self.assertTrue(status["healthy"])
         self.assertEqual(status["written"], 2)

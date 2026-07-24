@@ -6,6 +6,8 @@ import json
 import queue
 import sqlite3
 import threading
+import time
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -20,6 +22,7 @@ class EventArchive:
 
     def __init__(self, path: Path, *, maximum_queue: int = 100_000) -> None:
         self.path = path.resolve()
+        self.process_id = uuid.uuid4().hex
         self.queue: queue.Queue[tuple[Any, ...] | None] = queue.Queue(
             maxsize=maximum_queue
         )
@@ -52,6 +55,8 @@ class EventArchive:
     ) -> bool:
         row = (
             received_at or utc_now(),
+            time.monotonic_ns(),
+            self.process_id,
             source,
             market_id,
             event_type,
@@ -111,8 +116,8 @@ class EventArchive:
         )
         connection.row_factory = sqlite3.Row
         rows = connection.execute(
-            """SELECT id, received_at, source, market_id, event_type,
-                      sequence, payload_json
+            """SELECT id, received_at, monotonic_ns, process_id, source,
+                      market_id, event_type, sequence, payload_json
                FROM relay_events
                WHERE id > ?
                ORDER BY id
@@ -131,6 +136,8 @@ class EventArchive:
                 {
                     "id": int(row["id"]),
                     "receivedAt": row["received_at"],
+                    "monotonicNs": row["monotonic_ns"],
+                    "processId": row["process_id"],
                     "source": row["source"],
                     "marketId": row["market_id"],
                     "eventType": row["event_type"],
@@ -152,6 +159,8 @@ class EventArchive:
                 CREATE TABLE IF NOT EXISTS relay_events (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     received_at TEXT NOT NULL,
+                    monotonic_ns INTEGER,
+                    process_id TEXT,
                     source TEXT NOT NULL,
                     market_id TEXT,
                     event_type TEXT,
@@ -162,6 +171,20 @@ class EventArchive:
                     ON relay_events(source, id);
                 """
             )
+            columns = {
+                str(row[1])
+                for row in connection.execute(
+                    "PRAGMA table_info(relay_events)"
+                )
+            }
+            if "monotonic_ns" not in columns:
+                connection.execute(
+                    "ALTER TABLE relay_events ADD COLUMN monotonic_ns INTEGER"
+                )
+            if "process_id" not in columns:
+                connection.execute(
+                    "ALTER TABLE relay_events ADD COLUMN process_id TEXT"
+                )
             connection.commit()
             with self.lock:
                 self.ready = True
@@ -184,9 +207,9 @@ class EventArchive:
                     batch.append(next_item)
                 connection.executemany(
                     """INSERT INTO relay_events
-                       (received_at, source, market_id, event_type,
-                        sequence, payload_json)
-                       VALUES (?, ?, ?, ?, ?, ?)""",
+                       (received_at, monotonic_ns, process_id, source,
+                        market_id, event_type, sequence, payload_json)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
                     batch,
                 )
                 connection.commit()
