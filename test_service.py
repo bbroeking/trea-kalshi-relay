@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import base64
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
+from archive import EventArchive
 from service import (
     KALSHI_WS_PATH,
     CollectorState,
@@ -45,6 +48,66 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(outcome["bid"], {"price": 0.44, "size": 2})
         self.assertEqual(outcome["ask"], {"price": 0.46, "size": 3})
         self.assertEqual(state.websocket_messages, 1)
+
+    def test_full_book_clears_an_empty_side(self) -> None:
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {
+                        "outcomes": [
+                            {
+                                "tokenId": "one",
+                                "bid": {"price": 0.4, "size": 2},
+                                "ask": {"price": 0.5, "size": 3},
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+        self.assertTrue(
+            state.apply_websocket_event(
+                {
+                    "asset_id": "one",
+                    "event_type": "book",
+                    "bids": [{"price": "0.41", "size": "2"}],
+                    "asks": [],
+                }
+            )
+        )
+        outcome = state.payload["polymarket"][0]["outcomes"][0]
+        self.assertEqual(outcome["bid"]["price"], 0.41)
+        self.assertIsNone(outcome["ask"])
+
+    def test_best_quote_message_clears_explicit_empty_side(self) -> None:
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {
+                        "outcomes": [
+                            {
+                                "tokenId": "one",
+                                "bid": {"price": 0.4, "size": 2},
+                                "ask": {"price": 0.5, "size": 3},
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+        self.assertTrue(
+            state.apply_websocket_event(
+                {
+                    "asset_id": "one",
+                    "event_type": "best_bid_ask",
+                    "best_bid": "0.42",
+                    "best_ask": "",
+                }
+            )
+        )
+        outcome = state.payload["polymarket"][0]["outcomes"][0]
+        self.assertEqual(outcome["bid"]["price"], 0.42)
+        self.assertIsNone(outcome["ask"])
 
     def test_tokens_require_a_fresh_websocket(self) -> None:
         state = CollectorState(
@@ -91,6 +154,33 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(outcome["ask"], {"price": 0.46, "size": 5.0})
         self.assertEqual(outcome["bookSequence"], 12)
         self.assertEqual(outcome["bookPricing"], "unified_yes")
+
+    def test_kalshi_book_clears_missing_ask(self) -> None:
+        state = CollectorState(
+            payload={
+                "parity": [
+                    {
+                        "outcomes": [
+                            {
+                                "ticker": "KX-ONE",
+                                "bid": {"price": 0.4, "size": 2},
+                                "ask": {"price": 0.5, "size": 3},
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+        self.assertTrue(
+            state.apply_kalshi_book(
+                "KX-ONE",
+                (0.44, None, 4.0, None),
+                {"seq": 13, "msg": {"ts_ms": 1234}},
+            )
+        )
+        outcome = state.payload["parity"][0]["outcomes"][0]
+        self.assertEqual(outcome["bid"]["price"], 0.44)
+        self.assertIsNone(outcome["ask"])
 
     def test_required_kalshi_stream_must_receive_fresh_snapshot(self) -> None:
         state = CollectorState(
@@ -222,6 +312,60 @@ class CollectorStateTests(unittest.TestCase):
             health, healthy = state.snapshot(120)
         self.assertFalse(healthy)
         self.assertEqual(health["ageSeconds"], 121)
+
+    def test_stale_websocket_message_is_not_ready(self) -> None:
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ]
+            },
+            last_success_monotonic=100.0,
+            websocket_connected=True,
+            websocket_last_message_monotonic=10.0,
+        )
+        with patch("service.time.monotonic", return_value=101.0):
+            health, healthy = state.snapshot(30)
+        self.assertFalse(healthy)
+        self.assertFalse(health["websocket"]["healthy"])
+
+
+class EventArchiveTests(unittest.TestCase):
+    def test_archive_is_append_only_and_resumable(self) -> None:
+        with TemporaryDirectory() as directory:
+            archive = EventArchive(Path(directory) / "relay.sqlite")
+            archive.start()
+            self.assertTrue(
+                archive.append(
+                    source="polymarket",
+                    market_id="one",
+                    event_type="book",
+                    sequence=None,
+                    payload={"asset_id": "one", "bids": []},
+                )
+            )
+            self.assertTrue(
+                archive.append(
+                    source="kalshi",
+                    market_id="KX-ONE",
+                    event_type="orderbook_delta",
+                    sequence=2,
+                    payload={"seq": 2},
+                )
+            )
+            self.assertTrue(archive.flush())
+            first = archive.read_events(after_id=0, limit=1)
+            second = archive.read_events(
+                after_id=first["nextAfterId"], limit=10
+            )
+            status = archive.status()
+            archive.stop()
+        self.assertEqual(first["maximumId"], 2)
+        self.assertEqual(first["events"][0]["source"], "polymarket")
+        self.assertEqual(second["events"][0]["sequence"], 2)
+        self.assertTrue(status["healthy"])
+        self.assertEqual(status["written"], 2)
+        self.assertEqual(status["dropped"], 0)
 
 
 if __name__ == "__main__":

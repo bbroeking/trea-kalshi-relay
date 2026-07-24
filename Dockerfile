@@ -5,15 +5,19 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PORT=8080 \
     REFRESH_SECONDS=30 \
     MAXIMUM_AGE_SECONDS=120 \
-    RELAY_MODE=continuous-websocket
+    RELAY_MODE=continuous-websocket \
+    ARCHIVE_PATH=/data/relay.sqlite \
+    REQUIRE_ARCHIVE=1
 
 WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY collector.py service.py ./
+COPY archive.py collector.py service.py ./
 
-RUN useradd --create-home --uid 10001 relay
+RUN useradd --create-home --uid 10001 relay \
+    && mkdir /data \
+    && chown relay:relay /data
 USER relay
 
 EXPOSE 8080

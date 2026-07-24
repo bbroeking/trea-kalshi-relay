@@ -8,15 +8,18 @@ import base64
 import json
 import os
 import signal
+import sqlite3
 import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlsplit
 
+from archive import EventArchive
 from collector import collect
 
 POLYMARKET_MARKET_WS = (
@@ -60,6 +63,8 @@ class CollectorState:
     kalshi_websocket_last_message_at: str | None = None
     kalshi_websocket_last_message_monotonic: float | None = None
     kalshi_websocket_error: str | None = None
+    archive: EventArchive | None = None
+    archive_required: bool = False
 
     def refresh(self) -> None:
         attempted_at = utc_now()
@@ -87,6 +92,15 @@ class CollectorState:
             self.last_error = None
             self.consecutive_failures = 0
             self.total_refreshes += 1
+        if self.archive is not None:
+            self.archive.append(
+                source="rest",
+                market_id=None,
+                event_type="snapshot",
+                sequence=None,
+                payload=payload,
+                received_at=attempted_at,
+            )
 
     def token_ids(self) -> tuple[str, ...]:
         with self.lock:
@@ -115,6 +129,9 @@ class CollectorState:
         reconnect: bool = False,
     ) -> None:
         with self.lock:
+            if connected:
+                self.websocket_last_message_at = None
+                self.websocket_last_message_monotonic = None
             self.websocket_connected = connected
             self.websocket_tokens = tokens
             self.websocket_error = error
@@ -125,6 +142,16 @@ class CollectorState:
         asset_id = str(event.get("asset_id") or "")
         if not asset_id:
             return False
+        if self.archive is not None:
+            self.archive.append(
+                source="polymarket",
+                market_id=asset_id,
+                event_type=str(
+                    event.get("event_type") or event.get("type") or ""
+                ),
+                sequence=None,
+                payload=event,
+            )
         event_type = event.get("event_type") or event.get("type")
         changed = False
         with self.lock:
@@ -135,6 +162,8 @@ class CollectorState:
                     if event_type == "book":
                         bids = event.get("bids") or []
                         asks = event.get("asks") or []
+                        outcome["bid"] = None
+                        outcome["ask"] = None
                         if bids:
                             level = max(
                                 bids,
@@ -153,21 +182,31 @@ class CollectorState:
                                 "price": float(level["price"]),
                                 "size": float(level["size"]),
                             }
-                        changed = bool(bids or asks)
+                        changed = True
                     elif event_type in {"price_change", "best_bid_ask"}:
-                        if event.get("best_bid") not in {None, ""}:
+                        if "best_bid" in event:
+                            best_bid = event.get("best_bid")
                             previous = outcome.get("bid") or {}
-                            outcome["bid"] = {
-                                "price": float(event["best_bid"]),
-                                "size": previous.get("size"),
-                            }
+                            outcome["bid"] = (
+                                {
+                                    "price": float(best_bid),
+                                    "size": previous.get("size"),
+                                }
+                                if best_bid not in {None, ""}
+                                else None
+                            )
                             changed = True
-                        if event.get("best_ask") not in {None, ""}:
+                        if "best_ask" in event:
+                            best_ask = event.get("best_ask")
                             previous = outcome.get("ask") or {}
-                            outcome["ask"] = {
-                                "price": float(event["best_ask"]),
-                                "size": previous.get("size"),
-                            }
+                            outcome["ask"] = (
+                                {
+                                    "price": float(best_ask),
+                                    "size": previous.get("size"),
+                                }
+                                if best_ask not in {None, ""}
+                                else None
+                            )
                             changed = True
                     elif (
                         event_type == "last_trade_price"
@@ -221,7 +260,7 @@ class CollectorState:
         ],
         event: dict[str, Any],
     ) -> bool:
-        if book[0] is None or book[1] is None:
+        if book[0] is None and book[1] is None:
             return False
         changed = False
         with self.lock:
@@ -229,14 +268,16 @@ class CollectorState:
                 for outcome in market.get("outcomes", []):
                     if str(outcome.get("ticker")) != ticker:
                         continue
-                    outcome["bid"] = {
-                        "price": book[0],
-                        "size": book[2],
-                    }
-                    outcome["ask"] = {
-                        "price": book[1],
-                        "size": book[3],
-                    }
+                    outcome["bid"] = (
+                        {"price": book[0], "size": book[2]}
+                        if book[0] is not None
+                        else None
+                    )
+                    outcome["ask"] = (
+                        {"price": book[1], "size": book[3]}
+                        if book[1] is not None
+                        else None
+                    )
                     message = event.get("msg") or {}
                     outcome["websocketObservedAt"] = utc_now()
                     outcome["bookTimestamp"] = (
@@ -273,6 +314,7 @@ class CollectorState:
                 or (
                     self.websocket_connected
                     and websocket_age is not None
+                    and websocket_age <= maximum_age_seconds
                 )
             )
             kalshi_websocket_age = (
@@ -291,13 +333,23 @@ class CollectorState:
                     self.kalshi_websocket_configured
                     and self.kalshi_websocket_connected
                     and kalshi_websocket_age is not None
+                    and kalshi_websocket_age <= maximum_age_seconds
                 )
+            )
+            archive_health = (
+                self.archive.status()
+                if self.archive is not None
+                else {
+                    "configured": False,
+                    "healthy": not self.archive_required,
+                }
             )
             healthy = (
                 age is not None
                 and age <= maximum_age_seconds
                 and websocket_healthy
                 and kalshi_websocket_healthy
+                and archive_health["healthy"]
             )
             return (
                 {
@@ -344,6 +396,7 @@ class CollectorState:
                         ),
                         "error": self.kalshi_websocket_error,
                     },
+                    "archive": archive_health,
                 },
                 healthy,
             )
@@ -665,6 +718,20 @@ def kalshi_websocket_loop(
                         "orderbook_delta",
                     }:
                         continue
+                    message = event.get("msg") or {}
+                    ticker = str(message.get("market_ticker") or "")
+                    if state.archive is not None:
+                        state.archive.append(
+                            source="kalshi",
+                            market_id=ticker or None,
+                            event_type=str(event_type),
+                            sequence=(
+                                int(event["seq"])
+                                if event.get("seq") is not None
+                                else None
+                            ),
+                            payload=event,
+                        )
                     try:
                         sequence.observe(event)
                     except KalshiSequenceError as exc:
@@ -675,8 +742,6 @@ def kalshi_websocket_loop(
                             sequence_gap=True,
                         )
                         raise
-                    message = event.get("msg") or {}
-                    ticker = str(message.get("market_ticker") or "")
                     if not ticker:
                         raise RuntimeError(
                             f"{event_type} omitted market_ticker"
@@ -725,6 +790,29 @@ def handler_class(
             health, healthy = state.snapshot(maximum_age_seconds)
             if path in {"/health", "/healthz"}:
                 self.send_json(200 if healthy else 503, health)
+                return
+            if path == "/archive/events":
+                if state.archive is None:
+                    self.send_json(404, {"error": "archive not configured"})
+                    return
+                query = urlsplit(self.path).query
+                parameters = {}
+                for item in query.split("&"):
+                    key, _, value = item.partition("=")
+                    if key:
+                        parameters[key] = value
+                try:
+                    payload = state.archive.read_events(
+                        after_id=int(parameters.get("after_id", "0")),
+                        limit=int(parameters.get("limit", "1000")),
+                    )
+                except (OSError, sqlite3.Error, ValueError) as exc:
+                    self.send_json(
+                        400,
+                        {"error": f"{type(exc).__name__}: {exc}"},
+                    )
+                    return
+                self.send_json(200, payload)
                 return
             if path in {"/", "/data/tonight.json"}:
                 with state.lock:
@@ -787,6 +875,15 @@ def main() -> None:
         type=float,
         default=float(os.environ.get("MAXIMUM_AGE_SECONDS", "120")),
     )
+    parser.add_argument(
+        "--archive-path",
+        type=Path,
+        default=(
+            Path(os.environ["ARCHIVE_PATH"])
+            if os.environ.get("ARCHIVE_PATH")
+            else None
+        ),
+    )
     args = parser.parse_args()
     if args.refresh_seconds <= 0 or args.maximum_age_seconds <= 0:
         parser.error("refresh and maximum age must be positive")
@@ -794,9 +891,21 @@ def main() -> None:
     kalshi_key_id, kalshi_private_key = load_kalshi_credentials()
     kalshi_configured = bool(kalshi_key_id and kalshi_private_key)
     kalshi_required = env_flag("REQUIRE_KALSHI_WEBSOCKET")
+    archive_required = env_flag("REQUIRE_ARCHIVE")
+    if archive_required and args.archive_path is None:
+        parser.error("REQUIRE_ARCHIVE=1 requires ARCHIVE_PATH")
+    archive = (
+        EventArchive(args.archive_path)
+        if args.archive_path is not None
+        else None
+    )
+    if archive is not None:
+        archive.start()
     state = CollectorState(
         kalshi_websocket_configured=kalshi_configured,
         kalshi_websocket_required=kalshi_required,
+        archive=archive,
+        archive_required=archive_required,
     )
     if kalshi_required and not kalshi_configured:
         state.set_kalshi_websocket_status(
@@ -860,6 +969,8 @@ def main() -> None:
         websocket_worker.join(timeout=10)
         if kalshi_websocket_worker is not None:
             kalshi_websocket_worker.join(timeout=10)
+        if archive is not None:
+            archive.stop()
         server.server_close()
 
 

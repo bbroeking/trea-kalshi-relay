@@ -29,13 +29,28 @@ curl http://localhost:8080/data/tonight.json
 
 The service refreshes in one background thread, preserves the last successful
 snapshot during transient upstream errors, and reports readiness only while the
-last success is within `MAXIMUM_AGE_SECONDS` (120 seconds by default). It uses
+last REST success and required WebSocket messages are within
+`MAXIMUM_AGE_SECONDS` (120 seconds by default). It uses
 the Python standard library, `websockets`, `cryptography`, and public market-data
 endpoints only. Hosted
 containers maintain dynamic subscriptions to the public Polymarket market
 WebSocket and identify themselves as `continuous-websocket` in source health;
 scheduled snapshots retain the `github-actions` label. Periodic REST books
 remain the discovery and reconciliation path.
+
+Every successful REST snapshot and every received Polymarket/Kalshi order-book
+event is also written to an append-only SQLite journal. Socket readers enqueue
+records into a bounded non-blocking queue; any dropped record makes readiness
+red. Consumers can checkpoint and resume incremental downloads with:
+
+```bash
+curl 'http://localhost:8080/archive/events?after_id=0&limit=1000'
+```
+
+The response includes `nextAfterId` and the database-wide `maximumId`.
+Containers default to `/data/relay.sqlite` with archival required. The hosted
+service must mount a persistent volume at `/data`; an ephemeral container
+filesystem is not sufficient evidence for the shadow program.
 
 For continuous Kalshi depth, configure:
 
@@ -73,6 +88,12 @@ railway login
 railway link
 railway up
 ```
+
+Create and mount a Railway volume at `/data` before deployment. Confirm
+`serviceHealth.archive.healthy=true`, `dropped=0`, and that `maximumId`
+continues increasing across a deliberate service restart. The mount must be
+writable by container UID 10001; an unwritable volume makes `/healthz` return
+503 rather than silently dropping the archive.
 
 ## Operational behavior
 
