@@ -1,9 +1,17 @@
 from __future__ import annotations
 
+import base64
 import unittest
 from unittest.mock import patch
 
-from service import CollectorState
+from service import (
+    KALSHI_WS_PATH,
+    CollectorState,
+    KalshiBookState,
+    KalshiSequenceError,
+    KalshiSequenceTracker,
+    kalshi_websocket_headers,
+)
 
 
 class CollectorStateTests(unittest.TestCase):
@@ -52,6 +60,119 @@ class CollectorStateTests(unittest.TestCase):
         self.assertFalse(healthy)
         self.assertTrue(health["websocket"]["required"])
         self.assertFalse(health["websocket"]["healthy"])
+
+    def test_kalshi_book_updates_matching_outcome(self) -> None:
+        state = CollectorState(
+            payload={
+                "parity": [
+                    {
+                        "outcomes": [
+                            {
+                                "ticker": "KX-ONE",
+                                "bid": {"price": 0.4, "size": 2},
+                                "ask": {"price": 0.5, "size": 3},
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+        changed = state.apply_kalshi_book(
+            "KX-ONE",
+            (0.44, 0.46, 4.0, 5.0),
+            {
+                "seq": 12,
+                "msg": {"ts_ms": 1234},
+            },
+        )
+        self.assertTrue(changed)
+        outcome = state.payload["parity"][0]["outcomes"][0]
+        self.assertEqual(outcome["bid"], {"price": 0.44, "size": 4.0})
+        self.assertEqual(outcome["ask"], {"price": 0.46, "size": 5.0})
+        self.assertEqual(outcome["bookSequence"], 12)
+        self.assertEqual(outcome["bookPricing"], "unified_yes")
+
+    def test_required_kalshi_stream_must_receive_fresh_snapshot(self) -> None:
+        state = CollectorState(
+            payload={
+                "parity": [
+                    {"outcomes": [{"ticker": "KX-ONE"}]}
+                ]
+            },
+            last_success_monotonic=10.0,
+            kalshi_websocket_configured=True,
+            kalshi_websocket_required=True,
+            kalshi_websocket_connected=True,
+        )
+        with patch("service.time.monotonic", return_value=11.0):
+            health, healthy = state.snapshot(5)
+        self.assertFalse(healthy)
+        self.assertTrue(health["kalshiWebsocket"]["required"])
+        self.assertFalse(health["kalshiWebsocket"]["healthy"])
+
+    def test_kalshi_unified_book_and_sequence_gap(self) -> None:
+        book = KalshiBookState()
+        self.assertEqual(
+            book.apply(
+                {
+                    "type": "orderbook_snapshot",
+                    "msg": {
+                        "yes_dollars_fp": [["0.42", "4"]],
+                        "no_dollars_fp": [["0.44", "5"]],
+                    },
+                }
+            ),
+            (0.42, 0.44, 4.0, 5.0),
+        )
+        self.assertEqual(
+            book.apply(
+                {
+                    "type": "orderbook_delta",
+                    "msg": {
+                        "side": "no",
+                        "price_dollars": "0.44",
+                        "delta_fp": "-5",
+                    },
+                }
+            ),
+            (0.42, None, 4.0, None),
+        )
+        sequence = KalshiSequenceTracker()
+        sequence.observe(
+            {"type": "orderbook_snapshot", "sid": 2, "seq": 8}
+        )
+        with self.assertRaises(KalshiSequenceError):
+            sequence.observe(
+                {"type": "orderbook_delta", "sid": 2, "seq": 10}
+            )
+
+    def test_kalshi_signature_verifies(self) -> None:
+        from cryptography.hazmat.primitives import hashes, serialization
+        from cryptography.hazmat.primitives.asymmetric import padding, rsa
+
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048,
+        )
+        pem = private_key.private_bytes(
+            serialization.Encoding.PEM,
+            serialization.PrivateFormat.PKCS8,
+            serialization.NoEncryption(),
+        )
+        headers = kalshi_websocket_headers(
+            "key",
+            pem,
+            timestamp_ms=1_700_000_000_000,
+        )
+        private_key.public_key().verify(
+            base64.b64decode(headers["KALSHI-ACCESS-SIGNATURE"]),
+            f"1700000000000GET{KALSHI_WS_PATH}".encode(),
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.DIGEST_LENGTH,
+            ),
+            hashes.SHA256(),
+        )
 
     def test_success_becomes_healthy(self) -> None:
         state = CollectorState(

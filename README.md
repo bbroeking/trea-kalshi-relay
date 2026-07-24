@@ -6,10 +6,12 @@ every five minutes and publishes a single JSON snapshot:
 
 `https://raw.githubusercontent.com/bbroeking/trea-kalshi-relay/main/data/tonight.json`
 
-The relay has no exchange credentials and cannot place orders. It records
-executable top-of-book bids and asks, observation time, volume, the official MLB
-slate, and the complement-parity calculation used by the dashboard. Polymarket
-metadata comes from Gamma and executable depth comes from the public CLOB.
+The relay cannot place orders. It records executable top-of-book bids and asks,
+observation time, volume, the official MLB slate, and the complement-parity
+calculation used by the dashboard. Polymarket metadata comes from Gamma and
+executable depth comes from the public CLOB. Kalshi REST reconciliation is
+public; continuous Kalshi L2 uses a read-capable API key because Kalshi requires
+authentication for its order-book WebSocket.
 
 ## Run the snapshot collector locally
 
@@ -28,12 +30,29 @@ curl http://localhost:8080/data/tonight.json
 The service refreshes in one background thread, preserves the last successful
 snapshot during transient upstream errors, and reports readiness only while the
 last success is within `MAXIMUM_AGE_SECONDS` (120 seconds by default). It uses
-the Python standard library, the `websockets` client, and public market-data
+the Python standard library, `websockets`, `cryptography`, and public market-data
 endpoints only. Hosted
 containers maintain dynamic subscriptions to the public Polymarket market
 WebSocket and identify themselves as `continuous-websocket` in source health;
 scheduled snapshots retain the `github-actions` label. Periodic REST books
 remain the discovery and reconciliation path.
+
+For continuous Kalshi depth, configure:
+
+```bash
+export KALSHI_API_KEY_ID="..."
+export KALSHI_PRIVATE_KEY_B64="$(base64 < private-key.pem | tr -d '\n')"
+export REQUIRE_KALSHI_WEBSOCKET=1
+python3 service.py --port 8080 --refresh-seconds 30
+```
+
+`KALSHI_PRIVATE_KEY_PATH` may be used instead of the base64 secret for local
+runs. The relay signs only the WebSocket handshake, explicitly requests
+`use_yes_price=true`, requires an initial snapshot, and reconnects on any
+sequence gap. `/healthz` exposes Kalshi configuration, connection state,
+message count, reconnects, and sequence gaps separately from Polymarket. With
+`REQUIRE_KALSHI_WEBSOCKET=1`, readiness stays red until a fresh complete Kalshi
+book has been reconstructed.
 
 Polymarket game slugs are treated as the authoritative local game date for
 discovery. This retains evening games whose UTC `gameStartTime` falls on the
@@ -62,6 +81,8 @@ railway up
   Actions snapshot remains a low-frequency fallback.
 - Polymarket WebSocket subscriptions reconnect after errors or when REST
   discovery changes the active token set.
+- Kalshi WebSocket subscriptions reconnect after errors, market-set changes, or
+  any missing/out-of-order sequence and rebuild from a fresh snapshot.
 - HTTP 429 responses honor `Retry-After` and use bounded retries.
 - Output is written atomically so readers never receive partial JSON.
 - The dashboard treats stale relay data as degraded, never as an executable

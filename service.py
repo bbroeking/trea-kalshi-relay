@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import signal
@@ -11,6 +12,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from decimal import Decimal
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Callable
 from urllib.parse import urlsplit
@@ -20,6 +22,10 @@ from collector import collect
 POLYMARKET_MARKET_WS = (
     "wss://ws-subscriptions-clob.polymarket.com/ws/market"
 )
+KALSHI_MARKET_WS = (
+    "wss://external-api-ws.kalshi.com/trade-api/ws/v2"
+)
+KALSHI_WS_PATH = "/trade-api/ws/v2"
 
 
 def utc_now() -> str:
@@ -44,6 +50,16 @@ class CollectorState:
     websocket_last_message_at: str | None = None
     websocket_last_message_monotonic: float | None = None
     websocket_error: str | None = None
+    kalshi_websocket_configured: bool = False
+    kalshi_websocket_required: bool = False
+    kalshi_websocket_connected: bool = False
+    kalshi_websocket_markets: int = 0
+    kalshi_websocket_messages: int = 0
+    kalshi_websocket_reconnects: int = 0
+    kalshi_websocket_sequence_gaps: int = 0
+    kalshi_websocket_last_message_at: str | None = None
+    kalshi_websocket_last_message_monotonic: float | None = None
+    kalshi_websocket_error: str | None = None
 
     def refresh(self) -> None:
         attempted_at = utc_now()
@@ -59,6 +75,11 @@ class CollectorState:
             source_health = payload.setdefault("sourceHealth", {})
             source_health["relay"] = "continuous-websocket"
             source_health["polymarketTransport"] = "websocket+rest"
+            source_health["kalshiTransport"] = (
+                "websocket+rest"
+                if self.kalshi_websocket_configured
+                else "rest"
+            )
             self.payload = payload
             self.last_attempt_at = attempted_at
             self.last_success_at = utc_now()
@@ -74,6 +95,15 @@ class CollectorState:
                 for market in (self.payload or {}).get("polymarket", [])
                 for outcome in market.get("outcomes", [])
                 if outcome.get("tokenId")
+            )
+
+    def market_tickers(self) -> tuple[str, ...]:
+        with self.lock:
+            return tuple(
+                str(outcome["ticker"])
+                for event in (self.payload or {}).get("parity", [])
+                for outcome in event.get("outcomes", [])
+                if outcome.get("ticker")
             )
 
     def set_websocket_status(
@@ -158,6 +188,73 @@ class CollectorState:
                 self.websocket_error = None
         return changed
 
+    def set_kalshi_websocket_status(
+        self,
+        *,
+        connected: bool,
+        markets: int,
+        error: str | None = None,
+        reconnect: bool = False,
+        sequence_gap: bool = False,
+    ) -> None:
+        with self.lock:
+            self.kalshi_websocket_connected = connected
+            self.kalshi_websocket_markets = markets
+            self.kalshi_websocket_error = error
+            if connected:
+                # A reconnect cannot reuse a prior session's freshness.
+                self.kalshi_websocket_last_message_at = None
+                self.kalshi_websocket_last_message_monotonic = None
+            if reconnect:
+                self.kalshi_websocket_reconnects += 1
+            if sequence_gap:
+                self.kalshi_websocket_sequence_gaps += 1
+
+    def apply_kalshi_book(
+        self,
+        ticker: str,
+        book: tuple[
+            float | None,
+            float | None,
+            float | None,
+            float | None,
+        ],
+        event: dict[str, Any],
+    ) -> bool:
+        if book[0] is None or book[1] is None:
+            return False
+        changed = False
+        with self.lock:
+            for market in (self.payload or {}).get("parity", []):
+                for outcome in market.get("outcomes", []):
+                    if str(outcome.get("ticker")) != ticker:
+                        continue
+                    outcome["bid"] = {
+                        "price": book[0],
+                        "size": book[2],
+                    }
+                    outcome["ask"] = {
+                        "price": book[1],
+                        "size": book[3],
+                    }
+                    message = event.get("msg") or {}
+                    outcome["websocketObservedAt"] = utc_now()
+                    outcome["bookTimestamp"] = (
+                        message.get("ts_ms") or message.get("ts")
+                    )
+                    outcome["bookSequence"] = event.get("seq")
+                    outcome["bookPricing"] = "unified_yes"
+                    changed = True
+                    break
+            if changed:
+                self.kalshi_websocket_messages += 1
+                self.kalshi_websocket_last_message_at = utc_now()
+                self.kalshi_websocket_last_message_monotonic = (
+                    time.monotonic()
+                )
+                self.kalshi_websocket_error = None
+        return changed
+
     def snapshot(self, maximum_age_seconds: float) -> tuple[dict[str, Any], bool]:
         with self.lock:
             age = (
@@ -178,10 +275,29 @@ class CollectorState:
                     and websocket_age is not None
                 )
             )
+            kalshi_websocket_age = (
+                time.monotonic()
+                - self.kalshi_websocket_last_message_monotonic
+                if self.kalshi_websocket_last_message_monotonic is not None
+                else None
+            )
+            kalshi_stream_required = (
+                self.kalshi_websocket_required
+                and bool(self.market_tickers())
+            )
+            kalshi_websocket_healthy = (
+                not kalshi_stream_required
+                or (
+                    self.kalshi_websocket_configured
+                    and self.kalshi_websocket_connected
+                    and kalshi_websocket_age is not None
+                )
+            )
             healthy = (
                 age is not None
                 and age <= maximum_age_seconds
                 and websocket_healthy
+                and kalshi_websocket_healthy
             )
             return (
                 {
@@ -206,6 +322,27 @@ class CollectorState:
                             else None
                         ),
                         "error": self.websocket_error,
+                    },
+                    "kalshiWebsocket": {
+                        "configured": self.kalshi_websocket_configured,
+                        "required": kalshi_stream_required,
+                        "healthy": kalshi_websocket_healthy,
+                        "connected": self.kalshi_websocket_connected,
+                        "markets": self.kalshi_websocket_markets,
+                        "messages": self.kalshi_websocket_messages,
+                        "reconnects": self.kalshi_websocket_reconnects,
+                        "sequenceGaps": (
+                            self.kalshi_websocket_sequence_gaps
+                        ),
+                        "lastMessageAt": (
+                            self.kalshi_websocket_last_message_at
+                        ),
+                        "ageSeconds": (
+                            round(kalshi_websocket_age, 3)
+                            if kalshi_websocket_age is not None
+                            else None
+                        ),
+                        "error": self.kalshi_websocket_error,
                     },
                 },
                 healthy,
@@ -252,6 +389,133 @@ def message_events(payload: Any) -> list[dict[str, Any]]:
         else:
             events.append(parent)
     return events
+
+
+class KalshiSequenceError(RuntimeError):
+    pass
+
+
+class KalshiSequenceTracker:
+    def __init__(self) -> None:
+        self.last_by_sid: dict[str, int] = {}
+
+    def observe(self, event: dict[str, Any]) -> None:
+        if event.get("type") not in {
+            "orderbook_snapshot",
+            "orderbook_delta",
+        }:
+            return
+        if event.get("sid") is None or event.get("seq") is None:
+            raise KalshiSequenceError("order-book message omitted sid or seq")
+        sid = str(event["sid"])
+        sequence = int(event["seq"])
+        previous = self.last_by_sid.get(sid)
+        if previous is not None and sequence != previous + 1:
+            raise KalshiSequenceError(
+                f"sid {sid} expected seq {previous + 1}, got {sequence}"
+            )
+        self.last_by_sid[sid] = sequence
+
+
+class KalshiBookState:
+    def __init__(self) -> None:
+        self.bids: dict[Decimal, Decimal] = {}
+        self.asks: dict[Decimal, Decimal] = {}
+        self.initialized = False
+
+    @staticmethod
+    def levels(value: Any) -> dict[Decimal, Decimal]:
+        return {
+            Decimal(str(level[0])): Decimal(str(level[1]))
+            for level in (value or [])
+            if len(level) >= 2 and Decimal(str(level[1])) > 0
+        }
+
+    def apply(
+        self,
+        event: dict[str, Any],
+    ) -> tuple[
+        float | None,
+        float | None,
+        float | None,
+        float | None,
+    ]:
+        message = event.get("msg") or {}
+        if event.get("type") == "orderbook_snapshot":
+            self.bids = self.levels(
+                message.get("yes_dollars_fp")
+                or message.get("yes_dollars")
+            )
+            self.asks = self.levels(
+                message.get("no_dollars_fp")
+                or message.get("no_dollars")
+            )
+            self.initialized = True
+        elif (
+            event.get("type") == "orderbook_delta"
+            and self.initialized
+        ):
+            side = str(message.get("side") or "").lower()
+            price_value = message.get(
+                "price_dollars", message.get("price")
+            )
+            delta_value = message.get("delta_fp", message.get("delta"))
+            if (
+                side in {"yes", "no"}
+                and price_value is not None
+                and delta_value is not None
+            ):
+                levels = self.bids if side == "yes" else self.asks
+                price = Decimal(str(price_value))
+                size = levels.get(price, Decimal(0)) + Decimal(
+                    str(delta_value)
+                )
+                if size > 0:
+                    levels[price] = size
+                else:
+                    levels.pop(price, None)
+        if not self.initialized:
+            return None, None, None, None
+        bid = max(self.bids) if self.bids else None
+        ask = min(self.asks) if self.asks else None
+        return (
+            float(bid) if bid is not None else None,
+            float(ask) if ask is not None else None,
+            float(self.bids[bid]) if bid is not None else None,
+            float(self.asks[ask]) if ask is not None else None,
+        )
+
+
+def kalshi_websocket_headers(
+    api_key_id: str,
+    private_key_pem: bytes,
+    timestamp_ms: int | None = None,
+) -> dict[str, str]:
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import padding
+
+    timestamp = str(
+        timestamp_ms
+        if timestamp_ms is not None
+        else int(time.time() * 1000)
+    )
+    private_key = serialization.load_pem_private_key(
+        private_key_pem,
+        password=None,
+    )
+    signature = private_key.sign(
+        f"{timestamp}GET{KALSHI_WS_PATH}".encode(),
+        padding.PSS(
+            mgf=padding.MGF1(hashes.SHA256()),
+            salt_length=padding.PSS.DIGEST_LENGTH,
+        ),
+        hashes.SHA256(),
+    )
+    return {
+        "KALSHI-ACCESS-KEY": api_key_id,
+        "KALSHI-ACCESS-SIGNATURE": base64.b64encode(signature).decode(),
+        "KALSHI-ACCESS-TIMESTAMP": timestamp,
+    }
 
 
 def websocket_loop(state: CollectorState, stop: threading.Event) -> None:
@@ -323,6 +587,122 @@ def websocket_loop(state: CollectorState, stop: threading.Event) -> None:
             )
 
 
+def kalshi_websocket_loop(
+    state: CollectorState,
+    stop: threading.Event,
+    api_key_id: str,
+    private_key_pem: bytes,
+) -> None:
+    try:
+        from websockets.sync.client import connect
+    except ImportError as exc:
+        state.set_kalshi_websocket_status(
+            connected=False,
+            markets=0,
+            error=f"ImportError: {exc}",
+        )
+        return
+    delay = 1.0
+    while not stop.is_set():
+        tickers = state.market_tickers()
+        if not tickers:
+            state.set_kalshi_websocket_status(
+                connected=False,
+                markets=0,
+            )
+            stop.wait(1)
+            continue
+        sequence = KalshiSequenceTracker()
+        books: dict[str, KalshiBookState] = {}
+        try:
+            with connect(
+                KALSHI_MARKET_WS,
+                additional_headers=kalshi_websocket_headers(
+                    api_key_id,
+                    private_key_pem,
+                ),
+                ping_interval=20,
+                ping_timeout=20,
+                close_timeout=5,
+                max_size=16 * 1024 * 1024,
+            ) as websocket:
+                websocket.send(
+                    json.dumps(
+                        {
+                            "id": 1,
+                            "cmd": "subscribe",
+                            "params": {
+                                "channels": ["orderbook_delta"],
+                                "market_tickers": list(tickers),
+                                "use_yes_price": True,
+                            },
+                        },
+                        separators=(",", ":"),
+                    )
+                )
+                state.set_kalshi_websocket_status(
+                    connected=True,
+                    markets=len(tickers),
+                )
+                delay = 1.0
+                while not stop.is_set():
+                    if state.market_tickers() != tickers:
+                        break
+                    try:
+                        raw_message = websocket.recv(timeout=1)
+                    except TimeoutError:
+                        continue
+                    event = json.loads(raw_message)
+                    event_type = event.get("type")
+                    if event_type == "error":
+                        message = event.get("msg") or {}
+                        raise RuntimeError(
+                            f"Kalshi error {message.get('code')}: "
+                            f"{message.get('msg')}"
+                        )
+                    if event_type not in {
+                        "orderbook_snapshot",
+                        "orderbook_delta",
+                    }:
+                        continue
+                    try:
+                        sequence.observe(event)
+                    except KalshiSequenceError as exc:
+                        state.set_kalshi_websocket_status(
+                            connected=False,
+                            markets=len(tickers),
+                            error=str(exc),
+                            sequence_gap=True,
+                        )
+                        raise
+                    message = event.get("msg") or {}
+                    ticker = str(message.get("market_ticker") or "")
+                    if not ticker:
+                        raise RuntimeError(
+                            f"{event_type} omitted market_ticker"
+                        )
+                    book = books.setdefault(
+                        ticker,
+                        KalshiBookState(),
+                    ).apply(event)
+                    state.apply_kalshi_book(ticker, book, event)
+        except Exception as exc:
+            state.set_kalshi_websocket_status(
+                connected=False,
+                markets=len(tickers),
+                error=f"{type(exc).__name__}: {exc}",
+                reconnect=True,
+            )
+            stop.wait(delay)
+            delay = min(30.0, delay * 2)
+        else:
+            state.set_kalshi_websocket_status(
+                connected=False,
+                markets=len(tickers),
+                reconnect=not stop.is_set(),
+            )
+
+
 def handler_class(
     state: CollectorState,
     maximum_age_seconds: float,
@@ -371,6 +751,27 @@ def handler_class(
     return Handler
 
 
+def env_flag(name: str, default: bool = False) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def load_kalshi_credentials() -> tuple[str | None, bytes | None]:
+    key_id = os.environ.get("KALSHI_API_KEY_ID")
+    encoded_key = os.environ.get("KALSHI_PRIVATE_KEY_B64")
+    key_path = os.environ.get("KALSHI_PRIVATE_KEY_PATH")
+    if encoded_key:
+        private_key = base64.b64decode(encoded_key)
+    elif key_path:
+        with open(key_path, "rb") as handle:
+            private_key = handle.read()
+    else:
+        private_key = None
+    return key_id, private_key
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -390,7 +791,23 @@ def main() -> None:
     if args.refresh_seconds <= 0 or args.maximum_age_seconds <= 0:
         parser.error("refresh and maximum age must be positive")
 
-    state = CollectorState()
+    kalshi_key_id, kalshi_private_key = load_kalshi_credentials()
+    kalshi_configured = bool(kalshi_key_id and kalshi_private_key)
+    kalshi_required = env_flag("REQUIRE_KALSHI_WEBSOCKET")
+    state = CollectorState(
+        kalshi_websocket_configured=kalshi_configured,
+        kalshi_websocket_required=kalshi_required,
+    )
+    if kalshi_required and not kalshi_configured:
+        state.set_kalshi_websocket_status(
+            connected=False,
+            markets=0,
+            error=(
+                "Kalshi WebSocket required but KALSHI_API_KEY_ID and "
+                "KALSHI_PRIVATE_KEY_B64 or KALSHI_PRIVATE_KEY_PATH "
+                "are not both configured"
+            ),
+        )
     stop = threading.Event()
     worker = threading.Thread(
         target=collector_loop,
@@ -406,6 +823,24 @@ def main() -> None:
         daemon=True,
     )
     websocket_worker.start()
+    kalshi_websocket_worker = None
+    if (
+        kalshi_configured
+        and kalshi_key_id is not None
+        and kalshi_private_key is not None
+    ):
+        kalshi_websocket_worker = threading.Thread(
+            target=kalshi_websocket_loop,
+            args=(
+                state,
+                stop,
+                kalshi_key_id,
+                kalshi_private_key,
+            ),
+            name="kalshi-websocket",
+            daemon=True,
+        )
+        kalshi_websocket_worker.start()
     server = ThreadingHTTPServer(
         ("0.0.0.0", args.port),
         handler_class(state, args.maximum_age_seconds),
@@ -423,6 +858,8 @@ def main() -> None:
         stop.set()
         worker.join(timeout=5)
         websocket_worker.join(timeout=10)
+        if kalshi_websocket_worker is not None:
+            kalshi_websocket_worker.join(timeout=10)
         server.server_close()
 
 
