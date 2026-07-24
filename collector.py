@@ -302,7 +302,7 @@ def collect() -> dict[str, Any]:
             ),
             "usingSnapshot": False,
             "marketObservedAt": now,
-            "relay": "github-actions",
+            "relay": os.environ.get("RELAY_MODE", "github-actions"),
             "polymarketStatus": 200,
             "polymarketMarkets": len(polymarket),
         },
