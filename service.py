@@ -717,6 +717,9 @@ class CollectorState:
                         "required": websocket_required,
                         "healthy": websocket_healthy,
                         "connected": self.websocket_connected,
+                        "connectionGeneration": (
+                            self.polymarket_connection_generation
+                        ),
                         "tokens": self.websocket_tokens,
                         "messages": self.websocket_messages,
                         "reconnects": self.websocket_reconnects,
