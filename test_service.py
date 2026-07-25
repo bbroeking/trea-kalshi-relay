@@ -185,7 +185,7 @@ class CollectorStateTests(unittest.TestCase):
         )
 
 
-class ClockQualityTests(unittest.TestCase):
+class CollectorStateBehaviorTests(unittest.TestCase):
     def test_conservative_probe_intersection(self) -> None:
         wall_values = iter(
             [
