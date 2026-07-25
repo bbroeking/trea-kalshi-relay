@@ -1,8 +1,8 @@
 # TREA Kalshi relay
 
-Zero-cost hosted collector for the TREA Market Lab. A scheduled GitHub Actions
-runner reads official public MLB, Kalshi, and Polymarket market-data endpoints
-every five minutes and publishes a single JSON snapshot:
+Zero-cost hosted collector for the TREA Market Lab. The container continuously
+records public market WebSockets and reconciles them against official REST
+snapshots; a scheduled GitHub Actions snapshot remains the fallback:
 
 `https://raw.githubusercontent.com/bbroeking/trea-kalshi-relay/main/data/tonight.json`
 
@@ -35,8 +35,19 @@ the Python standard library, `websockets`, `cryptography`, and public market-dat
 endpoints only. Hosted
 containers maintain dynamic subscriptions to the public Polymarket market
 WebSocket and identify themselves as `continuous-websocket` in source health;
-scheduled snapshots retain the `github-actions` label. Periodic REST books
-remain the discovery and reconciliation path.
+scheduled snapshots retain the `github-actions` label.
+
+Polymarket is receipt-ordered, not provider-sequenced. Every
+`POLYMARKET_RECONCILE_SECONDS` (60 by default), the relay journals the official
+batch REST books. When REST is ahead, it waits up to three seconds for the
+WebSocket to reach the same documented book hash. Passing that source
+timestamp without matching, timing out, or omitting a subscribed token closes
+the session and reconnects from fresh full books. `best_bid_ask` remains in the
+raw archive but cannot mint a fresh executable state or borrow stale sizes.
+An image-level acceptance using the production Docker volume layout processed
+2,833 WebSocket messages, matched all four periodic REST hashes, archived
+2,888 records with zero drops, and had zero reconciliation failures or
+reconnects.
 
 Every successful REST snapshot and every received Polymarket/Kalshi order-book
 event is also written to an append-only SQLite journal. Socket readers enqueue
@@ -63,9 +74,11 @@ python3 service.py --port 8080 --refresh-seconds 30
 
 `KALSHI_PRIVATE_KEY_PATH` may be used instead of the base64 secret for local
 runs. The relay signs only the WebSocket handshake, explicitly requests
-`use_yes_price=true`, requires an initial snapshot, and reconnects on any
-sequence gap. `/healthz` exposes Kalshi configuration, connection state,
-message count, reconnects, and sequence gaps separately from Polymarket. With
+`use_yes_price=true`, subscribes to public trades alongside L2, requires an
+initial snapshot, and reconnects on any sequence gap. Every trade is retained
+in the append-only archive. `/healthz` exposes Kalshi configuration,
+connection state, message count, reconnects, and sequence gaps separately from
+Polymarket. With
 `REQUIRE_KALSHI_WEBSOCKET=1`, readiness stays red until a fresh complete Kalshi
 book has been reconstructed.
 
@@ -100,8 +113,8 @@ writable by container UID 10001; an unwritable volume makes `/healthz` return
 - Collection runs every five minutes and can also be manually dispatched.
 - The container service refreshes every 30 seconds by default; the GitHub
   Actions snapshot remains a low-frequency fallback.
-- Polymarket WebSocket subscriptions reconnect after errors or when REST
-  discovery changes the active token set.
+- Polymarket WebSocket subscriptions reconnect after errors, when REST
+  discovery changes the active token set, or when hash reconciliation fails.
 - Kalshi WebSocket subscriptions reconnect after errors, market-set changes, or
   any missing/out-of-order sequence and rebuild from a fresh snapshot.
 - HTTP 429 responses honor `Retry-After` and use bounded retries.

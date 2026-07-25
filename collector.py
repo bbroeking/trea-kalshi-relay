@@ -60,6 +60,35 @@ def get_json(url: str, attempts: int = 4) -> dict[str, Any]:
     raise RuntimeError(f"Unable to fetch {url}")
 
 
+def post_json(url: str, payload: Any, attempts: int = 4) -> Any:
+    encoded = json.dumps(payload, separators=(",", ":")).encode()
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "TREA-Kalshi-Relay/1.0 (+https://github.com/bbroeking/trea-kalshi-relay)",
+    }
+    for attempt in range(attempts):
+        try:
+            request = urllib.request.Request(
+                url,
+                data=encoded,
+                method="POST",
+                headers=headers,
+            )
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as exc:
+            if exc.code != 429 or attempt == attempts - 1:
+                raise
+            retry_after = int(exc.headers.get("Retry-After", "5"))
+            time.sleep(min(30, max(retry_after, 2**attempt)))
+        except (OSError, TimeoutError):
+            if attempt == attempts - 1:
+                raise
+            time.sleep(2**attempt)
+    raise RuntimeError(f"Unable to post {url}")
+
+
 def event_date(event_ticker: str) -> str | None:
     match = re.search(r"-(\d{2})([A-Z]{3})(\d{2})", event_ticker)
     if not match:
@@ -144,6 +173,18 @@ def polymarket_book(token_id: str) -> dict[str, Any]:
         "bookTimestamp": payload.get("timestamp"),
         "bookHash": payload.get("hash"),
     }
+
+
+def polymarket_books(token_ids: tuple[str, ...]) -> list[dict[str, Any]]:
+    if not token_ids:
+        return []
+    payload = post_json(
+        f"{POLYMARKET_CLOB}/books",
+        [{"token_id": token_id} for token_id in token_ids],
+    )
+    if not isinstance(payload, list):
+        raise RuntimeError("unexpected Polymarket books response")
+    return [row for row in payload if isinstance(row, dict)]
 
 
 def collect_polymarket(date: str) -> list[dict[str, Any]]:

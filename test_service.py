@@ -13,6 +13,7 @@ from service import (
     KalshiBookState,
     KalshiSequenceError,
     KalshiSequenceTracker,
+    PolymarketBookState,
     kalshi_websocket_headers,
 )
 
@@ -34,20 +35,36 @@ class CollectorStateTests(unittest.TestCase):
                 ]
             }
         )
+        self.assertTrue(
+            state.apply_websocket_event(
+                {
+                    "asset_id": "one",
+                    "event_type": "book",
+                    "bids": [{"price": "0.40", "size": "2"}],
+                    "asks": [{"price": "0.50", "size": "3"}],
+                    "timestamp": "999",
+                    "hash": "before",
+                }
+            )
+        )
         changed = state.apply_websocket_event(
             {
                 "asset_id": "one",
                 "event_type": "price_change",
+                "side": "BUY",
+                "price": "0.44",
+                "size": "2",
                 "best_bid": "0.44",
-                "best_ask": "0.46",
+                "best_ask": "0.50",
                 "timestamp": "1000",
+                "hash": "after",
             }
         )
         self.assertTrue(changed)
         outcome = state.payload["polymarket"][0]["outcomes"][0]
         self.assertEqual(outcome["bid"], {"price": 0.44, "size": 2})
-        self.assertEqual(outcome["ask"], {"price": 0.46, "size": 3})
-        self.assertEqual(state.websocket_messages, 1)
+        self.assertEqual(outcome["ask"], {"price": 0.5, "size": 3.0})
+        self.assertEqual(state.websocket_messages, 2)
 
     def test_full_book_clears_an_empty_side(self) -> None:
         state = CollectorState(
@@ -79,7 +96,7 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(outcome["bid"]["price"], 0.41)
         self.assertIsNone(outcome["ask"])
 
-    def test_best_quote_message_clears_explicit_empty_side(self) -> None:
+    def test_best_quote_message_is_raw_only(self) -> None:
         state = CollectorState(
             payload={
                 "polymarket": [
@@ -95,7 +112,7 @@ class CollectorStateTests(unittest.TestCase):
                 ]
             }
         )
-        self.assertTrue(
+        self.assertFalse(
             state.apply_websocket_event(
                 {
                     "asset_id": "one",
@@ -106,8 +123,36 @@ class CollectorStateTests(unittest.TestCase):
             )
         )
         outcome = state.payload["polymarket"][0]["outcomes"][0]
-        self.assertEqual(outcome["bid"]["price"], 0.42)
-        self.assertIsNone(outcome["ask"])
+        self.assertEqual(outcome["bid"]["price"], 0.4)
+        self.assertEqual(outcome["ask"]["price"], 0.5)
+
+    def test_polymarket_hash_reconciliation_status(self) -> None:
+        book = PolymarketBookState()
+        self.assertEqual(
+            book.reconcile({"timestamp": "1", "hash": "h"}),
+            "uninitialized",
+        )
+        book.apply(
+            {
+                "event_type": "book",
+                "timestamp": "10",
+                "hash": "h10",
+                "bids": [{"price": "0.4", "size": "2"}],
+                "asks": [{"price": "0.5", "size": "3"}],
+            }
+        )
+        self.assertEqual(
+            book.reconcile({"timestamp": "10", "hash": "h10"}),
+            "verified",
+        )
+        self.assertEqual(
+            book.reconcile({"timestamp": "9", "hash": "old"}),
+            "stale",
+        )
+        self.assertEqual(
+            book.reconcile({"timestamp": "11", "hash": "new"}),
+            "advanced",
+        )
 
     def test_tokens_require_a_fresh_websocket(self) -> None:
         state = CollectorState(

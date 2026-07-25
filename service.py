@@ -20,7 +20,7 @@ from typing import Any, Callable
 from urllib.parse import urlsplit
 
 from archive import EventArchive
-from collector import collect
+from collector import collect, polymarket_books
 
 POLYMARKET_MARKET_WS = (
     "wss://ws-subscriptions-clob.polymarket.com/ws/market"
@@ -33,6 +33,119 @@ KALSHI_WS_PATH = "/trade-api/ws/v2"
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+class PolymarketContinuityError(RuntimeError):
+    pass
+
+
+class PolymarketBookState:
+    def __init__(self) -> None:
+        self.bids: dict[float, float] = {}
+        self.asks: dict[float, float] = {}
+        self.initialized = False
+        self.last_hash: str | None = None
+        self.last_source_timestamp: int | None = None
+
+    @staticmethod
+    def levels(value: Any) -> dict[float, float]:
+        return {
+            float(level["price"]): float(level["size"])
+            for level in (value or [])
+            if float(level["size"]) > 0
+        }
+
+    @staticmethod
+    def timestamp(value: Any) -> int | None:
+        if value in {None, ""}:
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    def apply(
+        self,
+        event: dict[str, Any],
+    ) -> tuple[
+        float | None,
+        float | None,
+        float | None,
+        float | None,
+    ]:
+        event_type = event.get("event_type") or event.get("type")
+        if event_type == "book":
+            self.bids = self.levels(event.get("bids"))
+            self.asks = self.levels(event.get("asks"))
+            self.initialized = True
+        elif event_type == "price_change" and self.initialized:
+            side = str(event.get("side") or "").upper()
+            if (
+                side in {"BUY", "SELL"}
+                and event.get("price") is not None
+                and event.get("size") is not None
+            ):
+                levels = self.bids if side == "BUY" else self.asks
+                price = float(event["price"])
+                size = float(event["size"])
+                if size > 0:
+                    levels[price] = size
+                else:
+                    levels.pop(price, None)
+        if event.get("hash") not in {None, ""}:
+            self.last_hash = str(event["hash"])
+        source_timestamp = self.timestamp(event.get("timestamp"))
+        if source_timestamp is not None:
+            self.last_source_timestamp = source_timestamp
+        return self.top()
+
+    def top(
+        self,
+    ) -> tuple[
+        float | None,
+        float | None,
+        float | None,
+        float | None,
+    ]:
+        if not self.initialized:
+            return None, None, None, None
+        bid = max(self.bids) if self.bids else None
+        ask = min(self.asks) if self.asks else None
+        return (
+            bid,
+            ask,
+            self.bids.get(bid) if bid is not None else None,
+            self.asks.get(ask) if ask is not None else None,
+        )
+
+    def reconcile(self, snapshot: dict[str, Any]) -> str:
+        if not self.initialized:
+            return "uninitialized"
+        snapshot_hash = (
+            str(snapshot["hash"])
+            if snapshot.get("hash") not in {None, ""}
+            else None
+        )
+        snapshot_timestamp = self.timestamp(snapshot.get("timestamp"))
+        if (
+            snapshot_hash is not None
+            and self.last_hash is not None
+            and snapshot_hash == self.last_hash
+        ):
+            return "verified"
+        if (
+            snapshot_timestamp is not None
+            and self.last_source_timestamp is not None
+            and snapshot_timestamp < self.last_source_timestamp
+        ):
+            return "stale"
+        if (
+            snapshot_timestamp is not None
+            and self.last_source_timestamp is not None
+            and snapshot_timestamp > self.last_source_timestamp
+        ):
+            return "advanced"
+        return "mismatch"
 
 
 @dataclass
@@ -53,6 +166,13 @@ class CollectorState:
     websocket_last_message_at: str | None = None
     websocket_last_message_monotonic: float | None = None
     websocket_error: str | None = None
+    websocket_reconciliations: int = 0
+    websocket_hash_matches: int = 0
+    websocket_stale_reconciliations: int = 0
+    websocket_reconciliation_failures: int = 0
+    polymarket_books: dict[str, PolymarketBookState] = field(
+        default_factory=dict
+    )
     kalshi_websocket_configured: bool = False
     kalshi_websocket_required: bool = False
     kalshi_websocket_connected: bool = False
@@ -132,6 +252,7 @@ class CollectorState:
             if connected:
                 self.websocket_last_message_at = None
                 self.websocket_last_message_monotonic = None
+                self.polymarket_books = {}
             self.websocket_connected = connected
             self.websocket_tokens = tokens
             self.websocket_error = error
@@ -153,61 +274,35 @@ class CollectorState:
                 payload=event,
             )
         event_type = event.get("event_type") or event.get("type")
+        book = None
+        if event_type in {"book", "price_change"}:
+            reconstructed = self.polymarket_books.setdefault(
+                asset_id,
+                PolymarketBookState(),
+            )
+            book = reconstructed.apply(event)
+            if not reconstructed.initialized:
+                return False
         changed = False
         with self.lock:
             for market in (self.payload or {}).get("polymarket", []):
                 for outcome in market.get("outcomes", []):
                     if str(outcome.get("tokenId")) != asset_id:
                         continue
-                    if event_type == "book":
-                        bids = event.get("bids") or []
-                        asks = event.get("asks") or []
-                        outcome["bid"] = None
-                        outcome["ask"] = None
-                        if bids:
-                            level = max(
-                                bids,
-                                key=lambda item: float(item["price"]),
-                            )
-                            outcome["bid"] = {
-                                "price": float(level["price"]),
-                                "size": float(level["size"]),
-                            }
-                        if asks:
-                            level = min(
-                                asks,
-                                key=lambda item: float(item["price"]),
-                            )
-                            outcome["ask"] = {
-                                "price": float(level["price"]),
-                                "size": float(level["size"]),
-                            }
+                    if event_type in {"book", "price_change"}:
+                        assert book is not None
+                        outcome["bid"] = (
+                            {"price": book[0], "size": book[2]}
+                            if book[0] is not None
+                            else None
+                        )
+                        outcome["ask"] = (
+                            {"price": book[1], "size": book[3]}
+                            if book[1] is not None
+                            else None
+                        )
+                        outcome["bookHash"] = event.get("hash")
                         changed = True
-                    elif event_type in {"price_change", "best_bid_ask"}:
-                        if "best_bid" in event:
-                            best_bid = event.get("best_bid")
-                            previous = outcome.get("bid") or {}
-                            outcome["bid"] = (
-                                {
-                                    "price": float(best_bid),
-                                    "size": previous.get("size"),
-                                }
-                                if best_bid not in {None, ""}
-                                else None
-                            )
-                            changed = True
-                        if "best_ask" in event:
-                            best_ask = event.get("best_ask")
-                            previous = outcome.get("ask") or {}
-                            outcome["ask"] = (
-                                {
-                                    "price": float(best_ask),
-                                    "size": previous.get("size"),
-                                }
-                                if best_ask not in {None, ""}
-                                else None
-                            )
-                            changed = True
                     elif (
                         event_type == "last_trade_price"
                         and event.get("price") is not None
@@ -226,6 +321,40 @@ class CollectorState:
                 self.websocket_last_message_monotonic = time.monotonic()
                 self.websocket_error = None
         return changed
+
+    def reconcile_polymarket_snapshot(
+        self,
+        snapshot: dict[str, Any],
+    ) -> str:
+        asset_id = str(snapshot.get("asset_id") or "")
+        if not asset_id:
+            return "invalid"
+        if self.archive is not None:
+            self.archive.append(
+                source="polymarket-rest",
+                market_id=asset_id,
+                event_type="book_reconciliation",
+                sequence=None,
+                payload=snapshot,
+            )
+        with self.lock:
+            state = self.polymarket_books.get(asset_id)
+            status = (
+                state.reconcile(snapshot)
+                if state is not None
+                else "uninitialized"
+            )
+            self.websocket_reconciliations += 1
+            if status == "verified":
+                self.websocket_hash_matches += 1
+            elif status == "stale":
+                self.websocket_stale_reconciliations += 1
+        return status
+
+    def fail_polymarket_reconciliation(self, message: str) -> None:
+        with self.lock:
+            self.websocket_reconciliation_failures += 1
+            self.websocket_error = message
 
     def set_kalshi_websocket_status(
         self,
@@ -367,6 +496,16 @@ class CollectorState:
                         "tokens": self.websocket_tokens,
                         "messages": self.websocket_messages,
                         "reconnects": self.websocket_reconnects,
+                        "reconciliations": (
+                            self.websocket_reconciliations
+                        ),
+                        "hashMatches": self.websocket_hash_matches,
+                        "staleReconciliations": (
+                            self.websocket_stale_reconciliations
+                        ),
+                        "reconciliationFailures": (
+                            self.websocket_reconciliation_failures
+                        ),
                         "lastMessageAt": self.websocket_last_message_at,
                         "ageSeconds": (
                             round(websocket_age, 3)
@@ -571,7 +710,11 @@ def kalshi_websocket_headers(
     }
 
 
-def websocket_loop(state: CollectorState, stop: threading.Event) -> None:
+def websocket_loop(
+    state: CollectorState,
+    stop: threading.Event,
+    reconcile_seconds: float = 60.0,
+) -> None:
     try:
         from websockets.sync.client import connect
     except ImportError as exc:
@@ -610,12 +753,91 @@ def websocket_loop(state: CollectorState, stop: threading.Event) -> None:
                     connected=True,
                     tokens=len(tokens),
                 )
+                pending: dict[str, tuple[int, str, float]] = {}
+                next_reconciliation = time.monotonic() + reconcile_seconds
                 delay = 1.0
                 while not stop.is_set():
                     if state.token_ids() != tokens:
                         break
+                    expired = [
+                        token
+                        for token, (_, _, expires_at) in pending.items()
+                        if time.monotonic() >= expires_at
+                    ]
+                    if expired:
+                        message = (
+                            "WebSocket did not reach REST hash for "
+                            f"{len(expired)} books"
+                        )
+                        state.fail_polymarket_reconciliation(message)
+                        raise PolymarketContinuityError(message)
+                    if (
+                        time.monotonic() >= next_reconciliation
+                        and not pending
+                    ):
+                        snapshots = polymarket_books(tokens)
+                        seen: set[str] = set()
+                        for snapshot in snapshots:
+                            asset_id = str(
+                                snapshot.get("asset_id") or ""
+                            )
+                            if not asset_id or asset_id not in tokens:
+                                continue
+                            seen.add(asset_id)
+                            status = (
+                                state.reconcile_polymarket_snapshot(
+                                    snapshot
+                                )
+                            )
+                            if status in {"advanced", "mismatch"}:
+                                source_ts = (
+                                    PolymarketBookState.timestamp(
+                                        snapshot.get("timestamp")
+                                    )
+                                )
+                                book_hash = snapshot.get("hash")
+                                if (
+                                    source_ts is None
+                                    or book_hash in {None, ""}
+                                ):
+                                    message = (
+                                        f"{asset_id} reconciliation "
+                                        "omitted timestamp/hash"
+                                    )
+                                    state.fail_polymarket_reconciliation(
+                                        message
+                                    )
+                                    raise PolymarketContinuityError(
+                                        message
+                                    )
+                                pending[asset_id] = (
+                                    source_ts,
+                                    str(book_hash),
+                                    time.monotonic() + 3.0,
+                                )
+                        missing = set(tokens) - seen
+                        if missing:
+                            message = (
+                                "REST reconciliation omitted "
+                                f"{len(missing)} subscribed books"
+                            )
+                            state.fail_polymarket_reconciliation(message)
+                            raise PolymarketContinuityError(message)
+                        next_reconciliation = (
+                            time.monotonic() + reconcile_seconds
+                        )
+                        continue
                     try:
-                        raw_message = websocket.recv(timeout=1)
+                        raw_message = websocket.recv(
+                            timeout=min(
+                                1.0,
+                                max(
+                                    0.01,
+                                    next_reconciliation
+                                    - time.monotonic(),
+                                ),
+                            )
+                        )
                     except TimeoutError:
                         continue
                     if raw_message in {"PING", "PONG"}:
@@ -623,6 +845,29 @@ def websocket_loop(state: CollectorState, stop: threading.Event) -> None:
                     payload = json.loads(raw_message)
                     for event in message_events(payload):
                         state.apply_websocket_event(event)
+                        asset_id = str(event.get("asset_id") or "")
+                        target = pending.get(asset_id)
+                        if target is None:
+                            continue
+                        target_ts, target_hash, _ = target
+                        event_ts = PolymarketBookState.timestamp(
+                            event.get("timestamp")
+                        )
+                        event_hash = event.get("hash")
+                        if (
+                            event_hash not in {None, ""}
+                            and str(event_hash) == target_hash
+                        ):
+                            with state.lock:
+                                state.websocket_hash_matches += 1
+                            pending.pop(asset_id, None)
+                        elif event_ts is not None and event_ts > target_ts:
+                            message = (
+                                f"{asset_id} stream passed REST "
+                                "snapshot without matching hash"
+                            )
+                            state.fail_polymarket_reconciliation(message)
+                            raise PolymarketContinuityError(message)
         except Exception as exc:
             state.set_websocket_status(
                 connected=False,
@@ -685,7 +930,10 @@ def kalshi_websocket_loop(
                             "id": 1,
                             "cmd": "subscribe",
                             "params": {
-                                "channels": ["orderbook_delta"],
+                                "channels": [
+                                    "orderbook_delta",
+                                    "trade",
+                                ],
                                 "market_tickers": list(tickers),
                                 "use_yes_price": True,
                             },
@@ -713,14 +961,17 @@ def kalshi_websocket_loop(
                             f"Kalshi error {message.get('code')}: "
                             f"{message.get('msg')}"
                         )
-                    if event_type not in {
-                        "orderbook_snapshot",
-                        "orderbook_delta",
-                    }:
-                        continue
                     message = event.get("msg") or {}
                     ticker = str(message.get("market_ticker") or "")
-                    if state.archive is not None:
+                    if (
+                        state.archive is not None
+                        and event_type
+                        in {
+                            "orderbook_snapshot",
+                            "orderbook_delta",
+                            "trade",
+                        }
+                    ):
                         state.archive.append(
                             source="kalshi",
                             market_id=ticker or None,
@@ -732,6 +983,13 @@ def kalshi_websocket_loop(
                             ),
                             payload=event,
                         )
+                    if event_type == "trade":
+                        continue
+                    if event_type not in {
+                        "orderbook_snapshot",
+                        "orderbook_delta",
+                    }:
+                        continue
                     try:
                         sequence.observe(event)
                     except KalshiSequenceError as exc:
@@ -876,6 +1134,13 @@ def main() -> None:
         default=float(os.environ.get("MAXIMUM_AGE_SECONDS", "120")),
     )
     parser.add_argument(
+        "--polymarket-reconcile-seconds",
+        type=float,
+        default=float(
+            os.environ.get("POLYMARKET_RECONCILE_SECONDS", "60")
+        ),
+    )
+    parser.add_argument(
         "--archive-path",
         type=Path,
         default=(
@@ -885,8 +1150,15 @@ def main() -> None:
         ),
     )
     args = parser.parse_args()
-    if args.refresh_seconds <= 0 or args.maximum_age_seconds <= 0:
-        parser.error("refresh and maximum age must be positive")
+    if (
+        args.refresh_seconds <= 0
+        or args.maximum_age_seconds <= 0
+        or args.polymarket_reconcile_seconds <= 0
+    ):
+        parser.error(
+            "refresh, maximum age, and Polymarket reconciliation "
+            "must be positive"
+        )
 
     kalshi_key_id, kalshi_private_key = load_kalshi_credentials()
     kalshi_configured = bool(kalshi_key_id and kalshi_private_key)
@@ -927,7 +1199,7 @@ def main() -> None:
     worker.start()
     websocket_worker = threading.Thread(
         target=websocket_loop,
-        args=(state, stop),
+        args=(state, stop, args.polymarket_reconcile_seconds),
         name="polymarket-websocket",
         daemon=True,
     )
