@@ -35,6 +35,7 @@ class DeploymentContractTests(unittest.TestCase):
         )
         self.assertIn("REQUIRE_ARCHIVE=1", dockerfile)
         self.assertIn("REQUIRE_CLOCK_QUALITY=1", dockerfile)
+        self.assertIn("REQUIRE_FEE_REGIMES=1", dockerfile)
         self.assertEqual(
             requirements,
             [
@@ -152,6 +153,61 @@ class CollectorStateTests(unittest.TestCase):
             health["websocket"]["pendingReconciliations"],
             1,
         )
+
+    def test_required_fee_regimes_fail_closed_when_missing(self) -> None:
+        state = CollectorState(
+            payload={"polymarket": [], "parity": []},
+            last_success_monotonic=100.0,
+            fee_regimes_required=True,
+        )
+        with patch("service.time.monotonic", return_value=101.0):
+            health, healthy = state.snapshot(30)
+        self.assertFalse(healthy)
+        self.assertTrue(health["feeRegimes"]["required"])
+        self.assertFalse(health["feeRegimes"]["healthy"])
+        self.assertFalse(health["feeRegimes"]["kalshiComplete"])
+
+    def test_required_fee_regimes_reject_partial_polymarket_coverage(
+        self,
+    ) -> None:
+        state = CollectorState(
+            payload={
+                "polymarket": [{"conditionId": "one"}],
+                "parity": [],
+                "feeRegimes": {
+                    "kalshi": {"complete": True},
+                    "polymarket": [],
+                },
+            },
+            last_success_monotonic=100.0,
+            fee_regimes_required=True,
+        )
+        with patch("service.time.monotonic", return_value=101.0):
+            health, healthy = state.snapshot(30)
+        self.assertFalse(healthy)
+        self.assertEqual(health["feeRegimes"]["polymarketMarkets"], 1)
+        self.assertEqual(health["feeRegimes"]["polymarketRegimes"], 0)
+
+    def test_required_complete_fee_regimes_are_healthy(self) -> None:
+        state = CollectorState(
+            payload={
+                "polymarket": [{"conditionId": "one"}],
+                "parity": [],
+                "feeRegimes": {
+                    "kalshi": {"complete": True},
+                    "polymarket": [
+                        {"conditionId": "one", "complete": True}
+                    ],
+                },
+            },
+            last_success_monotonic=100.0,
+            fee_regimes_required=True,
+        )
+        with patch("service.time.monotonic", return_value=101.0):
+            health, healthy = state.snapshot(30)
+        self.assertTrue(healthy)
+        self.assertTrue(health["feeRegimes"]["healthy"])
+        self.assertTrue(health["feeRegimes"]["allPolymarketComplete"])
 
     def test_websocket_archives_receipt_aligned_book_state(self) -> None:
         archive = unittest.mock.Mock()

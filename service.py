@@ -208,6 +208,7 @@ class CollectorState:
     archive: EventArchive | None = None
     archive_required: bool = False
     clock_required: bool = False
+    fee_regimes_required: bool = False
     maximum_clock_age_seconds: float = 120.0
     clock_sample: ClockSample | None = None
     clock_samples: int = 0
@@ -727,6 +728,22 @@ class CollectorState:
             current_ns = time.monotonic_ns()
             clock_sample, clock_age = self.current_clock_evidence(current_ns)
             clock_healthy = clock_sample is not None
+            fee_regimes = (self.payload or {}).get("feeRegimes") or {}
+            kalshi_fee_regime = fee_regimes.get("kalshi") or {}
+            polymarket_fee_regimes = fee_regimes.get("polymarket") or []
+            polymarket_market_count = len(
+                (self.payload or {}).get("polymarket") or []
+            )
+            fee_regimes_healthy = (
+                kalshi_fee_regime.get("complete") is True
+                and isinstance(polymarket_fee_regimes, list)
+                and len(polymarket_fee_regimes) == polymarket_market_count
+                and all(
+                    isinstance(regime, dict)
+                    and regime.get("complete") is True
+                    for regime in polymarket_fee_regimes
+                )
+            )
             healthy = (
                 age is not None
                 and age <= maximum_age_seconds
@@ -734,6 +751,10 @@ class CollectorState:
                 and kalshi_websocket_healthy
                 and archive_health["healthy"]
                 and (clock_healthy or not self.clock_required)
+                and (
+                    fee_regimes_healthy
+                    or not self.fee_regimes_required
+                )
             )
             return (
                 {
@@ -826,6 +847,23 @@ class CollectorState:
                             else None
                         ),
                         "error": self.clock_error,
+                    },
+                    "feeRegimes": {
+                        "required": self.fee_regimes_required,
+                        "healthy": fee_regimes_healthy,
+                        "kalshiComplete": (
+                            kalshi_fee_regime.get("complete") is True
+                        ),
+                        "polymarketMarkets": polymarket_market_count,
+                        "polymarketRegimes": len(polymarket_fee_regimes),
+                        "allPolymarketComplete": (
+                            isinstance(polymarket_fee_regimes, list)
+                            and all(
+                                isinstance(regime, dict)
+                                and regime.get("complete") is True
+                                for regime in polymarket_fee_regimes
+                            )
+                        ),
                     },
                     "archive": archive_health,
                 },
@@ -1509,6 +1547,7 @@ def main() -> None:
     kalshi_required = env_flag("REQUIRE_KALSHI_WEBSOCKET")
     archive_required = env_flag("REQUIRE_ARCHIVE")
     clock_required = env_flag("REQUIRE_CLOCK_QUALITY")
+    fee_regimes_required = env_flag("REQUIRE_FEE_REGIMES")
     if archive_required and args.archive_path is None:
         parser.error("REQUIRE_ARCHIVE=1 requires ARCHIVE_PATH")
     archive = (
@@ -1524,6 +1563,7 @@ def main() -> None:
         archive=archive,
         archive_required=archive_required,
         clock_required=clock_required,
+        fee_regimes_required=fee_regimes_required,
         maximum_clock_age_seconds=args.maximum_clock_age_seconds,
     )
     if kalshi_required and not kalshi_configured:
