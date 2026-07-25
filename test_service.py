@@ -19,6 +19,31 @@ from service import (
 )
 
 
+class DeploymentContractTests(unittest.TestCase):
+    def test_container_is_reproducible_complete_and_fail_closed(self) -> None:
+        root = Path(__file__).resolve().parent
+        dockerfile = (root / "Dockerfile").read_text()
+        requirements = (root / "requirements.txt").read_text().splitlines()
+        self.assertIn(
+            "FROM python:3.12-slim@sha256:"
+            "57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de",
+            dockerfile,
+        )
+        self.assertIn(
+            "COPY archive.py clock_quality.py collector.py service.py ./",
+            dockerfile,
+        )
+        self.assertIn("REQUIRE_ARCHIVE=1", dockerfile)
+        self.assertIn("REQUIRE_CLOCK_QUALITY=1", dockerfile)
+        self.assertEqual(
+            requirements,
+            [
+                "cryptography==46.0.7",
+                "websockets==16.1.1",
+            ],
+        )
+
+
 class CollectorStateTests(unittest.TestCase):
     @staticmethod
     def healthy_clock() -> ClockSample:

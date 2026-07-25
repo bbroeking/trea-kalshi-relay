@@ -93,6 +93,11 @@ docker build -t trea-relay .
 docker run --rm -p 8080:8080 trea-relay
 ```
 
+The image pins its Python base-image digest and exact cryptography/WebSocket
+versions, copies every runtime module, and requires both the append-only archive
+and clock quality by default. A container that cannot write `/data` or obtain a
+healthy bounded-uncertainty clock returns HTTP 503.
+
 `railway.json` selects the Dockerfile, waits for `/healthz` to return 200, and
 restarts the service after a crash. After authenticating the Railway CLI:
 
@@ -107,6 +112,13 @@ Create and mount a Railway volume at `/data` before deployment. Confirm
 continues increasing across a deliberate service restart. The mount must be
 writable by container UID 10001; an unwritable volume makes `/healthz` return
 503 rather than silently dropping the archive.
+
+The 2026-07-25 production-layout acceptance built image
+`sha256:b0912d0773efb7aa5bc0ba88736ef93b83e40126dc3b1cf6c3ec28f1b84b8bde`,
+subscribed all 30 active Polymarket outcome tokens, required clock quality,
+recorded zero archive drops, and reused the same named `/data` volume across a
+container replacement. The archive maximum ID advanced from 87 to 2,415 after
+replacement, proving that the journal survived process and container identity.
 
 ## Operational behavior
 
