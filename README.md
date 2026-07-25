@@ -63,6 +63,19 @@ Containers default to `/data/relay.sqlite` with archival required. The hosted
 service must mount a persistent volume at `/data`; an ephemeral container
 filesystem is not sufficient evidence for the shadow program.
 
+Every REST snapshot preserves the current public fee regime rather than
+retroactively applying today's fees to older observations. Kalshi records the
+`KXMLBGAME` series `fee_type`, `fee_multiplier`, and source revision timestamp.
+Each Polymarket market records `feesEnabled`, its complete `feeSchedule`, base
+fee fields, and the Gamma revision timestamp. A required field missing from an
+enabled regime sets `complete=false`; downstream execution logic must abstain
+instead of assuming zero fees.
+
+The existing `netEdge` parity field remains a deliberately conservative
+two-cent execution buffer for dashboard triage and is explicitly labeled
+`not_an_actual_fee_calculation`. Only the later venue-native simulator may turn
+the captured fee regime and authenticated `fee_cost` into a trading decision.
+
 For continuous Kalshi depth, configure:
 
 ```bash

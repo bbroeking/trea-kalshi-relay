@@ -692,6 +692,41 @@ class CollectorStateBehaviorTests(unittest.TestCase):
         self.assertEqual(health["totalRefreshes"], 1)
         self.assertIsNone(health["lastError"])
 
+    def test_fee_regime_revisions_are_archived_with_each_snapshot(self) -> None:
+        archive = unittest.mock.Mock()
+        archive.append.return_value = True
+        payload = {
+            "observedAt": "2026-07-25T17:57:18Z",
+            "feeRegimes": {
+                "kalshi": {
+                    "feeType": "quadratic_with_maker_fees",
+                    "feeMultiplier": 1.0,
+                    "sourceUpdatedAt": "2026-07-20T02:42:30.849144Z",
+                    "complete": True,
+                },
+                "polymarket": [
+                    {
+                        "conditionId": "condition",
+                        "feeSchedule": {
+                            "exponent": 1,
+                            "rate": 0.05,
+                            "takerOnly": True,
+                        },
+                        "complete": True,
+                    }
+                ],
+            },
+        }
+        state = CollectorState(
+            collect_once=lambda: payload,
+            archive=archive,
+        )
+        state.refresh()
+        call = archive.append.call_args.kwargs
+        self.assertEqual(call["source"], "rest")
+        self.assertEqual(call["event_type"], "snapshot")
+        self.assertEqual(call["payload"]["feeRegimes"], payload["feeRegimes"])
+
     def test_failure_preserves_last_good_payload(self) -> None:
         calls = iter(
             [
