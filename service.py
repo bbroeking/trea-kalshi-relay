@@ -555,6 +555,7 @@ class CollectorState:
                         "assetId": asset_id,
                         "connectionGeneration": connection_generation,
                         "originEventType": "book_reconciliation",
+                        "reconciliationStatus": status,
                         "sourceTs": snapshot.get("timestamp"),
                         "bookHash": state.last_hash,
                         "bestBid": book[0],

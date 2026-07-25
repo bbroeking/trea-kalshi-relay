@@ -290,6 +290,10 @@ class CollectorStateTests(unittest.TestCase):
             "book_reconciliation",
         )
         self.assertEqual(
+            heartbeat["payload"]["reconciliationStatus"],
+            "verified",
+        )
+        self.assertEqual(
             heartbeat["payload"]["clockSampleKey"],
             self.healthy_clock().key,
         )
