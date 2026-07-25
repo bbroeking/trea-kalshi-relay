@@ -141,59 +141,6 @@ def event_local_date(event: dict[str, Any]) -> str | None:
     return match.group(1) if match else None
 
 
-def kalshi_fee_regime(payload: dict[str, Any]) -> dict[str, Any]:
-    series = payload.get("series") or {}
-    fee_type = series.get("fee_type")
-    fee_multiplier = series.get("fee_multiplier")
-    source_updated_at = series.get("last_updated_ts")
-    return {
-        "venue": "kalshi",
-        "source": "kalshi-series-api",
-        "seriesTicker": str(series.get("ticker") or "KXMLBGAME"),
-        "feeType": str(fee_type) if fee_type is not None else None,
-        "feeMultiplier": (
-            float(fee_multiplier) if fee_multiplier is not None else None
-        ),
-        "sourceUpdatedAt": source_updated_at,
-        "complete": (
-            fee_type not in {None, ""}
-            and fee_multiplier is not None
-            and source_updated_at not in {None, ""}
-        ),
-    }
-
-
-def polymarket_fee_regime(market: dict[str, Any]) -> dict[str, Any]:
-    enabled = bool(market.get("feesEnabled"))
-    source_updated_at = market.get("updatedAt")
-    schedule = (
-        market.get("feeSchedule")
-        if isinstance(market.get("feeSchedule"), dict)
-        else None
-    )
-    return {
-        "venue": "polymarket",
-        "source": "polymarket-gamma-market",
-        "feesEnabled": enabled,
-        "takerBaseFee": market.get("takerBaseFee"),
-        "makerBaseFee": market.get("makerBaseFee"),
-        "feeSchedule": schedule,
-        "sourceUpdatedAt": source_updated_at,
-        "complete": (
-            source_updated_at not in {None, ""}
-            and (
-                not enabled
-                or (
-                    schedule is not None
-                    and schedule.get("rate") is not None
-                    and schedule.get("exponent") is not None
-                    and schedule.get("takerOnly") is not None
-                )
-            )
-        ),
-    }
-
-
 def polymarket_book(token_id: str) -> dict[str, Any]:
     query = urllib.parse.urlencode({"token_id": token_id})
     payload = get_json(f"{POLYMARKET_CLOB}/book?{query}")
@@ -310,7 +257,6 @@ def collect_polymarket(date: str) -> list[dict[str, Any]]:
         ]
         ask_sum = sum(asks) if len(asks) == 2 else None
         gross_edge = 1 - ask_sum if ask_sum is not None else None
-        fee_regime = polymarket_fee_regime(moneyline)
         result.append(
             {
                 "eventId": str(event.get("id") or ""),
@@ -326,8 +272,6 @@ def collect_polymarket(date: str) -> list[dict[str, Any]]:
                 "feesEnabled": bool(moneyline.get("feesEnabled")),
                 "takerBaseFee": moneyline.get("takerBaseFee"),
                 "makerBaseFee": moneyline.get("makerBaseFee"),
-                "feeSchedule": moneyline.get("feeSchedule"),
-                "feeRegime": fee_regime,
                 "askSum": ask_sum,
                 "grossEdge": gross_edge,
                 "signal": (
@@ -353,8 +297,6 @@ def collect() -> dict[str, Any]:
     )
     schedule = get_json(f"{MLB}/schedule?{schedule_query}")
     events_payload = get_json(f"{KALSHI}/events?{events_query}")
-    series_payload = get_json(f"{KALSHI}/series/KXMLBGAME")
-    kalshi_fees = kalshi_fee_regime(series_payload)
     games = [
         game
         for day in schedule.get("dates", [])
@@ -387,11 +329,6 @@ def collect() -> dict[str, Any]:
                 "askSum": ask_sum,
                 "grossEdge": gross_edge,
                 "netEdge": net_edge,
-                "netEdgeMethod": (
-                    "gross_edge_minus_fixed_two_cent_execution_buffer;"
-                    "not_an_actual_fee_calculation"
-                ),
-                "feeRegime": kalshi_fees,
                 "signal": (
                     "BUY PAIR"
                     if net_edge is not None and net_edge > 0
@@ -408,16 +345,6 @@ def collect() -> dict[str, Any]:
         "games": games,
         "parity": parity,
         "polymarket": polymarket,
-        "feeRegimes": {
-            "kalshi": kalshi_fees,
-            "polymarket": [
-                {
-                    "conditionId": market["conditionId"],
-                    **market["feeRegime"],
-                }
-                for market in polymarket
-            ],
-        },
         "sourceHealth": {
             "mlbStatus": 200,
             "kalshiStatus": 200,
