@@ -12,6 +12,7 @@ import sqlite3
 import threading
 import time
 import uuid
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -48,6 +49,16 @@ class PolymarketBookState:
         self.initialized = False
         self.last_hash: str | None = None
         self.last_source_timestamp: int | None = None
+        self.recent_hashes: OrderedDict[str, int | None] = OrderedDict()
+
+    def remember_hash(self, value: Any, source_timestamp: int | None) -> None:
+        if value in {None, ""}:
+            return
+        book_hash = str(value)
+        self.recent_hashes[book_hash] = source_timestamp
+        self.recent_hashes.move_to_end(book_hash)
+        while len(self.recent_hashes) > 4096:
+            self.recent_hashes.popitem(last=False)
 
     @staticmethod
     def levels(value: Any) -> dict[float, float]:
@@ -94,11 +105,12 @@ class PolymarketBookState:
                     levels[price] = size
                 else:
                     levels.pop(price, None)
-        if event.get("hash") not in {None, ""}:
-            self.last_hash = str(event["hash"])
         source_timestamp = self.timestamp(event.get("timestamp"))
         if source_timestamp is not None:
             self.last_source_timestamp = source_timestamp
+        if event.get("hash") not in {None, ""}:
+            self.last_hash = str(event["hash"])
+            self.remember_hash(event["hash"], source_timestamp)
         return self.top()
 
     def top(
@@ -135,6 +147,12 @@ class PolymarketBookState:
             and snapshot_hash == self.last_hash
         ):
             return "verified"
+        # One WebSocket batch can contain multiple ordered changes with the
+        # same millisecond timestamp. REST may lag at an earlier hash from
+        # that batch; receipt order proves it is stale even when timestamps
+        # are equal.
+        if snapshot_hash is not None and snapshot_hash in self.recent_hashes:
+            return "stale"
         if (
             snapshot_timestamp is not None
             and self.last_source_timestamp is not None
@@ -173,6 +191,7 @@ class CollectorState:
     websocket_hash_matches: int = 0
     websocket_stale_reconciliations: int = 0
     websocket_reconciliation_failures: int = 0
+    websocket_pending_reconciliations: int = 0
     polymarket_books: dict[str, PolymarketBookState] = field(
         default_factory=dict
     )
@@ -265,6 +284,7 @@ class CollectorState:
                 self.websocket_last_message_at = None
                 self.websocket_last_message_monotonic = None
                 self.polymarket_books = {}
+            self.websocket_pending_reconciliations = 0
             generation = self.polymarket_connection_generation
             self.websocket_connected = connected
             self.websocket_tokens = tokens
@@ -555,7 +575,11 @@ class CollectorState:
                 )
         return status
 
-    def fail_polymarket_reconciliation(self, message: str) -> None:
+    def fail_polymarket_reconciliation(
+        self,
+        message: str,
+        market_ids: tuple[str, ...] = (),
+    ) -> None:
         observed_at = utc_now()
         observed_monotonic_ns = time.monotonic_ns()
         with self.lock:
@@ -571,10 +595,15 @@ class CollectorState:
                 payload={
                     "connectionGeneration": generation,
                     "error": message,
+                    "marketIds": sorted(set(market_ids)),
                 },
                 received_at=observed_at,
                 monotonic_ns=observed_monotonic_ns,
             )
+
+    def set_polymarket_pending_reconciliations(self, count: int) -> None:
+        with self.lock:
+            self.websocket_pending_reconciliations = max(0, int(count))
 
     def set_kalshi_websocket_status(
         self,
@@ -662,6 +691,7 @@ class CollectorState:
                 not websocket_required
                 or (
                     self.websocket_connected
+                    and self.websocket_pending_reconciliations == 0
                     and websocket_age is not None
                     and websocket_age <= maximum_age_seconds
                 )
@@ -732,6 +762,9 @@ class CollectorState:
                         ),
                         "reconciliationFailures": (
                             self.websocket_reconciliation_failures
+                        ),
+                        "pendingReconciliations": (
+                            self.websocket_pending_reconciliations
                         ),
                         "lastMessageAt": self.websocket_last_message_at,
                         "ageSeconds": (
@@ -1043,7 +1076,10 @@ def websocket_loop(
                             "WebSocket did not reach REST hash for "
                             f"{len(expired)} books"
                         )
-                        state.fail_polymarket_reconciliation(message)
+                        state.fail_polymarket_reconciliation(
+                            message,
+                            tuple(expired),
+                        )
                         raise PolymarketContinuityError(message)
                     if (
                         time.monotonic() >= next_reconciliation
@@ -1079,7 +1115,8 @@ def websocket_loop(
                                         "omitted timestamp/hash"
                                     )
                                     state.fail_polymarket_reconciliation(
-                                        message
+                                        message,
+                                        (asset_id,),
                                     )
                                     raise PolymarketContinuityError(
                                         message
@@ -1095,8 +1132,14 @@ def websocket_loop(
                                 "REST reconciliation omitted "
                                 f"{len(missing)} subscribed books"
                             )
-                            state.fail_polymarket_reconciliation(message)
+                            state.fail_polymarket_reconciliation(
+                                message,
+                                tuple(sorted(missing)),
+                            )
                             raise PolymarketContinuityError(message)
+                        state.set_polymarket_pending_reconciliations(
+                            len(pending)
+                        )
                         next_reconciliation = (
                             time.monotonic() + reconcile_seconds
                         )
@@ -1135,12 +1178,18 @@ def websocket_loop(
                             with state.lock:
                                 state.websocket_hash_matches += 1
                             pending.pop(asset_id, None)
+                            state.set_polymarket_pending_reconciliations(
+                                len(pending)
+                            )
                         elif event_ts is not None and event_ts > target_ts:
                             message = (
                                 f"{asset_id} stream passed REST "
                                 "snapshot without matching hash"
                             )
-                            state.fail_polymarket_reconciliation(message)
+                            state.fail_polymarket_reconciliation(
+                                message,
+                                (asset_id,),
+                            )
                             raise PolymarketContinuityError(message)
         except Exception as exc:
             state.set_websocket_status(

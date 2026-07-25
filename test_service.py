@@ -100,6 +100,34 @@ class CollectorStateTests(unittest.TestCase):
         self.assertFalse(healthy)
         self.assertFalse(health["clockQuality"]["healthy"])
 
+    def test_pending_reconciliation_makes_websocket_unready(self) -> None:
+        state = CollectorState(
+            collect_once=lambda: {
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ],
+                "parity": [],
+            },
+            payload={
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ],
+                "parity": [],
+            },
+            last_success_monotonic=100.0,
+            websocket_connected=True,
+            websocket_last_message_monotonic=100.0,
+            websocket_pending_reconciliations=1,
+        )
+        with patch("service.time.monotonic", return_value=101.0):
+            health, healthy = state.snapshot(30)
+        self.assertFalse(healthy)
+        self.assertFalse(health["websocket"]["healthy"])
+        self.assertEqual(
+            health["websocket"]["pendingReconciliations"],
+            1,
+        )
+
     def test_websocket_archives_receipt_aligned_book_state(self) -> None:
         archive = unittest.mock.Mock()
         state = CollectorState(
@@ -268,6 +296,47 @@ class CollectorStateTests(unittest.TestCase):
 
 
 class CollectorStateBehaviorTests(unittest.TestCase):
+    def test_equal_timestamp_prior_stream_hash_is_stale_rest(self) -> None:
+        book = PolymarketBookState()
+        book.apply(
+            {
+                "event_type": "book",
+                "timestamp": "1000",
+                "hash": "initial",
+                "bids": [{"price": "0.4", "size": "1"}],
+                "asks": [{"price": "0.5", "size": "1"}],
+            }
+        )
+        book.apply(
+            {
+                "event_type": "price_change",
+                "timestamp": "1001",
+                "hash": "earlier-in-batch",
+                "side": "BUY",
+                "price": "0.4",
+                "size": "2",
+            }
+        )
+        book.apply(
+            {
+                "event_type": "price_change",
+                "timestamp": "1001",
+                "hash": "later-in-batch",
+                "side": "SELL",
+                "price": "0.5",
+                "size": "2",
+            }
+        )
+        self.assertEqual(
+            book.reconcile(
+                {
+                    "timestamp": "1001",
+                    "hash": "earlier-in-batch",
+                }
+            ),
+            "stale",
+        )
+
     def test_conservative_probe_intersection(self) -> None:
         wall_values = iter(
             [
