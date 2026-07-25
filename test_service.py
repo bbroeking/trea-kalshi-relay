@@ -7,6 +7,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from archive import EventArchive
+from clock_quality import ClockSample, sample_clock
 from service import (
     KALSHI_WS_PATH,
     CollectorState,
@@ -19,6 +20,52 @@ from service import (
 
 
 class CollectorStateTests(unittest.TestCase):
+    @staticmethod
+    def healthy_clock() -> ClockSample:
+        return ClockSample(
+            collector_boot_id="clock-boot",
+            reference="polymarket-public-time",
+            request_started_at="2026-07-25T00:00:00Z",
+            response_received_at="2026-07-25T00:00:01Z",
+            request_started_monotonic_ns=900,
+            response_received_monotonic_ns=1000,
+            offset_ms=10.0,
+            uncertainty_ms=200.0,
+            rtt_ms=10.0,
+            wall_step_ms=0.1,
+            healthy=True,
+            error=None,
+            raw={"probes": []},
+        )
+
+    def test_clock_sample_is_archived_before_becoming_current(self) -> None:
+        archive = unittest.mock.Mock()
+        archive.append.return_value = True
+        state = CollectorState(archive=archive, clock_required=True)
+        sample = self.healthy_clock()
+        state.apply_clock_sample(sample)
+        self.assertEqual(state.clock_sample, sample)
+        call = archive.append.call_args.kwargs
+        self.assertEqual(call["source"], "clock")
+        self.assertEqual(call["event_type"], "clock_sample")
+        self.assertEqual(call["payload"]["sampleKey"], sample.key)
+
+    def test_required_clock_quality_fails_closed_when_stale(self) -> None:
+        state = CollectorState(
+            collect_once=lambda: {"polymarket": [], "parity": []},
+            last_success_monotonic=100.0,
+            clock_required=True,
+            maximum_clock_age_seconds=10.0,
+            clock_sample=self.healthy_clock(),
+        )
+        with (
+            patch("service.time.monotonic", return_value=101.0),
+            patch("service.time.monotonic_ns", return_value=20_000_000_000),
+        ):
+            health, healthy = state.snapshot(30)
+        self.assertFalse(healthy)
+        self.assertFalse(health["clockQuality"]["healthy"])
+
     def test_websocket_archives_receipt_aligned_book_state(self) -> None:
         archive = unittest.mock.Mock()
         state = CollectorState(
@@ -60,6 +107,107 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(
             normalized["payload"]["validatedMonotonicNs"],
             1010,
+        )
+
+    def test_websocket_book_state_references_healthy_clock(self) -> None:
+        archive = unittest.mock.Mock()
+        archive.append.return_value = True
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ]
+            },
+            archive=archive,
+            clock_sample=self.healthy_clock(),
+        )
+        with (
+            patch("service.utc_now", return_value="2026-07-25T00:00:01Z"),
+            patch(
+                "service.time.monotonic_ns",
+                side_effect=[1100, 1110],
+            ),
+        ):
+            state.apply_websocket_event(
+                {
+                    "asset_id": "one",
+                    "event_type": "book",
+                    "bids": [{"price": "0.40", "size": "2"}],
+                    "asks": [{"price": "0.50", "size": "3"}],
+                }
+            )
+        normalized = archive.append.call_args_list[1].kwargs["payload"]
+        self.assertEqual(
+            normalized["clockSampleKey"],
+            self.healthy_clock().key,
+        )
+
+    def test_websocket_trade_is_archived_with_clock_and_unknown_side(self) -> None:
+        archive = unittest.mock.Mock()
+        archive.process_id = "process"
+        archive.append.return_value = True
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ]
+            },
+            archive=archive,
+            clock_sample=self.healthy_clock(),
+        )
+        with (
+            patch("service.utc_now", return_value="2026-07-25T00:00:01Z"),
+            patch(
+                "service.time.monotonic_ns",
+                side_effect=[1100, 1110],
+            ),
+        ):
+            state.apply_websocket_event(
+                {
+                    "asset_id": "one",
+                    "event_type": "last_trade_price",
+                    "transaction_hash": "0xtrade",
+                    "timestamp": "1234",
+                    "price": "0.48",
+                    "size": "7.5",
+                    "side": "BUY",
+                    "fee_rate_bps": "0",
+                }
+            )
+        normalized = archive.append.call_args_list[1].kwargs
+        self.assertEqual(normalized["source"], "polymarket-trade")
+        self.assertEqual(normalized["payload"]["tradeId"], "0xtrade")
+        self.assertIsNone(normalized["payload"]["side"])
+        self.assertEqual(normalized["payload"]["rawSide"], "BUY")
+        self.assertEqual(
+            normalized["payload"]["clockSampleKey"],
+            self.healthy_clock().key,
+        )
+
+
+class ClockQualityTests(unittest.TestCase):
+    def test_conservative_probe_intersection(self) -> None:
+        wall_values = iter(
+            [
+                10_000_000_000,
+                10_100_000_000,
+                10_200_000_000,
+                10_300_000_000,
+            ]
+        )
+        mono_values = iter([1_000, 2_000, 3_000, 4_000])
+        sample = sample_clock(
+            collector_boot_id="boot",
+            probes=2,
+            fetch_server_time=lambda: (10.0, 1.0, {}),
+            wall_time_ns=lambda: next(wall_values),
+            monotonic_ns=lambda: next(mono_values),
+        )
+        self.assertTrue(sample.healthy)
+        self.assertGreaterEqual(sample.uncertainty_ms, 0)
+        self.assertEqual(
+            sample.key,
+            f"boot:{sample.response_received_monotonic_ns}",
         )
 
     def test_websocket_updates_matching_outcome(self) -> None:

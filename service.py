@@ -11,6 +11,7 @@ import signal
 import sqlite3
 import threading
 import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -20,6 +21,7 @@ from typing import Any, Callable
 from urllib.parse import urlsplit
 
 from archive import EventArchive
+from clock_quality import ClockSample, sample_clock
 from collector import collect, polymarket_books
 
 POLYMARKET_MARKET_WS = (
@@ -185,6 +187,11 @@ class CollectorState:
     kalshi_websocket_error: str | None = None
     archive: EventArchive | None = None
     archive_required: bool = False
+    clock_required: bool = False
+    maximum_clock_age_seconds: float = 120.0
+    clock_sample: ClockSample | None = None
+    clock_samples: int = 0
+    clock_error: str | None = None
 
     def refresh(self) -> None:
         attempted_at = utc_now()
@@ -259,12 +266,55 @@ class CollectorState:
             if reconnect:
                 self.websocket_reconnects += 1
 
+    def apply_clock_sample(self, sample: ClockSample) -> None:
+        archived = True
+        if self.archive is not None:
+            archived = self.archive.append(
+                source="clock",
+                market_id=None,
+                event_type="clock_sample",
+                sequence=None,
+                payload=sample.payload(),
+                received_at=sample.response_received_at,
+                monotonic_ns=sample.response_received_monotonic_ns,
+            )
+        with self.lock:
+            self.clock_samples += 1
+            if archived:
+                self.clock_sample = sample
+                self.clock_error = sample.error
+            else:
+                self.clock_sample = None
+                self.clock_error = "clock sample was not archived"
+
+    def current_clock_evidence(
+        self, observed_monotonic_ns: int
+    ) -> tuple[ClockSample | None, float | None]:
+        with self.lock:
+            sample = self.clock_sample
+        if sample is None:
+            return None, None
+        age_seconds = max(
+            0.0,
+            (
+                observed_monotonic_ns
+                - sample.response_received_monotonic_ns
+            )
+            / 1_000_000_000,
+        )
+        if not sample.healthy or age_seconds > self.maximum_clock_age_seconds:
+            return None, age_seconds
+        return sample, age_seconds
+
     def apply_websocket_event(self, event: dict[str, Any]) -> bool:
         asset_id = str(event.get("asset_id") or "")
         if not asset_id:
             return False
         observed_at = utc_now()
         observed_monotonic_ns = time.monotonic_ns()
+        clock_sample, clock_age_seconds = self.current_clock_evidence(
+            observed_monotonic_ns
+        )
         if self.archive is not None:
             self.archive.append(
                 source="polymarket",
@@ -310,10 +360,57 @@ class CollectorState:
                         "askSize": book[3],
                         "observedMonotonicNs": observed_monotonic_ns,
                         "validatedMonotonicNs": validated_monotonic_ns,
+                        "clockSampleKey": (
+                            clock_sample.key if clock_sample is not None else None
+                        ),
+                        "clockSampleAgeSeconds": clock_age_seconds,
                     },
                     received_at=observed_at,
                     monotonic_ns=observed_monotonic_ns,
                 )
+        elif (
+            event_type == "last_trade_price"
+            and event.get("price") is not None
+            and event.get("size") is not None
+            and self.archive is not None
+        ):
+            validated_monotonic_ns = time.monotonic_ns()
+            trade_id = (
+                event.get("transaction_hash")
+                or event.get("trade_id")
+                or (
+                    f"receipt:{self.archive.process_id}:"
+                    f"{observed_monotonic_ns}"
+                )
+            )
+            self.archive.append(
+                source="polymarket-trade",
+                market_id=asset_id,
+                event_type="observed_trade",
+                sequence=None,
+                payload={
+                    "assetId": asset_id,
+                    "tradeId": str(trade_id),
+                    "sourceTs": event.get("timestamp"),
+                    "price": float(event["price"]),
+                    "size": float(event["size"]),
+                    "side": None,
+                    "rawSide": event.get("side"),
+                    "feeRateBps": (
+                        float(event["fee_rate_bps"])
+                        if event.get("fee_rate_bps") is not None
+                        else None
+                    ),
+                    "observedMonotonicNs": observed_monotonic_ns,
+                    "validatedMonotonicNs": validated_monotonic_ns,
+                    "clockSampleKey": (
+                        clock_sample.key if clock_sample is not None else None
+                    ),
+                    "clockSampleAgeSeconds": clock_age_seconds,
+                },
+                received_at=observed_at,
+                monotonic_ns=observed_monotonic_ns,
+            )
         changed = False
         with self.lock:
             for market in (self.payload or {}).get("polymarket", []):
@@ -504,12 +601,16 @@ class CollectorState:
                     "healthy": not self.archive_required,
                 }
             )
+            current_ns = time.monotonic_ns()
+            clock_sample, clock_age = self.current_clock_evidence(current_ns)
+            clock_healthy = clock_sample is not None
             healthy = (
                 age is not None
                 and age <= maximum_age_seconds
                 and websocket_healthy
                 and kalshi_websocket_healthy
                 and archive_health["healthy"]
+                and (clock_healthy or not self.clock_required)
             )
             return (
                 {
@@ -566,6 +667,37 @@ class CollectorState:
                         ),
                         "error": self.kalshi_websocket_error,
                     },
+                    "clockQuality": {
+                        "required": self.clock_required,
+                        "healthy": clock_healthy,
+                        "samples": self.clock_samples,
+                        "sampleKey": (
+                            clock_sample.key
+                            if clock_sample is not None
+                            else None
+                        ),
+                        "collectorBootId": (
+                            clock_sample.collector_boot_id
+                            if clock_sample is not None
+                            else None
+                        ),
+                        "offsetMs": (
+                            clock_sample.offset_ms
+                            if clock_sample is not None
+                            else None
+                        ),
+                        "uncertaintyMs": (
+                            clock_sample.uncertainty_ms
+                            if clock_sample is not None
+                            else None
+                        ),
+                        "ageSeconds": (
+                            round(clock_age, 3)
+                            if clock_age is not None
+                            else None
+                        ),
+                        "error": self.clock_error,
+                    },
                     "archive": archive_health,
                 },
                 healthy,
@@ -582,6 +714,22 @@ def collector_loop(
         state.refresh()
         remaining = max(0.0, interval_seconds - (time.monotonic() - started))
         stop.wait(remaining)
+
+
+def clock_quality_loop(
+    state: CollectorState,
+    stop: threading.Event,
+    interval_seconds: float,
+    maximum_uncertainty_ms: float,
+) -> None:
+    boot_id = uuid.uuid4().hex
+    while not stop.is_set():
+        sample = sample_clock(
+            collector_boot_id=boot_id,
+            maximum_uncertainty_ms=maximum_uncertainty_ms,
+        )
+        state.apply_clock_sample(sample)
+        stop.wait(interval_seconds)
 
 
 def message_events(payload: Any) -> list[dict[str, Any]]:
@@ -1180,14 +1328,34 @@ def main() -> None:
             else None
         ),
     )
+    parser.add_argument(
+        "--clock-sample-seconds",
+        type=float,
+        default=float(os.environ.get("CLOCK_SAMPLE_SECONDS", "60")),
+    )
+    parser.add_argument(
+        "--maximum-clock-age-seconds",
+        type=float,
+        default=float(os.environ.get("MAXIMUM_CLOCK_AGE_SECONDS", "120")),
+    )
+    parser.add_argument(
+        "--maximum-clock-uncertainty-ms",
+        type=float,
+        default=float(
+            os.environ.get("MAXIMUM_CLOCK_UNCERTAINTY_MS", "750")
+        ),
+    )
     args = parser.parse_args()
     if (
         args.refresh_seconds <= 0
         or args.maximum_age_seconds <= 0
         or args.polymarket_reconcile_seconds <= 0
+        or args.clock_sample_seconds <= 0
+        or args.maximum_clock_age_seconds <= 0
+        or args.maximum_clock_uncertainty_ms <= 0
     ):
         parser.error(
-            "refresh, maximum age, and Polymarket reconciliation "
+            "refresh, maximum age, reconciliation, and clock settings "
             "must be positive"
         )
 
@@ -1195,6 +1363,7 @@ def main() -> None:
     kalshi_configured = bool(kalshi_key_id and kalshi_private_key)
     kalshi_required = env_flag("REQUIRE_KALSHI_WEBSOCKET")
     archive_required = env_flag("REQUIRE_ARCHIVE")
+    clock_required = env_flag("REQUIRE_CLOCK_QUALITY")
     if archive_required and args.archive_path is None:
         parser.error("REQUIRE_ARCHIVE=1 requires ARCHIVE_PATH")
     archive = (
@@ -1209,6 +1378,8 @@ def main() -> None:
         kalshi_websocket_required=kalshi_required,
         archive=archive,
         archive_required=archive_required,
+        clock_required=clock_required,
+        maximum_clock_age_seconds=args.maximum_clock_age_seconds,
     )
     if kalshi_required and not kalshi_configured:
         state.set_kalshi_websocket_status(
@@ -1228,6 +1399,18 @@ def main() -> None:
         daemon=True,
     )
     worker.start()
+    clock_worker = threading.Thread(
+        target=clock_quality_loop,
+        args=(
+            state,
+            stop,
+            args.clock_sample_seconds,
+            args.maximum_clock_uncertainty_ms,
+        ),
+        name="clock-quality",
+        daemon=True,
+    )
+    clock_worker.start()
     websocket_worker = threading.Thread(
         target=websocket_loop,
         args=(state, stop, args.polymarket_reconcile_seconds),
@@ -1269,6 +1452,7 @@ def main() -> None:
     finally:
         stop.set()
         worker.join(timeout=5)
+        clock_worker.join(timeout=10)
         websocket_worker.join(timeout=10)
         if kalshi_websocket_worker is not None:
             kalshi_websocket_worker.join(timeout=10)
