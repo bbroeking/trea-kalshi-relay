@@ -71,11 +71,6 @@ fee fields, and the Gamma revision timestamp. A required field missing from an
 enabled regime sets `complete=false`; downstream execution logic must abstain
 instead of assuming zero fees.
 
-The production container sets `REQUIRE_FEE_REGIMES=1`. `/healthz` reports the
-Kalshi and Polymarket completeness counts and returns HTTP 503 if the Kalshi
-series regime is incomplete, any active Polymarket market lacks a complete
-regime, or the market and regime counts differ.
-
 The existing `netEdge` parity field remains a deliberately conservative
 two-cent execution buffer for dashboard triage and is explicitly labeled
 `not_an_actual_fee_calculation`. Only the later venue-native simulator may turn
