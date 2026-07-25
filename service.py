@@ -165,6 +165,7 @@ class CollectorState:
     websocket_tokens: int = 0
     websocket_messages: int = 0
     websocket_reconnects: int = 0
+    polymarket_connection_generation: int = 0
     websocket_last_message_at: str | None = None
     websocket_last_message_monotonic: float | None = None
     websocket_error: str | None = None
@@ -255,16 +256,43 @@ class CollectorState:
         error: str | None = None,
         reconnect: bool = False,
     ) -> None:
+        observed_at = utc_now()
+        observed_monotonic_ns = time.monotonic_ns()
         with self.lock:
+            was_connected = self.websocket_connected
             if connected:
+                self.polymarket_connection_generation += 1
                 self.websocket_last_message_at = None
                 self.websocket_last_message_monotonic = None
                 self.polymarket_books = {}
+            generation = self.polymarket_connection_generation
             self.websocket_connected = connected
             self.websocket_tokens = tokens
             self.websocket_error = error
             if reconnect:
                 self.websocket_reconnects += 1
+        event_type = (
+            "connection_opened"
+            if connected
+            else "connection_closed"
+            if was_connected
+            else None
+        )
+        if event_type is not None and self.archive is not None:
+            self.archive.append(
+                source="polymarket-control",
+                market_id=None,
+                event_type=event_type,
+                sequence=generation,
+                payload={
+                    "connectionGeneration": generation,
+                    "tokens": tokens,
+                    "error": error,
+                    "reconnect": reconnect,
+                },
+                received_at=observed_at,
+                monotonic_ns=observed_monotonic_ns,
+            )
 
     def apply_clock_sample(self, sample: ClockSample) -> None:
         archived = True
@@ -315,6 +343,10 @@ class CollectorState:
         clock_sample, clock_age_seconds = self.current_clock_evidence(
             observed_monotonic_ns
         )
+        with self.lock:
+            connection_generation = self.polymarket_connection_generation
+        archived_event = dict(event)
+        archived_event["connectionGeneration"] = connection_generation
         if self.archive is not None:
             self.archive.append(
                 source="polymarket",
@@ -323,7 +355,7 @@ class CollectorState:
                     event.get("event_type") or event.get("type") or ""
                 ),
                 sequence=None,
-                payload=event,
+                payload=archived_event,
                 received_at=observed_at,
                 monotonic_ns=observed_monotonic_ns,
             )
@@ -351,6 +383,7 @@ class CollectorState:
                     sequence=None,
                     payload={
                         "assetId": asset_id,
+                        "connectionGeneration": connection_generation,
                         "originEventType": str(event_type),
                         "sourceTs": event.get("timestamp"),
                         "bookHash": reconstructed.last_hash,
@@ -390,6 +423,7 @@ class CollectorState:
                 sequence=None,
                 payload={
                     "assetId": asset_id,
+                    "connectionGeneration": connection_generation,
                     "tradeId": str(trade_id),
                     "sourceTs": event.get("timestamp"),
                     "price": float(event["price"]),
@@ -462,13 +496,17 @@ class CollectorState:
         clock_sample, clock_age_seconds = self.current_clock_evidence(
             observed_monotonic_ns
         )
+        with self.lock:
+            connection_generation = self.polymarket_connection_generation
+        archived_snapshot = dict(snapshot)
+        archived_snapshot["connectionGeneration"] = connection_generation
         if self.archive is not None:
             self.archive.append(
                 source="polymarket-rest",
                 market_id=asset_id,
                 event_type="book_reconciliation",
                 sequence=None,
-                payload=snapshot,
+                payload=archived_snapshot,
                 received_at=observed_at,
                 monotonic_ns=observed_monotonic_ns,
             )
@@ -495,6 +533,7 @@ class CollectorState:
                     sequence=None,
                     payload={
                         "assetId": asset_id,
+                        "connectionGeneration": connection_generation,
                         "originEventType": "book_reconciliation",
                         "sourceTs": snapshot.get("timestamp"),
                         "bookHash": state.last_hash,
@@ -517,9 +556,25 @@ class CollectorState:
         return status
 
     def fail_polymarket_reconciliation(self, message: str) -> None:
+        observed_at = utc_now()
+        observed_monotonic_ns = time.monotonic_ns()
         with self.lock:
             self.websocket_reconciliation_failures += 1
             self.websocket_error = message
+            generation = self.polymarket_connection_generation
+        if self.archive is not None:
+            self.archive.append(
+                source="polymarket-control",
+                market_id=None,
+                event_type="reconciliation_failure",
+                sequence=generation,
+                payload={
+                    "connectionGeneration": generation,
+                    "error": message,
+                },
+                received_at=observed_at,
+                monotonic_ns=observed_monotonic_ns,
+            )
 
     def set_kalshi_websocket_status(
         self,

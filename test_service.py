@@ -50,6 +50,40 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(call["event_type"], "clock_sample")
         self.assertEqual(call["payload"]["sampleKey"], sample.key)
 
+    def test_polymarket_connection_boundaries_are_archived_and_numbered(
+        self,
+    ) -> None:
+        archive = unittest.mock.Mock()
+        archive.append.return_value = True
+        state = CollectorState(archive=archive)
+
+        state.set_websocket_status(connected=True, tokens=2)
+        state.set_websocket_status(
+            connected=False,
+            tokens=2,
+            error="socket reset",
+            reconnect=True,
+        )
+        state.set_websocket_status(connected=True, tokens=2)
+
+        controls = [
+            call.kwargs
+            for call in archive.append.call_args_list
+            if call.kwargs["source"] == "polymarket-control"
+        ]
+        self.assertEqual(
+            [row["event_type"] for row in controls],
+            ["connection_opened", "connection_closed", "connection_opened"],
+        )
+        self.assertEqual(
+            [
+                row["payload"]["connectionGeneration"]
+                for row in controls
+            ],
+            [1, 1, 2],
+        )
+        self.assertEqual(state.polymarket_connection_generation, 2)
+
     def test_required_clock_quality_fails_closed_when_stale(self) -> None:
         state = CollectorState(
             collect_once=lambda: {"polymarket": [], "parity": []},
@@ -107,6 +141,10 @@ class CollectorStateTests(unittest.TestCase):
         self.assertEqual(
             normalized["payload"]["validatedMonotonicNs"],
             1010,
+        )
+        self.assertEqual(
+            normalized["payload"]["connectionGeneration"],
+            0,
         )
 
     def test_websocket_book_state_references_healthy_clock(self) -> None:
