@@ -19,6 +19,49 @@ from service import (
 
 
 class CollectorStateTests(unittest.TestCase):
+    def test_websocket_archives_receipt_aligned_book_state(self) -> None:
+        archive = unittest.mock.Mock()
+        state = CollectorState(
+            payload={
+                "polymarket": [
+                    {"outcomes": [{"tokenId": "one"}]}
+                ]
+            },
+            archive=archive,
+        )
+        with (
+            patch("service.utc_now", return_value="2026-07-25T00:00:00Z"),
+            patch(
+                "service.time.monotonic_ns",
+                side_effect=[1000, 1010],
+            ),
+        ):
+            self.assertTrue(
+                state.apply_websocket_event(
+                    {
+                        "asset_id": "one",
+                        "event_type": "book",
+                        "bids": [{"price": "0.40", "size": "2"}],
+                        "asks": [{"price": "0.50", "size": "3"}],
+                        "timestamp": "999",
+                        "hash": "book-hash",
+                    }
+                )
+            )
+        self.assertEqual(archive.append.call_count, 2)
+        raw = archive.append.call_args_list[0].kwargs
+        normalized = archive.append.call_args_list[1].kwargs
+        self.assertEqual(raw["source"], "polymarket")
+        self.assertEqual(normalized["source"], "polymarket-state")
+        self.assertEqual(normalized["event_type"], "book_state")
+        self.assertEqual(raw["received_at"], normalized["received_at"])
+        self.assertEqual(raw["monotonic_ns"], 1000)
+        self.assertEqual(normalized["monotonic_ns"], 1000)
+        self.assertEqual(
+            normalized["payload"]["validatedMonotonicNs"],
+            1010,
+        )
+
     def test_websocket_updates_matching_outcome(self) -> None:
         state = CollectorState(
             payload={

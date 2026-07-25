@@ -263,6 +263,8 @@ class CollectorState:
         asset_id = str(event.get("asset_id") or "")
         if not asset_id:
             return False
+        observed_at = utc_now()
+        observed_monotonic_ns = time.monotonic_ns()
         if self.archive is not None:
             self.archive.append(
                 source="polymarket",
@@ -272,17 +274,46 @@ class CollectorState:
                 ),
                 sequence=None,
                 payload=event,
+                received_at=observed_at,
+                monotonic_ns=observed_monotonic_ns,
             )
         event_type = event.get("event_type") or event.get("type")
         book = None
+        validated_monotonic_ns = observed_monotonic_ns
         if event_type in {"book", "price_change"}:
             reconstructed = self.polymarket_books.setdefault(
                 asset_id,
                 PolymarketBookState(),
             )
             book = reconstructed.apply(event)
+            validated_monotonic_ns = time.monotonic_ns()
             if not reconstructed.initialized:
                 return False
+            if (
+                self.archive is not None
+                and book[0] is not None
+                and book[1] is not None
+            ):
+                self.archive.append(
+                    source="polymarket-state",
+                    market_id=asset_id,
+                    event_type="book_state",
+                    sequence=None,
+                    payload={
+                        "assetId": asset_id,
+                        "originEventType": str(event_type),
+                        "sourceTs": event.get("timestamp"),
+                        "bookHash": reconstructed.last_hash,
+                        "bestBid": book[0],
+                        "bestAsk": book[1],
+                        "bidSize": book[2],
+                        "askSize": book[3],
+                        "observedMonotonicNs": observed_monotonic_ns,
+                        "validatedMonotonicNs": validated_monotonic_ns,
+                    },
+                    received_at=observed_at,
+                    monotonic_ns=observed_monotonic_ns,
+                )
         changed = False
         with self.lock:
             for market in (self.payload or {}).get("polymarket", []):

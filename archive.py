@@ -52,10 +52,11 @@ class EventArchive:
         sequence: int | None,
         payload: dict[str, Any],
         received_at: str | None = None,
+        monotonic_ns: int | None = None,
     ) -> bool:
         row = (
             received_at or utc_now(),
-            time.monotonic_ns(),
+            monotonic_ns if monotonic_ns is not None else time.monotonic_ns(),
             self.process_id,
             source,
             market_id,
