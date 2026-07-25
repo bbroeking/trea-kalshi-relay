@@ -184,6 +184,50 @@ class CollectorStateTests(unittest.TestCase):
             self.healthy_clock().key,
         )
 
+    def test_rest_reconciliation_archives_clocked_book_heartbeat(self) -> None:
+        archive = unittest.mock.Mock()
+        archive.append.return_value = True
+        state = CollectorState(
+            archive=archive,
+            clock_sample=self.healthy_clock(),
+        )
+        state.polymarket_books["one"] = PolymarketBookState()
+        state.polymarket_books["one"].apply(
+            {
+                "event_type": "book",
+                "timestamp": "1234",
+                "hash": "hash-one",
+                "bids": [{"price": "0.4", "size": "2"}],
+                "asks": [{"price": "0.5", "size": "3"}],
+            }
+        )
+        with (
+            patch("service.utc_now", return_value="2026-07-25T00:00:01Z"),
+            patch(
+                "service.time.monotonic_ns",
+                side_effect=[1100, 1110],
+            ),
+        ):
+            status = state.reconcile_polymarket_snapshot(
+                {
+                    "asset_id": "one",
+                    "timestamp": "1234",
+                    "hash": "hash-one",
+                }
+            )
+        self.assertEqual(status, "verified")
+        self.assertEqual(archive.append.call_count, 2)
+        heartbeat = archive.append.call_args_list[1].kwargs
+        self.assertEqual(heartbeat["source"], "polymarket-state")
+        self.assertEqual(
+            heartbeat["payload"]["originEventType"],
+            "book_reconciliation",
+        )
+        self.assertEqual(
+            heartbeat["payload"]["clockSampleKey"],
+            self.healthy_clock().key,
+        )
+
 
 class CollectorStateBehaviorTests(unittest.TestCase):
     def test_conservative_probe_intersection(self) -> None:

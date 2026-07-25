@@ -457,6 +457,11 @@ class CollectorState:
         asset_id = str(snapshot.get("asset_id") or "")
         if not asset_id:
             return "invalid"
+        observed_at = utc_now()
+        observed_monotonic_ns = time.monotonic_ns()
+        clock_sample, clock_age_seconds = self.current_clock_evidence(
+            observed_monotonic_ns
+        )
         if self.archive is not None:
             self.archive.append(
                 source="polymarket-rest",
@@ -464,6 +469,8 @@ class CollectorState:
                 event_type="book_reconciliation",
                 sequence=None,
                 payload=snapshot,
+                received_at=observed_at,
+                monotonic_ns=observed_monotonic_ns,
             )
         with self.lock:
             state = self.polymarket_books.get(asset_id)
@@ -477,6 +484,36 @@ class CollectorState:
                 self.websocket_hash_matches += 1
             elif status == "stale":
                 self.websocket_stale_reconciliations += 1
+        if state is not None and state.initialized and self.archive is not None:
+            book = state.top()
+            if book[0] is not None and book[1] is not None:
+                validated_monotonic_ns = time.monotonic_ns()
+                self.archive.append(
+                    source="polymarket-state",
+                    market_id=asset_id,
+                    event_type="book_state",
+                    sequence=None,
+                    payload={
+                        "assetId": asset_id,
+                        "originEventType": "book_reconciliation",
+                        "sourceTs": snapshot.get("timestamp"),
+                        "bookHash": state.last_hash,
+                        "bestBid": book[0],
+                        "bestAsk": book[1],
+                        "bidSize": book[2],
+                        "askSize": book[3],
+                        "observedMonotonicNs": observed_monotonic_ns,
+                        "validatedMonotonicNs": validated_monotonic_ns,
+                        "clockSampleKey": (
+                            clock_sample.key
+                            if clock_sample is not None
+                            else None
+                        ),
+                        "clockSampleAgeSeconds": clock_age_seconds,
+                    },
+                    received_at=observed_at,
+                    monotonic_ns=observed_monotonic_ns,
+                )
         return status
 
     def fail_polymarket_reconciliation(self, message: str) -> None:
