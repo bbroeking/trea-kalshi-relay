@@ -32,12 +32,13 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "P",
-        "abstractGameState": "Preview",
-        "codedGameState": "P",
-        "detailedState": "Pre-Game",
+        "abstractGameCode": "L",
+        "abstractGameState": "Live",
+        "codedGameState": "M",
+        "detailedState": "Player challenge",
+        "reason": "Pitch Result",
         "startTimeTBD": false,
-        "statusCode": "P"
+        "statusCode": "MJ"
       },
       "teams": {
         "away": {
@@ -522,80 +523,6 @@
         "id": 3309,
         "link": "/api/v1/venues/3309",
         "name": "Nationals Park"
-      }
-    },
-    {
-      "calendarEventID": "14-823598-2026-07-28",
-      "content": {
-        "link": "/api/v1/game/823598/content"
-      },
-      "dayNight": "night",
-      "doubleHeader": "N",
-      "gameDate": "2026-07-28T23:10:00Z",
-      "gameGuid": "7a6ffe53-a1bc-4cb6-8314-3ea558399636",
-      "gameNumber": 1,
-      "gamePk": 823598,
-      "gameType": "R",
-      "gamedayType": "P",
-      "gamesInSeries": 3,
-      "ifNecessary": "N",
-      "ifNecessaryDescription": "Normal Game",
-      "inningBreakLength": 120,
-      "link": "/api/v1.1/game/823598/feed/live",
-      "officialDate": "2026-07-28",
-      "publicFacing": true,
-      "recordSource": "S",
-      "reverseHomeAwayStatus": false,
-      "scheduledInnings": 9,
-      "season": "2026",
-      "seasonDisplay": "2026",
-      "seriesDescription": "Regular Season",
-      "seriesGameNumber": 2,
-      "status": {
-        "abstractGameCode": "P",
-        "abstractGameState": "Preview",
-        "codedGameState": "S",
-        "detailedState": "Scheduled",
-        "startTimeTBD": false,
-        "statusCode": "S"
-      },
-      "teams": {
-        "away": {
-          "leagueRecord": {
-            "losses": 44,
-            "pct": ".585",
-            "ties": 0,
-            "wins": 62
-          },
-          "seriesNumber": 35,
-          "splitSquad": false,
-          "team": {
-            "id": 144,
-            "link": "/api/v1/teams/144",
-            "name": "Atlanta Braves"
-          }
-        },
-        "home": {
-          "leagueRecord": {
-            "losses": 62,
-            "pct": ".421",
-            "ties": 0,
-            "wins": 45
-          },
-          "seriesNumber": 35,
-          "splitSquad": false,
-          "team": {
-            "id": 121,
-            "link": "/api/v1/teams/121",
-            "name": "New York Mets"
-          }
-        }
-      },
-      "tiebreaker": "N",
-      "venue": {
-        "id": 3289,
-        "link": "/api/v1/venues/3289",
-        "name": "Citi Field"
       }
     },
     {
@@ -1189,9 +1116,87 @@
         "link": "/api/v1/venues/22",
         "name": "UNIQLO Field at Dodger Stadium"
       }
+    },
+    {
+      "calendarEventID": "14-823598-2026-07-28",
+      "content": {
+        "link": "/api/v1/game/823598/content"
+      },
+      "dayNight": "night",
+      "description": "Makeup 7/29",
+      "doubleHeader": "N",
+      "gameDate": "2026-07-28T23:10:00Z",
+      "gameGuid": "7a6ffe53-a1bc-4cb6-8314-3ea558399636",
+      "gameNumber": 1,
+      "gamePk": 823598,
+      "gameType": "R",
+      "gamedayType": "P",
+      "gamesInSeries": 3,
+      "ifNecessary": "N",
+      "ifNecessaryDescription": "Normal Game",
+      "inningBreakLength": 120,
+      "link": "/api/v1.1/game/823598/feed/live",
+      "officialDate": "2026-07-29",
+      "publicFacing": true,
+      "recordSource": "S",
+      "rescheduleDate": "2026-07-29T23:10:00Z",
+      "rescheduleGameDate": "2026-07-29",
+      "reverseHomeAwayStatus": false,
+      "scheduledInnings": 9,
+      "season": "2026",
+      "seasonDisplay": "2026",
+      "seriesDescription": "Regular Season",
+      "seriesGameNumber": 2,
+      "status": {
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "D",
+        "detailedState": "Postponed",
+        "reason": "Inclement Weather",
+        "startTimeTBD": false,
+        "statusCode": "DI"
+      },
+      "teams": {
+        "away": {
+          "leagueRecord": {
+            "losses": 44,
+            "pct": ".585",
+            "ties": 0,
+            "wins": 62
+          },
+          "seriesNumber": 35,
+          "splitSquad": false,
+          "team": {
+            "id": 144,
+            "link": "/api/v1/teams/144",
+            "name": "Atlanta Braves"
+          }
+        },
+        "home": {
+          "leagueRecord": {
+            "losses": 62,
+            "pct": ".421",
+            "ties": 0,
+            "wins": 45
+          },
+          "seriesNumber": 35,
+          "splitSquad": false,
+          "team": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          }
+        }
+      },
+      "tiebreaker": "N",
+      "venue": {
+        "id": 3289,
+        "link": "/api/v1/venues/3289",
+        "name": "Citi Field"
+      }
     }
   ],
-  "observedAt": "2026-07-28T16:20:51.819534Z",
+  "observedAt": "2026-07-28T17:49:36.103600Z",
   "parity": [
     {
       "askSum": 1.02,
@@ -1202,28 +1207,28 @@
         {
           "ask": {
             "price": 0.5,
-            "size": 920811.41
+            "size": 704107.96
           },
           "bid": {
-            "price": 0.48,
-            "size": 133703.16
+            "price": 0.49,
+            "size": 1033.04
           },
           "name": "Arizona",
           "ticker": "KXMLBGAME-26JUL281840AZPIT-AZ",
-          "volume": 82815.77
+          "volume": 114156.34
         },
         {
           "ask": {
             "price": 0.52,
-            "size": 832977.04
+            "size": 696750.27
           },
           "bid": {
             "price": 0.51,
-            "size": 518.93
+            "size": 358.93
           },
           "name": "Pittsburgh",
           "ticker": "KXMLBGAME-26JUL281840AZPIT-PIT",
-          "volume": 51189.6
+          "volume": 58489.98
         }
       ],
       "signal": "NO TRADE",
@@ -1239,28 +1244,28 @@
         {
           "ask": {
             "price": 0.43000000000000005,
-            "size": 26089.53
+            "size": 64925.78
           },
           "bid": {
             "price": 0.42,
-            "size": 121944.26
+            "size": 133830.94
           },
           "name": "Baltimore",
           "ticker": "KXMLBGAME-26JUL281840BALDET-BAL",
-          "volume": 22102.29
+          "volume": 30675.24
         },
         {
           "ask": {
             "price": 0.5800000000000001,
-            "size": 737231.49
+            "size": 919578.26
           },
           "bid": {
             "price": 0.57,
-            "size": 15646.16
+            "size": 16113.25
           },
           "name": "Detroit",
           "ticker": "KXMLBGAME-26JUL281840BALDET-DET",
-          "volume": 77983.72
+          "volume": 115248.38
         }
       ],
       "signal": "NO TRADE",
@@ -1276,28 +1281,28 @@
         {
           "ask": {
             "price": 0.5,
-            "size": 843371.58
+            "size": 656080.99
           },
           "bid": {
             "price": 0.49,
-            "size": 15963.4
+            "size": 14240.83
           },
           "name": "Philadelphia",
           "ticker": "KXMLBGAME-26JUL281840PHIMIA-PHI",
-          "volume": 159359.61
+          "volume": 185382.49
         },
         {
           "ask": {
             "price": 0.51,
-            "size": 102399.76
+            "size": 710214.97
           },
           "bid": {
             "price": 0.5,
-            "size": 151941.46
+            "size": 76415.35
           },
           "name": "Miami",
           "ticker": "KXMLBGAME-26JUL281840PHIMIA-MIA",
-          "volume": 68318.84
+          "volume": 90418.34
         }
       ],
       "signal": "NO TRADE",
@@ -1312,29 +1317,29 @@
       "outcomes": [
         {
           "ask": {
-            "price": 0.38,
-            "size": 30761.14
+            "price": 0.39,
+            "size": 371759.35
           },
           "bid": {
-            "price": 0.37,
-            "size": 74628.26
+            "price": 0.38,
+            "size": 37885.76
           },
           "name": "Texas",
           "ticker": "KXMLBGAME-26JUL281840TEXTB-TEX",
-          "volume": 36801.47
+          "volume": 44303.62
         },
         {
           "ask": {
-            "price": 0.63,
-            "size": 298288.73
+            "price": 0.62,
+            "size": 310429.83
           },
           "bid": {
-            "price": 0.62,
-            "size": 15280.72
+            "price": 0.61,
+            "size": 52170.07
           },
           "name": "Tampa Bay",
           "ticker": "KXMLBGAME-26JUL281840TEXTB-TB",
-          "volume": 42064.17
+          "volume": 50897.01
         }
       ],
       "signal": "NO TRADE",
@@ -1350,28 +1355,28 @@
         {
           "ask": {
             "price": 0.44999999999999996,
-            "size": 808758.78
+            "size": 659693.5
           },
           "bid": {
             "price": 0.44,
-            "size": 262.0
+            "size": 12.0
           },
           "name": "Toronto",
           "ticker": "KXMLBGAME-26JUL281845TORWSH-TOR",
-          "volume": 22277.4
+          "volume": 25831.71
         },
         {
           "ask": {
             "price": 0.5700000000000001,
-            "size": 737650.3
+            "size": 601959.13
           },
           "bid": {
             "price": 0.56,
-            "size": 154.0
+            "size": 334.19
           },
           "name": "Washington",
           "ticker": "KXMLBGAME-26JUL281845TORWSH-WSH",
-          "volume": 68421.56
+          "volume": 80012.64
         }
       ],
       "signal": "NO TRADE",
@@ -1387,28 +1392,28 @@
         {
           "ask": {
             "price": 0.61,
-            "size": 739921.17
+            "size": 341049.28
           },
           "bid": {
             "price": 0.6,
-            "size": 1329.38
+            "size": 29.81
           },
           "name": "Atlanta",
           "ticker": "KXMLBGAME-26JUL281910ATLNYM-ATL",
-          "volume": 171814.89
+          "volume": 204421.13
         },
         {
           "ask": {
             "price": 0.41000000000000003,
-            "size": 832141.85
+            "size": 365661.44
           },
           "bid": {
             "price": 0.4,
-            "size": 2278.53
+            "size": 577.9
           },
           "name": "New York M",
           "ticker": "KXMLBGAME-26JUL281910ATLNYM-NYM",
-          "volume": 27309.07
+          "volume": 34706.49
         }
       ],
       "signal": "NO TRADE",
@@ -1416,36 +1421,36 @@
       "title": "Atlanta vs New York M"
     },
     {
-      "askSum": 1.02,
+      "askSum": 1.01,
       "event": "KXMLBGAME-26JUL281910CLECIN",
-      "grossEdge": -0.020000000000000018,
-      "netEdge": -0.04000000000000002,
+      "grossEdge": -0.010000000000000009,
+      "netEdge": -0.03000000000000001,
       "outcomes": [
         {
           "ask": {
             "price": 0.55,
-            "size": 233353.52
+            "size": 27281.14
           },
           "bid": {
             "price": 0.54,
-            "size": 247.6
+            "size": 71888.18
           },
           "name": "Cleveland",
           "ticker": "KXMLBGAME-26JUL281910CLECIN-CLE",
-          "volume": 38804.53
+          "volume": 42986.55
         },
         {
           "ask": {
-            "price": 0.47,
-            "size": 344620.79
+            "price": 0.45999999999999996,
+            "size": 292147.12
           },
           "bid": {
             "price": 0.45,
-            "size": 18720.22
+            "size": 18421.36
           },
           "name": "Cincinnati",
           "ticker": "KXMLBGAME-26JUL281910CLECIN-CIN",
-          "volume": 42382.06
+          "volume": 47362.9
         }
       ],
       "signal": "NO TRADE",
@@ -1460,29 +1465,29 @@
       "outcomes": [
         {
           "ask": {
-            "price": 0.4,
-            "size": 821665.94
+            "price": 0.39,
+            "size": 529190.88
           },
           "bid": {
-            "price": 0.39,
-            "size": 1291.0
+            "price": 0.38,
+            "size": 20548.79
           },
           "name": "Kansas City",
           "ticker": "KXMLBGAME-26JUL281940KCMIN-KC",
-          "volume": 18463.51
+          "volume": 21873.32
         },
         {
           "ask": {
-            "price": 0.61,
-            "size": 5845.58
+            "price": 0.62,
+            "size": 31141.33
           },
           "bid": {
-            "price": 0.6,
-            "size": 195597.79
+            "price": 0.61,
+            "size": 67405.92
           },
           "name": "Minnesota",
           "ticker": "KXMLBGAME-26JUL281940KCMIN-MIN",
-          "volume": 52176.71
+          "volume": 69073.47
         }
       ],
       "signal": "NO TRADE",
@@ -1497,29 +1502,29 @@
       "outcomes": [
         {
           "ask": {
-            "price": 0.54,
-            "size": 821447.8
+            "price": 0.53,
+            "size": 489452.98
           },
           "bid": {
-            "price": 0.53,
-            "size": 14998.68
+            "price": 0.52,
+            "size": 32827.43
           },
           "name": "New York Y",
           "ticker": "KXMLBGAME-26JUL281940NYYCWS-NYY",
-          "volume": 113374.04
+          "volume": 135556.34
         },
         {
           "ask": {
-            "price": 0.47,
-            "size": 216774.07
+            "price": 0.48,
+            "size": 532295.14
           },
           "bid": {
-            "price": 0.46,
-            "size": 268517.62
+            "price": 0.47,
+            "size": 74751.06
           },
           "name": "Chicago WS",
           "ticker": "KXMLBGAME-26JUL281940NYYCWS-CWS",
-          "volume": 104299.97
+          "volume": 111009.66
         }
       ],
       "signal": "NO TRADE",
@@ -1535,28 +1540,28 @@
         {
           "ask": {
             "price": 0.52,
-            "size": 609617.74
+            "size": 411368.35
           },
           "bid": {
             "price": 0.51,
-            "size": 2114.0
+            "size": 2306.85
           },
           "name": "Chicago C",
           "ticker": "KXMLBGAME-26JUL281945CHCSTL-CHC",
-          "volume": 47173.9
+          "volume": 64191.71
         },
         {
           "ask": {
             "price": 0.5,
-            "size": 704798.43
+            "size": 507750.32
           },
           "bid": {
             "price": 0.49,
-            "size": 591.4
+            "size": 721.4
           },
           "name": "St. Louis",
           "ticker": "KXMLBGAME-26JUL281945CHCSTL-STL",
-          "volume": 14126.8
+          "volume": 16344.92
         }
       ],
       "signal": "NO TRADE",
@@ -1572,28 +1577,28 @@
         {
           "ask": {
             "price": 0.51,
-            "size": 775581.82
+            "size": 508274.16
           },
           "bid": {
             "price": 0.5,
-            "size": 5079.25
+            "size": 14701.53
           },
           "name": "Houston",
           "ticker": "KXMLBGAME-26JUL282138HOULAA-HOU",
-          "volume": 65361.78
+          "volume": 93437.92
         },
         {
           "ask": {
             "price": 0.5,
-            "size": 6565.79
+            "size": 39055.98
           },
           "bid": {
             "price": 0.49,
-            "size": 81780.73
+            "size": 72140.24
           },
           "name": "Los Angeles A",
           "ticker": "KXMLBGAME-26JUL282138HOULAA-LAA",
-          "volume": 22971.83
+          "volume": 26780.21
         }
       ],
       "signal": "NO TRADE",
@@ -1609,28 +1614,28 @@
         {
           "ask": {
             "price": 0.5800000000000001,
-            "size": 767329.29
+            "size": 516824.1
           },
           "bid": {
             "price": 0.57,
-            "size": 21539.04
+            "size": 24199.8
           },
           "name": "Boston",
           "ticker": "KXMLBGAME-26JUL282140BOSATH-BOS",
-          "volume": 108898.46
+          "volume": 149474.34
         },
         {
           "ask": {
             "price": 0.43000000000000005,
-            "size": 55805.24
+            "size": 410627.35
           },
           "bid": {
             "price": 0.42,
-            "size": 114677.43
+            "size": 45062.35
           },
           "name": "A's",
           "ticker": "KXMLBGAME-26JUL282140BOSATH-ATH",
-          "volume": 10125.51
+          "volume": 13536.1
         }
       ],
       "signal": "NO TRADE",
@@ -1638,36 +1643,36 @@
       "title": "Boston vs A's"
     },
     {
-      "askSum": 1.0099999999999998,
+      "askSum": 0.9999999999999999,
       "event": "KXMLBGAME-26JUL282140COLSD",
-      "grossEdge": -0.009999999999999787,
-      "netEdge": -0.029999999999999787,
+      "grossEdge": 1.1102230246251565e-16,
+      "netEdge": -0.01999999999999989,
       "outcomes": [
         {
           "ask": {
-            "price": 0.33999999999999997,
-            "size": 380591.88
+            "price": 0.32999999999999996,
+            "size": 515455.0
           },
           "bid": {
-            "price": 0.33,
-            "size": 112920.77
+            "price": 0.32,
+            "size": 369002.55
           },
           "name": "Colorado",
           "ticker": "KXMLBGAME-26JUL282140COLSD-COL",
-          "volume": 23390.02
+          "volume": 33977.37
         },
         {
           "ask": {
             "price": 0.6699999999999999,
-            "size": 663871.39
+            "size": 3700.27
           },
           "bid": {
             "price": 0.66,
-            "size": 66588.26
+            "size": 175049.46
           },
           "name": "San Diego",
           "ticker": "KXMLBGAME-26JUL282140COLSD-SD",
-          "volume": 132190.32
+          "volume": 141240.31
         }
       ],
       "signal": "NO TRADE",
@@ -1683,28 +1688,28 @@
         {
           "ask": {
             "price": 0.5900000000000001,
-            "size": 721397.24
+            "size": 509484.03
           },
           "bid": {
             "price": 0.58,
-            "size": 21817.31
+            "size": 21192.82
           },
           "name": "Milwaukee",
           "ticker": "KXMLBGAME-26JUL282145MILSF-MIL",
-          "volume": 89503.87
+          "volume": 112024.77
         },
         {
           "ask": {
             "price": 0.42000000000000004,
-            "size": 30897.67
+            "size": 28390.3
           },
           "bid": {
             "price": 0.41,
-            "size": 138714.85
+            "size": 78840.72
           },
           "name": "San Francisco",
           "ticker": "KXMLBGAME-26JUL282145MILSF-SF",
-          "volume": 20091.44
+          "volume": 25353.95
         }
       ],
       "signal": "NO TRADE",
@@ -1720,28 +1725,28 @@
         {
           "ask": {
             "price": 0.37,
-            "size": 655586.66
+            "size": 361865.62
           },
           "bid": {
             "price": 0.36,
-            "size": 15504.43
+            "size": 36650.71
           },
           "name": "Seattle",
           "ticker": "KXMLBGAME-26JUL282210SEALAD-SEA",
-          "volume": 21581.74
+          "volume": 26659.41
         },
         {
           "ask": {
             "price": 0.64,
-            "size": 78572.45
+            "size": 246085.84
           },
           "bid": {
             "price": 0.63,
-            "size": 138631.98
+            "size": 55231.64
           },
           "name": "Los Angeles D",
           "ticker": "KXMLBGAME-26JUL282210SEALAD-LAD",
-          "volume": 120442.67
+          "volume": 225558.44
         }
       ],
       "signal": "NO TRADE",
@@ -1758,20 +1763,20 @@
       "gameId": 10078896,
       "gameStartTime": "2026-07-29 02:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 180089.2341,
+      "liquidity": 207484.2101,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.37,
-            "size": 69744.72
+            "size": 48953.35
           },
           "bid": {
             "price": 0.36,
-            "size": 69912.8
+            "size": 96941.15
           },
-          "bookHash": "e562121f7e7bd8c91b300f9c7f8d5d2e22b16939",
-          "bookTimestamp": "1785255642707",
+          "bookHash": "00296e1efd7a3aa9ba56dbee4935f000fdf1a9b4",
+          "bookTimestamp": "1785260962882",
           "lastTradePrice": 0.63,
           "name": "Seattle Mariners",
           "tickSize": "0.01",
@@ -1780,14 +1785,14 @@
         {
           "ask": {
             "price": 0.64,
-            "size": 69912.8
+            "size": 96941.15
           },
           "bid": {
             "price": 0.63,
-            "size": 69744.72
+            "size": 48953.35
           },
-          "bookHash": "a1df4473cf7f44f60a3be1e680901aa5f378bb04",
-          "bookTimestamp": "1785255642707",
+          "bookHash": "966e831e14c912be61d5487e4e16d4c0cb8875ad",
+          "bookTimestamp": "1785260962882",
           "lastTradePrice": 0.63,
           "name": "Los Angeles Dodgers",
           "tickSize": "0.01",
@@ -1799,7 +1804,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Seattle Mariners vs. Los Angeles Dodgers",
-      "volume": 9699.448841000003
+      "volume": 10184.461403000001
     },
     {
       "askSum": 1.01,
@@ -1809,21 +1814,21 @@
       "gameId": 10078903,
       "gameStartTime": "2026-07-29 01:45:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 231218.9054,
+      "liquidity": 252540.9957,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.59,
-            "size": 124809.18
+            "size": 126755.8
           },
           "bid": {
             "price": 0.58,
-            "size": 41371.31
+            "size": 46593.32
           },
-          "bookHash": "2f73110237d8c481be9e5ec3c5a1083920a81028",
-          "bookTimestamp": "1785255639102",
-          "lastTradePrice": 0.41,
+          "bookHash": "7952d4d7a57338fdb34205b7be7f6b1a00a8956d",
+          "bookTimestamp": "1785260964624",
+          "lastTradePrice": 0.58,
           "name": "Milwaukee Brewers",
           "tickSize": "0.01",
           "tokenId": "50723506332833089528002209095921517410123158857711528157284171858158446016671"
@@ -1831,15 +1836,15 @@
         {
           "ask": {
             "price": 0.42,
-            "size": 41371.31
+            "size": 46593.32
           },
           "bid": {
             "price": 0.41,
-            "size": 124809.18
+            "size": 126755.8
           },
-          "bookHash": "22704ab5d6a68eb0aafa5fac12b8c2ef0dfaf381",
-          "bookTimestamp": "1785255639102",
-          "lastTradePrice": 0.41,
+          "bookHash": "e179e69859a9f2b35085fb6b8d16f0515d0aa478",
+          "bookTimestamp": "1785260964624",
+          "lastTradePrice": 0.58,
           "name": "San Francisco Giants",
           "tickSize": "0.01",
           "tokenId": "64651936472045781948308956560340170922995130396344339521012731733586733846686"
@@ -1850,7 +1855,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Milwaukee Brewers vs. San Francisco Giants",
-      "volume": 6073.022566000002
+      "volume": 7289.408170000009
     },
     {
       "askSum": 1.01,
@@ -1860,37 +1865,37 @@
       "gameId": 10078902,
       "gameStartTime": "2026-07-29 01:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 374862.9014,
+      "liquidity": 411454.3805,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
-            "price": 0.34,
-            "size": 1942.85
+            "price": 0.33,
+            "size": 2004.21
           },
           "bid": {
-            "price": 0.33,
-            "size": 56164.3
+            "price": 0.32,
+            "size": 71087.94
           },
-          "bookHash": "a1e4fa8221cbd40a44154e839cd8535dbab74bd1",
-          "bookTimestamp": "1785255638778",
-          "lastTradePrice": 0.33,
+          "bookHash": "0cfc0056e61ee5a64a787e1cd68135240c00902a",
+          "bookTimestamp": "1785260964572",
+          "lastTradePrice": 0.32,
           "name": "Colorado Rockies",
           "tickSize": "0.01",
           "tokenId": "6200539885457707235564765578724117862183756582835630791698860197380669625253"
         },
         {
           "ask": {
-            "price": 0.67,
-            "size": 56164.3
+            "price": 0.68,
+            "size": 71087.94
           },
           "bid": {
-            "price": 0.66,
-            "size": 1942.85
+            "price": 0.67,
+            "size": 2004.21
           },
-          "bookHash": "8efbd0e34f9a7f9633332287e3021fbf37238ee1",
-          "bookTimestamp": "1785255638778",
-          "lastTradePrice": 0.33,
+          "bookHash": "5542492208f9e95cd8ea5db436351d28f780f362",
+          "bookTimestamp": "1785260964572",
+          "lastTradePrice": 0.32,
           "name": "San Diego Padres",
           "tickSize": "0.01",
           "tokenId": "96825696523513707098137292916238612998035427360513325871936336131210560361917"
@@ -1901,7 +1906,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Colorado Rockies vs. San Diego Padres",
-      "volume": 21771.226136999998
+      "volume": 24799.054353000007
     },
     {
       "askSum": 1.01,
@@ -1911,20 +1916,20 @@
       "gameId": 10078901,
       "gameStartTime": "2026-07-29 01:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 229367.8184,
+      "liquidity": 254163.9373,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.57,
-            "size": 16682.63
+            "size": 15613.68
           },
           "bid": {
             "price": 0.56,
-            "size": 70478.1
+            "size": 84983.32
           },
-          "bookHash": "ee8f3194b4fe4a923765f827aab5c216722f6c1d",
-          "bookTimestamp": "1785255639118",
+          "bookHash": "59b886cda106ee38c7c70ec4c71fbc64dc60e6e2",
+          "bookTimestamp": "1785260964606",
           "lastTradePrice": 0.43,
           "name": "Boston Red Sox",
           "tickSize": "0.01",
@@ -1933,14 +1938,14 @@
         {
           "ask": {
             "price": 0.44,
-            "size": 70478.1
+            "size": 84983.32
           },
           "bid": {
             "price": 0.43,
-            "size": 16682.63
+            "size": 15613.68
           },
-          "bookHash": "dbebf62c5ec75937ffa3a3f786dc1d833b46c871",
-          "bookTimestamp": "1785255639118",
+          "bookHash": "369b6d871c558529cbf73217bdfd431ec30d8c1a",
+          "bookTimestamp": "1785260964606",
           "lastTradePrice": 0.43,
           "name": "Athletics",
           "tickSize": "0.01",
@@ -1952,7 +1957,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Boston Red Sox vs. Athletics",
-      "volume": 46090.059821
+      "volume": 47182.659593
     },
     {
       "askSum": 1.01,
@@ -1962,20 +1967,20 @@
       "gameId": 10078895,
       "gameStartTime": "2026-07-29 01:38:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 230677.0348,
+      "liquidity": 247457.2385,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.5,
-            "size": 61901.64
+            "size": 52897.73
           },
           "bid": {
             "price": 0.49,
-            "size": 61288.12
+            "size": 62798.06
           },
-          "bookHash": "acf8cb9d946249eeb3e86b5dd1b1c63dd6b56b6d",
-          "bookTimestamp": "1785255639922",
+          "bookHash": "015880c5730fbb2380747e255c0e8b5fb1b3a3dc",
+          "bookTimestamp": "1785260961811",
           "lastTradePrice": 0.5,
           "name": "Houston Astros",
           "tickSize": "0.01",
@@ -1984,14 +1989,14 @@
         {
           "ask": {
             "price": 0.51,
-            "size": 61288.12
+            "size": 62798.06
           },
           "bid": {
             "price": 0.5,
-            "size": 61901.64
+            "size": 52897.73
           },
-          "bookHash": "35b23954ea5513d155bc190b0e5d81890bc91043",
-          "bookTimestamp": "1785255639922",
+          "bookHash": "91d727bd17f345105802b0f5755f5978f5191092",
+          "bookTimestamp": "1785260961811",
           "lastTradePrice": 0.5,
           "name": "Los Angeles Angels",
           "tickSize": "0.01",
@@ -2003,7 +2008,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Houston Astros vs. Los Angeles Angels",
-      "volume": 11717.958404999994
+      "volume": 20921.868404999997
     },
     {
       "askSum": 1.01,
@@ -2013,20 +2018,20 @@
       "gameId": 10078900,
       "gameStartTime": "2026-07-28 23:45:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 169472.8793,
+      "liquidity": 237669.6087,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.52,
-            "size": 75390.79
+            "size": 23926.34
           },
           "bid": {
             "price": 0.51,
-            "size": 6296.03
+            "size": 11703.93
           },
-          "bookHash": "31d146381795558b54ae1fe607b89e9b9a7b369c",
-          "bookTimestamp": "1785255639116",
+          "bookHash": "2982c0390c739013ca92ba4ee244dd66ddd5df92",
+          "bookTimestamp": "1785260964612",
           "lastTradePrice": 0.48,
           "name": "Chicago Cubs",
           "tickSize": "0.01",
@@ -2035,14 +2040,14 @@
         {
           "ask": {
             "price": 0.49,
-            "size": 6296.03
+            "size": 11703.93
           },
           "bid": {
             "price": 0.48,
-            "size": 75390.79
+            "size": 23926.34
           },
-          "bookHash": "bbf3f58f3b43bcb9db43078164fdc7b6d9ccb057",
-          "bookTimestamp": "1785255639116",
+          "bookHash": "0f398f669eb3bd02edf899cf494c4ca405571ac3",
+          "bookTimestamp": "1785260964612",
           "lastTradePrice": 0.48,
           "name": "St. Louis Cardinals",
           "tickSize": "0.01",
@@ -2054,7 +2059,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Chicago Cubs vs. St. Louis Cardinals",
-      "volume": 27702.343877
+      "volume": 28004.5118
     },
     {
       "askSum": 1.01,
@@ -2064,20 +2069,20 @@
       "gameId": 10078893,
       "gameStartTime": "2026-07-28 23:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 208364.257,
+      "liquidity": 340177.8685,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.39,
-            "size": 53509.47
+            "size": 66057.27
           },
           "bid": {
             "price": 0.38,
-            "size": 43223.83
+            "size": 16880.56
           },
-          "bookHash": "47011c54bdfb122b85b4610d55e5cee3a9671556",
-          "bookTimestamp": "1785255639931",
+          "bookHash": "1879be43e27477764ebc24c47105599067e0f44a",
+          "bookTimestamp": "1785260961764",
           "lastTradePrice": 0.38,
           "name": "Kansas City Royals",
           "tickSize": "0.01",
@@ -2086,14 +2091,14 @@
         {
           "ask": {
             "price": 0.62,
-            "size": 43223.83
+            "size": 16880.56
           },
           "bid": {
             "price": 0.61,
-            "size": 53509.47
+            "size": 66057.27
           },
-          "bookHash": "a6b570e9acda394811072d5757c4ae2b95ffd8ca",
-          "bookTimestamp": "1785255639931",
+          "bookHash": "2a594cf37d62f52528708c9d701ef72d61d843b1",
+          "bookTimestamp": "1785260961764",
           "lastTradePrice": 0.38,
           "name": "Minnesota Twins",
           "tickSize": "0.01",
@@ -2105,7 +2110,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Kansas City Royals vs. Minnesota Twins",
-      "volume": 20491.986206
+      "volume": 21510.333900000005
     },
     {
       "askSum": 1.01,
@@ -2115,20 +2120,20 @@
       "gameId": 10078894,
       "gameStartTime": "2026-07-28 23:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 294411.9594,
+      "liquidity": 434612.4227,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.53,
-            "size": 123778.79
+            "size": 123241.46
           },
           "bid": {
             "price": 0.52,
-            "size": 43324.09
+            "size": 28583.08
           },
-          "bookHash": "4261f2facdf624642625594a3b1a3e0ccc175405",
-          "bookTimestamp": "1785255638720",
+          "bookHash": "71718c9781c0aa24a62fb47b388306960052a6d7",
+          "bookTimestamp": "1785260963810",
           "lastTradePrice": 0.52,
           "name": "New York Yankees",
           "tickSize": "0.01",
@@ -2137,14 +2142,14 @@
         {
           "ask": {
             "price": 0.48,
-            "size": 43324.09
+            "size": 28583.08
           },
           "bid": {
             "price": 0.47,
-            "size": 123778.79
+            "size": 123241.46
           },
-          "bookHash": "ae58108854e9b7cb0bd6cc372206519275931346",
-          "bookTimestamp": "1785255638720",
+          "bookHash": "2078c8d6736a0b7317c5a0d20cc6ac4314fcb320",
+          "bookTimestamp": "1785260963810",
           "lastTradePrice": 0.52,
           "name": "Chicago White Sox",
           "tickSize": "0.01",
@@ -2156,7 +2161,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "New York Yankees vs. Chicago White Sox",
-      "volume": 34997.52626300001
+      "volume": 36205.62117099999
     },
     {
       "askSum": 1.01,
@@ -2166,21 +2171,21 @@
       "gameId": 10078890,
       "gameStartTime": "2026-07-28 23:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 246453.2092,
+      "liquidity": 252511.9611,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.6,
-            "size": 43632.54
+            "size": 987.43
           },
           "bid": {
             "price": 0.59,
-            "size": 117897.21
+            "size": 113121.37
           },
-          "bookHash": "cf7d8d58452bdc74ed88d0f2bee0bb3f5fabd9ce",
-          "bookTimestamp": "1785255639181",
-          "lastTradePrice": 0.4,
+          "bookHash": "90fcc69b0601c73ed1721797d7e34503d7c67870",
+          "bookTimestamp": "1785260964559",
+          "lastTradePrice": 0.6,
           "name": "Atlanta Braves",
           "tickSize": "0.01",
           "tokenId": "38710098663329840046338289577279151052646384437877342923181077545666376255385"
@@ -2188,15 +2193,15 @@
         {
           "ask": {
             "price": 0.41,
-            "size": 117897.21
+            "size": 113121.37
           },
           "bid": {
             "price": 0.4,
-            "size": 43632.54
+            "size": 987.43
           },
-          "bookHash": "1c38ec3bdf152eecbce3d6e0e49ee87dbf8f939b",
-          "bookTimestamp": "1785255639181",
-          "lastTradePrice": 0.4,
+          "bookHash": "fd215da22dcdaa246e5918e5f22c202a1b6c7005",
+          "bookTimestamp": "1785260964559",
+          "lastTradePrice": 0.6,
           "name": "New York Mets",
           "tickSize": "0.01",
           "tokenId": "49543204701083688070533214441365236082382234802788493660545189486328433425251"
@@ -2207,7 +2212,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Atlanta Braves vs. New York Mets",
-      "volume": 19990.254724999988
+      "volume": 21595.11991299998
     },
     {
       "askSum": 1.01,
@@ -2217,21 +2222,21 @@
       "gameId": 10078899,
       "gameStartTime": "2026-07-28 23:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 226633.7766,
+      "liquidity": 346148.4873,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.55,
-            "size": 24214.22
+            "size": 16531.78
           },
           "bid": {
             "price": 0.54,
-            "size": 128308.3
+            "size": 128890.05
           },
-          "bookHash": "5b65e41d82ebeae247df40be69a8fd9cc1e9d066",
-          "bookTimestamp": "1785255643638",
-          "lastTradePrice": 0.54,
+          "bookHash": "0f49ebee33dc06c879eaf13a75228f314486ced4",
+          "bookTimestamp": "1785260967387",
+          "lastTradePrice": 0.45,
           "name": "Cleveland Guardians",
           "tickSize": "0.01",
           "tokenId": "65938136076216138837610427217720740271561207364375051786325617137409573704673"
@@ -2239,15 +2244,15 @@
         {
           "ask": {
             "price": 0.46,
-            "size": 128308.3
+            "size": 128890.05
           },
           "bid": {
             "price": 0.45,
-            "size": 24214.22
+            "size": 16531.78
           },
-          "bookHash": "0ea49ba42ea8863a2f44cfacb207abb8469dbffc",
-          "bookTimestamp": "1785255643638",
-          "lastTradePrice": 0.54,
+          "bookHash": "fa66a0f8fdb194a7e4635663ecc6e93ef2b83c75",
+          "bookTimestamp": "1785260967387",
+          "lastTradePrice": 0.45,
           "name": "Cincinnati Reds",
           "tickSize": "0.01",
           "tokenId": "60624384945341887074844264963202970256256888828588696709924587390606333879186"
@@ -2258,7 +2263,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Cleveland Guardians vs. Cincinnati Reds",
-      "volume": 13238.060274000001
+      "volume": 19790.772364999997
     },
     {
       "askSum": 1.01,
@@ -2268,21 +2273,21 @@
       "gameId": 10078892,
       "gameStartTime": "2026-07-28 22:45:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 188302.017,
+      "liquidity": 358144.1007,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.45,
-            "size": 45132.14
+            "size": 42790.13
           },
           "bid": {
             "price": 0.44,
-            "size": 3332.28
+            "size": 31694.02
           },
-          "bookHash": "85dec79a4a82a80665978b607018f48a29762ef4",
-          "bookTimestamp": "1785255640761",
-          "lastTradePrice": 0.44,
+          "bookHash": "3573b65f55b03a8361bbd7d8895abb68f6710a5c",
+          "bookTimestamp": "1785260967800",
+          "lastTradePrice": 0.55,
           "name": "Toronto Blue Jays",
           "tickSize": "0.01",
           "tokenId": "102777804192008185810987817070673237658225922916400863053948678105130755248837"
@@ -2290,15 +2295,15 @@
         {
           "ask": {
             "price": 0.56,
-            "size": 3332.28
+            "size": 31694.02
           },
           "bid": {
             "price": 0.55,
-            "size": 45132.14
+            "size": 42790.13
           },
-          "bookHash": "4410980aa6b9875ba2c3fd7a78edfb0e09442fd1",
-          "bookTimestamp": "1785255640761",
-          "lastTradePrice": 0.44,
+          "bookHash": "16ece17b1ee676cbd04e3048914ebeed2fbfe2e2",
+          "bookTimestamp": "1785260967800",
+          "lastTradePrice": 0.55,
           "name": "Washington Nationals",
           "tickSize": "0.01",
           "tokenId": "102917918811869979415461409542843770485649277453359727891905742668905170741810"
@@ -2309,7 +2314,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Toronto Blue Jays vs. Washington Nationals",
-      "volume": 12717.487450999999
+      "volume": 14022.860929999999
     },
     {
       "askSum": 1.01,
@@ -2319,21 +2324,21 @@
       "gameId": 10078891,
       "gameStartTime": "2026-07-28 22:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 225709.1255,
+      "liquidity": 365455.3361,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.39,
-            "size": 109475.92
+            "size": 64054.29
           },
           "bid": {
             "price": 0.38,
-            "size": 35828.83
+            "size": 58649.58
           },
-          "bookHash": "9aa97e9a9b19b8c6003a99bd28b4a848a5aeb682",
-          "bookTimestamp": "1785255647207",
-          "lastTradePrice": 0.61,
+          "bookHash": "3f405c75067021a42926a4a322525d9b8d8e87d3",
+          "bookTimestamp": "1785260963793",
+          "lastTradePrice": 0.38,
           "name": "Texas Rangers",
           "tickSize": "0.01",
           "tokenId": "11297950366085542827201200533981395184306460174470964664720041568165014304842"
@@ -2341,15 +2346,15 @@
         {
           "ask": {
             "price": 0.62,
-            "size": 35828.83
+            "size": 58649.58
           },
           "bid": {
             "price": 0.61,
-            "size": 109475.92
+            "size": 64054.29
           },
-          "bookHash": "b4253ea053cd479e0ea07247e491d183dda88d46",
-          "bookTimestamp": "1785255647207",
-          "lastTradePrice": 0.61,
+          "bookHash": "0af01072806bcd1b8bd2d1e1060197cac49faaa1",
+          "bookTimestamp": "1785260963793",
+          "lastTradePrice": 0.38,
           "name": "Tampa Bay Rays",
           "tickSize": "0.01",
           "tokenId": "59081374889618369914002466479099455050679562474407760011549196541400100562253"
@@ -2360,7 +2365,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Texas Rangers vs. Tampa Bay Rays",
-      "volume": 17000.59323300001
+      "volume": 17463.95468700001
     },
     {
       "askSum": 1.01,
@@ -2370,20 +2375,20 @@
       "gameId": 10078889,
       "gameStartTime": "2026-07-28 22:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 219615.9359,
+      "liquidity": 375468.4583,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.49,
-            "size": 9691.34
+            "size": 8850.66
           },
           "bid": {
             "price": 0.48,
-            "size": 79796.76
+            "size": 91076.05
           },
-          "bookHash": "064c69fc87f7f0c8aeb2934d189180c8dbc76c85",
-          "bookTimestamp": "1785255638732",
+          "bookHash": "a7293a3088173cc70249f17ba52c25c4d5e9eddb",
+          "bookTimestamp": "1785260963779",
           "lastTradePrice": 0.51,
           "name": "Arizona Diamondbacks",
           "tickSize": "0.01",
@@ -2392,14 +2397,14 @@
         {
           "ask": {
             "price": 0.52,
-            "size": 79796.76
+            "size": 91076.05
           },
           "bid": {
             "price": 0.51,
-            "size": 9691.34
+            "size": 8850.66
           },
-          "bookHash": "bd36006974113562bf8cb369837eacfbfd314cca",
-          "bookTimestamp": "1785255638732",
+          "bookHash": "dc8d0cf3167ea736e0da4605e89a85e1fb9b1e07",
+          "bookTimestamp": "1785260963779",
           "lastTradePrice": 0.51,
           "name": "Pittsburgh Pirates",
           "tickSize": "0.01",
@@ -2411,7 +2416,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Arizona Diamondbacks vs. Pittsburgh Pirates",
-      "volume": 13924.289907999997
+      "volume": 14914.476710999998
     },
     {
       "askSum": 1.01,
@@ -2421,21 +2426,21 @@
       "gameId": 10078898,
       "gameStartTime": "2026-07-28 22:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 294055.0352,
+      "liquidity": 459852.7451,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.5,
-            "size": 83252.66
+            "size": 125010.14
           },
           "bid": {
             "price": 0.49,
-            "size": 156365.3
+            "size": 153834.75
           },
-          "bookHash": "f5fbebf07433715ac90b78ac4c6fde3b6916a6ed",
-          "bookTimestamp": "1785255642975",
-          "lastTradePrice": 0.5,
+          "bookHash": "00ef45fd04d6b61cc1d7b6aff0cc893b4a27e0ba",
+          "bookTimestamp": "1785260969080",
+          "lastTradePrice": 0.49,
           "name": "Philadelphia Phillies",
           "tickSize": "0.01",
           "tokenId": "44413446317283308241643742830638549351214897739549279170016133340923901843301"
@@ -2443,15 +2448,15 @@
         {
           "ask": {
             "price": 0.51,
-            "size": 156365.3
+            "size": 153544.94
           },
           "bid": {
             "price": 0.5,
-            "size": 83252.66
+            "size": 125010.14
           },
-          "bookHash": "152d757cca7bdef43c70e17e68937a8de4b2c7f4",
-          "bookTimestamp": "1785255642975",
-          "lastTradePrice": 0.5,
+          "bookHash": "cd85f80a45fc1c5f1958a76189d610b9cb31a0a2",
+          "bookTimestamp": "1785260969836",
+          "lastTradePrice": 0.49,
           "name": "Miami Marlins",
           "tickSize": "0.01",
           "tokenId": "115657759272410897081662124944009159374716967281589367761793254935907485518951"
@@ -2462,7 +2467,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Philadelphia Phillies vs. Miami Marlins",
-      "volume": 45099.710612
+      "volume": 66459.02785500001
     },
     {
       "askSum": 1.01,
@@ -2472,20 +2477,20 @@
       "gameId": 10078897,
       "gameStartTime": "2026-07-28 22:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 202724.3,
+      "liquidity": 363490.6617,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.44,
-            "size": 67886.41
+            "size": 56404.18
           },
           "bid": {
             "price": 0.43,
-            "size": 5755.65
+            "size": 23323.68
           },
-          "bookHash": "e06135df0c8b38886412730cbd99aa4b319a1479",
-          "bookTimestamp": "1785255646882",
+          "bookHash": "78b837039ca01b5f08fb955d2444e7b4e8d4741c",
+          "bookTimestamp": "1785260963808",
           "lastTradePrice": 0.56,
           "name": "Baltimore Orioles",
           "tickSize": "0.01",
@@ -2494,14 +2499,14 @@
         {
           "ask": {
             "price": 0.57,
-            "size": 5755.65
+            "size": 23323.68
           },
           "bid": {
             "price": 0.56,
-            "size": 67886.41
+            "size": 56404.18
           },
-          "bookHash": "28c10326f0b35875c9bb0a15617d0ac006e6db6d",
-          "bookTimestamp": "1785255646882",
+          "bookHash": "f8d503ac64c49cce129d22fb722c9e51a3af7255",
+          "bookTimestamp": "1785260963808",
           "lastTradePrice": 0.56,
           "name": "Detroit Tigers",
           "tickSize": "0.01",
@@ -2513,7 +2518,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Baltimore Orioles vs. Detroit Tigers",
-      "volume": 16443.65694600001
+      "volume": 17672.108176000012
     },
     {
       "askSum": 1.01,
@@ -2523,37 +2528,37 @@
       "gameId": 10078885,
       "gameStartTime": "2026-07-28 17:40:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 509195.4841,
+      "liquidity": 155982.6575,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
-            "price": 0.41,
-            "size": 33944.04
+            "price": 0.5,
+            "size": 10.0
           },
           "bid": {
-            "price": 0.4,
-            "size": 375258.43
+            "price": 0.49,
+            "size": 61507.69
           },
-          "bookHash": "132d34ecbde027545ea9d23f22a2e00f6d179d2d",
-          "bookTimestamp": "1785255647926",
-          "lastTradePrice": 0.4,
+          "bookHash": "8999fdeee629f38c83c6c13e135b51b7d8473310",
+          "bookTimestamp": "1785260970439",
+          "lastTradePrice": 0.5,
           "name": "Cleveland Guardians",
           "tickSize": "0.01",
           "tokenId": "79422772753696672216257559819939055742589706555293578632445886552631401247023"
         },
         {
           "ask": {
-            "price": 0.6,
-            "size": 375258.43
+            "price": 0.51,
+            "size": 61512.69
           },
           "bid": {
-            "price": 0.59,
-            "size": 33944.04
+            "price": 0.49,
+            "size": 7910.98
           },
-          "bookHash": "3df7a61c73748913db2dbdc5bcc184c84580c22f",
-          "bookTimestamp": "1785255647926",
-          "lastTradePrice": 0.4,
+          "bookHash": "5b713fa2ef04e958b5b058d6dbd1f4f2a536e8a7",
+          "bookTimestamp": "1785260970766",
+          "lastTradePrice": 0.5,
           "name": "Cincinnati Reds",
           "tickSize": "0.01",
           "tokenId": "29470070804130688459605616907450624647579759072633667708663049869978507039837"
@@ -2564,7 +2569,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Cleveland Guardians vs. Cincinnati Reds",
-      "volume": 370944.04361099744
+      "volume": 581307.0599539976
     }
   ],
   "schemaVersion": 1,
@@ -2572,7 +2577,7 @@
     "kalshiOpenEvents": 41,
     "kalshiStatus": 200,
     "kalshiTodayMarkets": 30,
-    "marketObservedAt": "2026-07-28T16:20:51.819534Z",
+    "marketObservedAt": "2026-07-28T17:49:36.103600Z",
     "mlbStatus": 200,
     "polymarketMarkets": 16,
     "polymarketStatus": 200,
