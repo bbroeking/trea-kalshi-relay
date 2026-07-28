@@ -132,6 +132,18 @@ class PolymarketBookState:
             self.asks.get(ask) if ask is not None else None,
         )
 
+    def depth(self, limit: int = 20) -> dict[str, list[dict[str, float]]]:
+        return {
+            "bids": [
+                {"price": price, "size": self.bids[price]}
+                for price in sorted(self.bids, reverse=True)[:limit]
+            ],
+            "asks": [
+                {"price": price, "size": self.asks[price]}
+                for price in sorted(self.asks)[:limit]
+            ],
+        }
+
     def reconcile(self, snapshot: dict[str, Any]) -> str:
         if not self.initialized:
             return "uninitialized"
@@ -266,6 +278,21 @@ class CollectorState:
                 for outcome in event.get("outcomes", [])
                 if outcome.get("ticker")
             )
+
+    def public_payload(self) -> dict[str, Any] | None:
+        """Return a detached snapshot with the latest reconstructed depth."""
+        with self.lock:
+            if self.payload is None:
+                return None
+            payload = json.loads(json.dumps(self.payload))
+            for market in payload.get("polymarket", []):
+                for outcome in market.get("outcomes", []):
+                    state = self.polymarket_books.get(
+                        str(outcome.get("tokenId") or "")
+                    )
+                    if state is not None and state.initialized:
+                        outcome.update(state.depth())
+            return payload
 
     def set_websocket_status(
         self,
@@ -1397,8 +1424,7 @@ def handler_class(
                 self.send_json(200, payload)
                 return
             if path in {"/", "/data/tonight.json"}:
-                with state.lock:
-                    payload = state.payload
+                payload = state.public_payload()
                 if payload is None:
                     self.send_json(
                         503,

@@ -115,11 +115,24 @@ def orderbook(market: dict[str, Any]) -> dict[str, Any]:
     ask = (
         {"price": 1 - float(no[0][0]), "size": float(no[0][1])} if no else None
     )
+    bids = [
+        {"price": float(price), "size": float(size)}
+        for price, size in yes
+    ]
+    asks = sorted(
+        [
+            {"price": 1 - float(price), "size": float(size)}
+            for price, size in no
+        ],
+        key=lambda level: level["price"],
+    )
     return {
         "name": market.get("yes_sub_title") or market.get("subtitle") or "Yes",
         "ticker": ticker,
         "bid": bid,
         "ask": ask,
+        "bids": bids,
+        "asks": asks,
         "volume": float(market.get("volume_fp") or market.get("volume") or 0),
     }
 
@@ -164,6 +177,14 @@ def polymarket_book(token_id: str) -> dict[str, Any]:
             if asks
             else None
         ),
+        "bids": [
+            {"price": float(level["price"]), "size": float(level["size"])}
+            for level in bids[:20]
+        ],
+        "asks": [
+            {"price": float(level["price"]), "size": float(level["size"])}
+            for level in asks[:20]
+        ],
         "lastTradePrice": (
             float(payload["last_trade_price"])
             if payload.get("last_trade_price") is not None
