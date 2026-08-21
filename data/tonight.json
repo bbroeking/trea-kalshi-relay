@@ -653,6 +653,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/824153/feed/live",
       "officialDate": "2026-08-20",
       "publicFacing": true,
@@ -664,20 +665,21 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 3,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 77,
-            "pct": ".394",
+            "pct": ".398",
             "ties": 0,
-            "wins": 50
+            "wins": 51
           },
           "score": 18,
           "seriesNumber": 41,
@@ -689,13 +691,14 @@
           }
         },
         "home": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 63,
-            "pct": ".504",
+            "losses": 64,
+            "pct": ".500",
             "ties": 0,
             "wins": 64
           },
-          "score": 2,
+          "score": 3,
           "seriesNumber": 41,
           "splitSquad": false,
           "team": {
@@ -713,427 +716,17 @@
       }
     }
   ],
-  "observedAt": "2026-08-21T02:57:58.243957Z",
-  "parity": [
-    {
-      "askSum": null,
-      "event": "KXMLBGAME-26AUG202010LAAHOU",
-      "grossEdge": null,
-      "netEdge": null,
-      "outcomes": [
-        {
-          "ask": null,
-          "asks": [],
-          "bid": {
-            "price": 0.99,
-            "size": 649853.93
-          },
-          "bids": [
-            {
-              "price": 0.99,
-              "size": 649853.93
-            },
-            {
-              "price": 0.98,
-              "size": 62865.0
-            },
-            {
-              "price": 0.97,
-              "size": 2048.18
-            },
-            {
-              "price": 0.96,
-              "size": 291.0
-            },
-            {
-              "price": 0.95,
-              "size": 1680.65
-            },
-            {
-              "price": 0.94,
-              "size": 1795.31
-            },
-            {
-              "price": 0.93,
-              "size": 1522.0
-            },
-            {
-              "price": 0.92,
-              "size": 27247.0
-            },
-            {
-              "price": 0.91,
-              "size": 193.0
-            },
-            {
-              "price": 0.9,
-              "size": 213.0
-            },
-            {
-              "price": 0.89,
-              "size": 192.0
-            },
-            {
-              "price": 0.88,
-              "size": 7101.0
-            },
-            {
-              "price": 0.87,
-              "size": 3873.0
-            },
-            {
-              "price": 0.86,
-              "size": 105.0
-            },
-            {
-              "price": 0.85,
-              "size": 102.0
-            },
-            {
-              "price": 0.84,
-              "size": 29320.0
-            },
-            {
-              "price": 0.83,
-              "size": 101.0
-            },
-            {
-              "price": 0.82,
-              "size": 101.0
-            },
-            {
-              "price": 0.81,
-              "size": 102.0
-            },
-            {
-              "price": 0.8,
-              "size": 11758.0
-            }
-          ],
-          "name": "Los Angeles A",
-          "ticker": "KXMLBGAME-26AUG202010LAAHOU-LAA",
-          "volume": 969203.85
-        },
-        {
-          "ask": {
-            "price": 0.010000000000000009,
-            "size": 625367.61
-          },
-          "asks": [
-            {
-              "price": 0.010000000000000009,
-              "size": 625367.61
-            },
-            {
-              "price": 0.020000000000000018,
-              "size": 67668.0
-            },
-            {
-              "price": 0.030000000000000027,
-              "size": 9956.0
-            },
-            {
-              "price": 0.040000000000000036,
-              "size": 480.02
-            },
-            {
-              "price": 0.050000000000000044,
-              "size": 201.0
-            },
-            {
-              "price": 0.06000000000000005,
-              "size": 80.79
-            },
-            {
-              "price": 0.06999999999999995,
-              "size": 1530.0
-            },
-            {
-              "price": 0.07999999999999996,
-              "size": 27280.0
-            },
-            {
-              "price": 0.08999999999999997,
-              "size": 1157.06
-            },
-            {
-              "price": 0.09999999999999998,
-              "size": 20.0
-            },
-            {
-              "price": 0.10999999999999999,
-              "size": 300.0
-            },
-            {
-              "price": 0.12,
-              "size": 3621.39
-            },
-            {
-              "price": 0.13,
-              "size": 3849.96
-            },
-            {
-              "price": 0.14,
-              "size": 16.0
-            },
-            {
-              "price": 0.15000000000000002,
-              "size": 300.0
-            },
-            {
-              "price": 0.16000000000000003,
-              "size": 33499.46
-            },
-            {
-              "price": 0.17000000000000004,
-              "size": 315.13
-            },
-            {
-              "price": 0.18000000000000005,
-              "size": 199.03
-            },
-            {
-              "price": 0.18999999999999995,
-              "size": 300.0
-            },
-            {
-              "price": 0.19999999999999996,
-              "size": 7798.14
-            }
-          ],
-          "bid": null,
-          "bids": [],
-          "name": "Houston",
-          "ticker": "KXMLBGAME-26AUG202010LAAHOU-HOU",
-          "volume": 2277809.63
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Los Angeles A vs Houston"
-    }
-  ],
-  "polymarket": [
-    {
-      "askSum": null,
-      "conditionId": "0xdbf4f97122a57a36b7499cfa35dddb30e4c9b705740a1adbc7c27059e39157f0",
-      "eventId": "848478",
-      "feesEnabled": true,
-      "gameId": 10079202,
-      "gameStartTime": "2026-08-21 00:10:00+00",
-      "grossEdge": null,
-      "liquidity": 339571.35954,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": null,
-          "asks": [],
-          "bid": {
-            "price": 0.999,
-            "size": 124236.77
-          },
-          "bids": [
-            {
-              "price": 0.999,
-              "size": 124236.77
-            },
-            {
-              "price": 0.997,
-              "size": 40.12
-            },
-            {
-              "price": 0.995,
-              "size": 3825.28
-            },
-            {
-              "price": 0.994,
-              "size": 523.0
-            },
-            {
-              "price": 0.993,
-              "size": 540.28
-            },
-            {
-              "price": 0.99,
-              "size": 40.4
-            },
-            {
-              "price": 0.987,
-              "size": 1399.96
-            },
-            {
-              "price": 0.98,
-              "size": 2000.0
-            },
-            {
-              "price": 0.973,
-              "size": 1500.0
-            },
-            {
-              "price": 0.972,
-              "size": 1499.99
-            },
-            {
-              "price": 0.97,
-              "size": 2000.0
-            },
-            {
-              "price": 0.96,
-              "size": 150.0
-            },
-            {
-              "price": 0.95,
-              "size": 10.0
-            },
-            {
-              "price": 0.94,
-              "size": 300.0
-            },
-            {
-              "price": 0.93,
-              "size": 15.05
-            },
-            {
-              "price": 0.9,
-              "size": 200.0
-            },
-            {
-              "price": 0.88,
-              "size": 139.9
-            },
-            {
-              "price": 0.85,
-              "size": 300.0
-            },
-            {
-              "price": 0.83,
-              "size": 150.0
-            },
-            {
-              "price": 0.811,
-              "size": 100.0
-            }
-          ],
-          "bookHash": "249281b680c758b9f99995855cd44ac9c61d5b9f",
-          "bookTimestamp": "1787281074704",
-          "lastTradePrice": 0.999,
-          "name": "Los Angeles Angels",
-          "tickSize": "0.001",
-          "tokenId": "16142186796286734892511539913438491280437574581544407335136106443332958499192"
-        },
-        {
-          "ask": {
-            "price": 0.001,
-            "size": 124236.77
-          },
-          "asks": [
-            {
-              "price": 0.001,
-              "size": 124236.77
-            },
-            {
-              "price": 0.003,
-              "size": 40.12
-            },
-            {
-              "price": 0.005,
-              "size": 3825.28
-            },
-            {
-              "price": 0.006,
-              "size": 523.0
-            },
-            {
-              "price": 0.007,
-              "size": 540.28
-            },
-            {
-              "price": 0.01,
-              "size": 40.4
-            },
-            {
-              "price": 0.013,
-              "size": 1399.96
-            },
-            {
-              "price": 0.02,
-              "size": 2000.0
-            },
-            {
-              "price": 0.027,
-              "size": 1500.0
-            },
-            {
-              "price": 0.028,
-              "size": 1499.99
-            },
-            {
-              "price": 0.03,
-              "size": 2000.0
-            },
-            {
-              "price": 0.04,
-              "size": 150.0
-            },
-            {
-              "price": 0.05,
-              "size": 10.0
-            },
-            {
-              "price": 0.06,
-              "size": 300.0
-            },
-            {
-              "price": 0.07,
-              "size": 15.05
-            },
-            {
-              "price": 0.1,
-              "size": 200.0
-            },
-            {
-              "price": 0.12,
-              "size": 139.9
-            },
-            {
-              "price": 0.15,
-              "size": 300.0
-            },
-            {
-              "price": 0.17,
-              "size": 150.0
-            },
-            {
-              "price": 0.189,
-              "size": 100.0
-            }
-          ],
-          "bid": null,
-          "bids": [],
-          "bookHash": "3d0d5f63775ae647a116e1353050c96d882131d7",
-          "bookTimestamp": "1787281074704",
-          "lastTradePrice": 0.999,
-          "name": "Houston Astros",
-          "tickSize": "0.001",
-          "tokenId": "13001995684473782490429883222796569480304864101109323177916762744256987818031"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-laa-hou-2026-08-20",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Los Angeles Angels vs. Houston Astros",
-      "volume": 261656.76766499988
-    }
-  ],
+  "observedAt": "2026-08-21T03:55:29.950297Z",
+  "parity": [],
+  "polymarket": [],
   "schemaVersion": 1,
   "sourceHealth": {
-    "kalshiOpenEvents": 46,
+    "kalshiOpenEvents": 45,
     "kalshiStatus": 200,
-    "kalshiTodayMarkets": 2,
-    "marketObservedAt": "2026-08-21T02:57:58.243957Z",
+    "kalshiTodayMarkets": 0,
+    "marketObservedAt": "2026-08-21T03:55:29.950297Z",
     "mlbStatus": 200,
-    "polymarketMarkets": 1,
+    "polymarketMarkets": 0,
     "polymarketStatus": 200,
     "relay": "github-actions",
     "usingSnapshot": false
