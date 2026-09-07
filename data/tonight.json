@@ -97,6 +97,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/823820/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -108,20 +109,21 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 78,
-            "pct": ".455",
+            "pct": ".458",
             "ties": 0,
-            "wins": 65
+            "wins": 66
           },
           "score": 9,
           "seriesNumber": 47,
@@ -133,9 +135,10 @@
           }
         },
         "home": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 72,
-            "pct": ".500",
+            "losses": 73,
+            "pct": ".497",
             "ties": 0,
             "wins": 72
           },
@@ -173,6 +176,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/824715/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -184,18 +188,19 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 89,
-            "pct": ".378",
+            "losses": 90,
+            "pct": ".375",
             "ties": 0,
             "wins": 54
           },
@@ -209,11 +214,12 @@
           }
         },
         "home": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 65,
-            "pct": ".549",
+            "pct": ".552",
             "ties": 0,
-            "wins": 79
+            "wins": 80
           },
           "score": 5,
           "seriesNumber": 47,
@@ -249,6 +255,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/824793/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -260,22 +267,23 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 71,
-            "pct": ".507",
+            "losses": 72,
+            "pct": ".503",
             "ties": 0,
             "wins": 73
           },
-          "score": 1,
+          "score": 4,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -285,11 +293,12 @@
           }
         },
         "home": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 75,
-            "pct": ".479",
+            "pct": ".483",
             "ties": 0,
-            "wins": 69
+            "wins": 70
           },
           "score": 6,
           "seriesNumber": 47,
@@ -325,6 +334,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/824062/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -336,22 +346,23 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 68,
-            "pct": ".528",
+            "pct": ".531",
             "ties": 0,
-            "wins": 76
+            "wins": 77
           },
-          "score": 0,
+          "score": 5,
           "seriesNumber": 48,
           "splitSquad": false,
           "team": {
@@ -361,13 +372,14 @@
           }
         },
         "home": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 80,
-            "pct": ".444",
+            "losses": 81,
+            "pct": ".441",
             "ties": 0,
             "wins": 64
           },
-          "score": 0,
+          "score": 4,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -401,6 +413,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/823742/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -412,22 +425,23 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 63,
-            "pct": ".563",
+            "losses": 64,
+            "pct": ".559",
             "ties": 0,
             "wins": 81
           },
-          "score": 2,
+          "score": 3,
           "seriesNumber": 48,
           "splitSquad": false,
           "team": {
@@ -437,13 +451,14 @@
           }
         },
         "home": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 56,
-            "pct": ".611",
+            "pct": ".614",
             "ties": 0,
-            "wins": 88
+            "wins": 89
           },
-          "score": 1,
+          "score": 4,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -477,6 +492,7 @@
       "ifNecessary": "N",
       "ifNecessaryDescription": "Normal Game",
       "inningBreakLength": 120,
+      "isTie": false,
       "link": "/api/v1.1/game/824229/feed/live",
       "officialDate": "2026-09-07",
       "publicFacing": true,
@@ -488,22 +504,23 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "L",
-        "abstractGameState": "Live",
-        "codedGameState": "I",
-        "detailedState": "In Progress",
+        "abstractGameCode": "F",
+        "abstractGameState": "Final",
+        "codedGameState": "F",
+        "detailedState": "Final",
         "startTimeTBD": false,
-        "statusCode": "I"
+        "statusCode": "F"
       },
       "teams": {
         "away": {
+          "isWinner": false,
           "leagueRecord": {
-            "losses": 75,
-            "pct": ".476",
+            "losses": 76,
+            "pct": ".472",
             "ties": 0,
             "wins": 68
           },
-          "score": 1,
+          "score": 4,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -513,13 +530,14 @@
           }
         },
         "home": {
+          "isWinner": true,
           "leagueRecord": {
             "losses": 78,
-            "pct": ".455",
+            "pct": ".458",
             "ties": 0,
-            "wins": 65
+            "wins": 66
           },
-          "score": 3,
+          "score": 5,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -564,12 +582,12 @@
       "seriesDescription": "Regular Season",
       "seriesGameNumber": 1,
       "status": {
-        "abstractGameCode": "P",
-        "abstractGameState": "Preview",
-        "codedGameState": "P",
-        "detailedState": "Pre-Game",
+        "abstractGameCode": "L",
+        "abstractGameState": "Live",
+        "codedGameState": "I",
+        "detailedState": "In Progress",
         "startTimeTBD": false,
-        "statusCode": "P"
+        "statusCode": "I"
       },
       "teams": {
         "away": {
@@ -579,7 +597,7 @@
             "ties": 0,
             "wins": 67
           },
-          "score": 0,
+          "score": 2,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -595,7 +613,7 @@
             "ties": 0,
             "wins": 75
           },
-          "score": 0,
+          "score": 3,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -655,6 +673,7 @@
             "ties": 0,
             "wins": 72
           },
+          "score": 0,
           "seriesNumber": 48,
           "splitSquad": false,
           "team": {
@@ -670,6 +689,7 @@
             "ties": 0,
             "wins": 59
           },
+          "score": 0,
           "seriesNumber": 48,
           "splitSquad": false,
           "team": {
@@ -716,10 +736,10 @@
       "status": {
         "abstractGameCode": "P",
         "abstractGameState": "Preview",
-        "codedGameState": "S",
-        "detailedState": "Scheduled",
+        "codedGameState": "P",
+        "detailedState": "Pre-Game",
         "startTimeTBD": false,
-        "statusCode": "S"
+        "statusCode": "P"
       },
       "teams": {
         "away": {
@@ -729,6 +749,7 @@
             "ties": 0,
             "wins": 69
           },
+          "score": 0,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -744,6 +765,7 @@
             "ties": 0,
             "wins": 86
           },
+          "score": 0,
           "seriesNumber": 47,
           "splitSquad": false,
           "team": {
@@ -790,10 +812,10 @@
       "status": {
         "abstractGameCode": "P",
         "abstractGameState": "Preview",
-        "codedGameState": "S",
-        "detailedState": "Scheduled",
+        "codedGameState": "P",
+        "detailedState": "Pre-Game",
         "startTimeTBD": false,
-        "statusCode": "S"
+        "statusCode": "P"
       },
       "teams": {
         "away": {
@@ -835,1710 +857,8 @@
       }
     }
   ],
-  "observedAt": "2026-09-07T20:09:54.838660Z",
+  "observedAt": "2026-09-07T22:50:41.715513Z",
   "parity": [
-    {
-      "askSum": null,
-      "event": "KXMLBGAME-26SEP071310NYMMIA",
-      "grossEdge": null,
-      "netEdge": null,
-      "outcomes": [
-        {
-          "ask": null,
-          "asks": [],
-          "bid": {
-            "price": 0.99,
-            "size": 90702.21
-          },
-          "bids": [
-            {
-              "price": 0.99,
-              "size": 90702.21
-            },
-            {
-              "price": 0.98,
-              "size": 50826.53
-            },
-            {
-              "price": 0.97,
-              "size": 1869.0
-            },
-            {
-              "price": 0.96,
-              "size": 403.0
-            },
-            {
-              "price": 0.95,
-              "size": 416.0
-            },
-            {
-              "price": 0.94,
-              "size": 470.0
-            },
-            {
-              "price": 0.93,
-              "size": 456.0
-            },
-            {
-              "price": 0.92,
-              "size": 3457.0
-            },
-            {
-              "price": 0.91,
-              "size": 457.0
-            },
-            {
-              "price": 0.9,
-              "size": 458.0
-            },
-            {
-              "price": 0.89,
-              "size": 458.56
-            },
-            {
-              "price": 0.88,
-              "size": 7460.0
-            },
-            {
-              "price": 0.87,
-              "size": 459.0
-            },
-            {
-              "price": 0.86,
-              "size": 369.0
-            },
-            {
-              "price": 0.85,
-              "size": 312.0
-            },
-            {
-              "price": 0.84,
-              "size": 312.0
-            },
-            {
-              "price": 0.83,
-              "size": 386.31
-            },
-            {
-              "price": 0.82,
-              "size": 312.6
-            },
-            {
-              "price": 0.81,
-              "size": 313.0
-            },
-            {
-              "price": 0.8,
-              "size": 4262.0
-            }
-          ],
-          "name": "New York M",
-          "ticker": "KXMLBGAME-26SEP071310NYMMIA-NYM",
-          "volume": 1158170.97
-        },
-        {
-          "ask": {
-            "price": 0.010000000000000009,
-            "size": 38589.71
-          },
-          "asks": [
-            {
-              "price": 0.010000000000000009,
-              "size": 38589.71
-            },
-            {
-              "price": 0.020000000000000018,
-              "size": 21750.0
-            },
-            {
-              "price": 0.030000000000000027,
-              "size": 6979.0
-            },
-            {
-              "price": 0.040000000000000036,
-              "size": 211.52
-            },
-            {
-              "price": 0.050000000000000044,
-              "size": 151.0
-            },
-            {
-              "price": 0.06000000000000005,
-              "size": 1509.75
-            },
-            {
-              "price": 0.06999999999999995,
-              "size": 20553.23
-            },
-            {
-              "price": 0.07999999999999996,
-              "size": 3150.0
-            },
-            {
-              "price": 0.08999999999999997,
-              "size": 798.19
-            },
-            {
-              "price": 0.09999999999999998,
-              "size": 150.0
-            },
-            {
-              "price": 0.10999999999999999,
-              "size": 150.0
-            },
-            {
-              "price": 0.12,
-              "size": 3362.77
-            },
-            {
-              "price": 0.13,
-              "size": 150.0
-            },
-            {
-              "price": 0.14,
-              "size": 151.0
-            },
-            {
-              "price": 0.15000000000000002,
-              "size": 275.63
-            },
-            {
-              "price": 0.16000000000000003,
-              "size": 4212.42
-            },
-            {
-              "price": 0.17000000000000004,
-              "size": 150.0
-            },
-            {
-              "price": 0.18000000000000005,
-              "size": 1161.74
-            },
-            {
-              "price": 0.18999999999999995,
-              "size": 243.51
-            },
-            {
-              "price": 0.19999999999999996,
-              "size": 107.25
-            }
-          ],
-          "bid": null,
-          "bids": [],
-          "name": "Miami",
-          "ticker": "KXMLBGAME-26SEP071310NYMMIA-MIA",
-          "volume": 1434649.21
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "New York M vs Miami"
-    },
-    {
-      "askSum": null,
-      "event": "KXMLBGAME-26SEP071335CLEBAL",
-      "grossEdge": null,
-      "netEdge": null,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.010000000000000009,
-            "size": 30615.34
-          },
-          "asks": [
-            {
-              "price": 0.010000000000000009,
-              "size": 30615.34
-            },
-            {
-              "price": 0.020000000000000018,
-              "size": 9880.55
-            },
-            {
-              "price": 0.030000000000000027,
-              "size": 4500.0
-            },
-            {
-              "price": 0.040000000000000036,
-              "size": 467.59
-            },
-            {
-              "price": 0.050000000000000044,
-              "size": 191.0
-            },
-            {
-              "price": 0.06000000000000005,
-              "size": 145.0
-            },
-            {
-              "price": 0.06999999999999995,
-              "size": 100.0
-            },
-            {
-              "price": 0.07999999999999996,
-              "size": 3100.0
-            },
-            {
-              "price": 0.08999999999999997,
-              "size": 100.0
-            },
-            {
-              "price": 0.09999999999999998,
-              "size": 100.0
-            },
-            {
-              "price": 0.10999999999999999,
-              "size": 21491.23
-            },
-            {
-              "price": 0.12,
-              "size": 3100.0
-            },
-            {
-              "price": 0.13,
-              "size": 125.0
-            },
-            {
-              "price": 0.14,
-              "size": 100.0
-            },
-            {
-              "price": 0.15000000000000002,
-              "size": 100.0
-            },
-            {
-              "price": 0.16000000000000003,
-              "size": 2144.0
-            },
-            {
-              "price": 0.17000000000000004,
-              "size": 101.0
-            },
-            {
-              "price": 0.18000000000000005,
-              "size": 146.91
-            },
-            {
-              "price": 0.18999999999999995,
-              "size": 123.45
-            },
-            {
-              "price": 0.19999999999999996,
-              "size": 198.92
-            }
-          ],
-          "bid": null,
-          "bids": [],
-          "name": "Cleveland",
-          "ticker": "KXMLBGAME-26SEP071335CLEBAL-CLE",
-          "volume": 1125652.67
-        },
-        {
-          "ask": null,
-          "asks": [],
-          "bid": {
-            "price": 0.99,
-            "size": 13200.14
-          },
-          "bids": [
-            {
-              "price": 0.99,
-              "size": 13200.14
-            },
-            {
-              "price": 0.98,
-              "size": 8969.32
-            },
-            {
-              "price": 0.97,
-              "size": 1522.08
-            },
-            {
-              "price": 0.96,
-              "size": 249.0
-            },
-            {
-              "price": 0.95,
-              "size": 350.0
-            },
-            {
-              "price": 0.94,
-              "size": 450.0
-            },
-            {
-              "price": 0.93,
-              "size": 402.0
-            },
-            {
-              "price": 0.92,
-              "size": 3404.0
-            },
-            {
-              "price": 0.91,
-              "size": 403.0
-            },
-            {
-              "price": 0.9,
-              "size": 404.0
-            },
-            {
-              "price": 0.89,
-              "size": 404.28
-            },
-            {
-              "price": 0.88,
-              "size": 7314.0
-            },
-            {
-              "price": 0.87,
-              "size": 339.0
-            },
-            {
-              "price": 0.86,
-              "size": 315.0
-            },
-            {
-              "price": 0.85,
-              "size": 268.0
-            },
-            {
-              "price": 0.84,
-              "size": 258.0
-            },
-            {
-              "price": 0.83,
-              "size": 259.0
-            },
-            {
-              "price": 0.82,
-              "size": 258.3
-            },
-            {
-              "price": 0.81,
-              "size": 258.0
-            },
-            {
-              "price": 0.8,
-              "size": 4259.0
-            }
-          ],
-          "name": "Baltimore",
-          "ticker": "KXMLBGAME-26SEP071335CLEBAL-BAL",
-          "volume": 634626.78
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Cleveland vs Baltimore"
-    },
-    {
-      "askSum": 1.01,
-      "event": "KXMLBGAME-26SEP071335LAABOS",
-      "grossEdge": -0.010000000000000009,
-      "netEdge": -0.03000000000000001,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.020000000000000018,
-            "size": 50558.6
-          },
-          "asks": [
-            {
-              "price": 0.020000000000000018,
-              "size": 50558.6
-            },
-            {
-              "price": 0.030000000000000027,
-              "size": 57254.09
-            },
-            {
-              "price": 0.040000000000000036,
-              "size": 49279.65
-            },
-            {
-              "price": 0.050000000000000044,
-              "size": 15050.45
-            },
-            {
-              "price": 0.06000000000000005,
-              "size": 309.0
-            },
-            {
-              "price": 0.06999999999999995,
-              "size": 112.0
-            },
-            {
-              "price": 0.07999999999999996,
-              "size": 3101.0
-            },
-            {
-              "price": 0.08999999999999997,
-              "size": 407.09
-            },
-            {
-              "price": 0.09999999999999998,
-              "size": 1065.0
-            },
-            {
-              "price": 0.10999999999999999,
-              "size": 107.0
-            },
-            {
-              "price": 0.12,
-              "size": 3151.25
-            },
-            {
-              "price": 0.13,
-              "size": 101.0
-            },
-            {
-              "price": 0.14,
-              "size": 100.0
-            },
-            {
-              "price": 0.15000000000000002,
-              "size": 100.0
-            },
-            {
-              "price": 0.16000000000000003,
-              "size": 4101.87
-            },
-            {
-              "price": 0.17000000000000004,
-              "size": 124.3
-            },
-            {
-              "price": 0.18000000000000005,
-              "size": 212.0
-            },
-            {
-              "price": 0.18999999999999995,
-              "size": 100.0
-            },
-            {
-              "price": 0.19999999999999996,
-              "size": 120.0
-            },
-            {
-              "price": 0.20999999999999996,
-              "size": 296.72
-            }
-          ],
-          "bid": {
-            "price": 0.01,
-            "size": 65555.79
-          },
-          "bids": [
-            {
-              "price": 0.01,
-              "size": 65555.79
-            }
-          ],
-          "name": "Los Angeles A",
-          "ticker": "KXMLBGAME-26SEP071335LAABOS-LAA",
-          "volume": 1078139.43
-        },
-        {
-          "ask": {
-            "price": 0.99,
-            "size": 90690.53
-          },
-          "asks": [
-            {
-              "price": 0.99,
-              "size": 90690.53
-            }
-          ],
-          "bid": {
-            "price": 0.98,
-            "size": 34081.53
-          },
-          "bids": [
-            {
-              "price": 0.98,
-              "size": 34081.53
-            },
-            {
-              "price": 0.97,
-              "size": 34712.05
-            },
-            {
-              "price": 0.96,
-              "size": 18837.66
-            },
-            {
-              "price": 0.95,
-              "size": 15023.02
-            },
-            {
-              "price": 0.94,
-              "size": 183.12
-            },
-            {
-              "price": 0.93,
-              "size": 180.0
-            },
-            {
-              "price": 0.92,
-              "size": 3319.66
-            },
-            {
-              "price": 0.91,
-              "size": 382.21
-            },
-            {
-              "price": 0.9,
-              "size": 451.0
-            },
-            {
-              "price": 0.89,
-              "size": 526.0
-            },
-            {
-              "price": 0.88,
-              "size": 7376.0
-            },
-            {
-              "price": 0.87,
-              "size": 391.0
-            },
-            {
-              "price": 0.86,
-              "size": 262.0
-            },
-            {
-              "price": 0.85,
-              "size": 361.0
-            },
-            {
-              "price": 0.84,
-              "size": 260.0
-            },
-            {
-              "price": 0.83,
-              "size": 260.0
-            },
-            {
-              "price": 0.82,
-              "size": 286.0
-            },
-            {
-              "price": 0.81,
-              "size": 296.92
-            },
-            {
-              "price": 0.8,
-              "size": 4272.0
-            },
-            {
-              "price": 0.79,
-              "size": 261.0
-            }
-          ],
-          "name": "Boston",
-          "ticker": "KXMLBGAME-26SEP071335LAABOS-BOS",
-          "volume": 1209906.0
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Los Angeles A vs Boston"
-    },
-    {
-      "askSum": 1.0100000000000002,
-      "event": "KXMLBGAME-26SEP071410AZKC",
-      "grossEdge": -0.010000000000000231,
-      "netEdge": -0.03000000000000023,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.43000000000000005,
-            "size": 387.19
-          },
-          "asks": [
-            {
-              "price": 0.43000000000000005,
-              "size": 387.19
-            },
-            {
-              "price": 0.43999999999999995,
-              "size": 28766.0
-            },
-            {
-              "price": 0.44999999999999996,
-              "size": 22892.0
-            },
-            {
-              "price": 0.45999999999999996,
-              "size": 41569.2
-            },
-            {
-              "price": 0.47,
-              "size": 4733.0
-            },
-            {
-              "price": 0.48,
-              "size": 9192.0
-            },
-            {
-              "price": 0.49,
-              "size": 108.0
-            },
-            {
-              "price": 0.5,
-              "size": 201.01
-            },
-            {
-              "price": 0.51,
-              "size": 100.0
-            },
-            {
-              "price": 0.52,
-              "size": 2100.0
-            },
-            {
-              "price": 0.53,
-              "size": 100.0
-            },
-            {
-              "price": 0.54,
-              "size": 100.0
-            },
-            {
-              "price": 0.55,
-              "size": 100.0
-            },
-            {
-              "price": 0.56,
-              "size": 2100.0
-            },
-            {
-              "price": 0.5700000000000001,
-              "size": 100.0
-            },
-            {
-              "price": 0.5800000000000001,
-              "size": 170.0
-            },
-            {
-              "price": 0.5900000000000001,
-              "size": 100.0
-            },
-            {
-              "price": 0.6,
-              "size": 100.0
-            },
-            {
-              "price": 0.61,
-              "size": 200.0
-            },
-            {
-              "price": 0.62,
-              "size": 100.0
-            }
-          ],
-          "bid": {
-            "price": 0.42,
-            "size": 165.0
-          },
-          "bids": [
-            {
-              "price": 0.42,
-              "size": 165.0
-            },
-            {
-              "price": 0.41,
-              "size": 14558.25
-            },
-            {
-              "price": 0.4,
-              "size": 7010.0
-            },
-            {
-              "price": 0.39,
-              "size": 4250.22
-            },
-            {
-              "price": 0.38,
-              "size": 900.0
-            },
-            {
-              "price": 0.37,
-              "size": 900.0
-            },
-            {
-              "price": 0.36,
-              "size": 2000.0
-            },
-            {
-              "price": 0.35,
-              "size": 1.0
-            },
-            {
-              "price": 0.32,
-              "size": 4000.0
-            },
-            {
-              "price": 0.28,
-              "size": 67.0
-            },
-            {
-              "price": 0.24,
-              "size": 14.0
-            },
-            {
-              "price": 0.23,
-              "size": 100.0
-            },
-            {
-              "price": 0.2,
-              "size": 9.0
-            },
-            {
-              "price": 0.19,
-              "size": 127.53
-            },
-            {
-              "price": 0.18,
-              "size": 20.11
-            },
-            {
-              "price": 0.17,
-              "size": 51.76
-            },
-            {
-              "price": 0.16,
-              "size": 741.5
-            },
-            {
-              "price": 0.15,
-              "size": 831.33
-            },
-            {
-              "price": 0.14,
-              "size": 26.29
-            },
-            {
-              "price": 0.13,
-              "size": 439.38
-            }
-          ],
-          "name": "Arizona",
-          "ticker": "KXMLBGAME-26SEP071410AZKC-AZ",
-          "volume": 514462.7
-        },
-        {
-          "ask": {
-            "price": 0.5800000000000001,
-            "size": 327.0
-          },
-          "asks": [
-            {
-              "price": 0.5800000000000001,
-              "size": 327.0
-            },
-            {
-              "price": 0.5900000000000001,
-              "size": 14609.43
-            },
-            {
-              "price": 0.6,
-              "size": 10333.0
-            },
-            {
-              "price": 0.61,
-              "size": 17832.0
-            },
-            {
-              "price": 0.62,
-              "size": 7833.0
-            },
-            {
-              "price": 0.63,
-              "size": 4500.0
-            },
-            {
-              "price": 0.64,
-              "size": 3000.0
-            },
-            {
-              "price": 0.65,
-              "size": 1.0
-            },
-            {
-              "price": 0.6799999999999999,
-              "size": 2000.0
-            },
-            {
-              "price": 0.7,
-              "size": 5.0
-            },
-            {
-              "price": 0.72,
-              "size": 14000.0
-            },
-            {
-              "price": 0.75,
-              "size": 108.25
-            },
-            {
-              "price": 0.76,
-              "size": 10.36
-            },
-            {
-              "price": 0.78,
-              "size": 3.29
-            },
-            {
-              "price": 0.8,
-              "size": 600.0
-            },
-            {
-              "price": 0.81,
-              "size": 12.53
-            },
-            {
-              "price": 0.8200000000000001,
-              "size": 72.11
-            },
-            {
-              "price": 0.83,
-              "size": 81.55
-            },
-            {
-              "price": 0.84,
-              "size": 22.39
-            },
-            {
-              "price": 0.85,
-              "size": 305.92
-            }
-          ],
-          "bid": {
-            "price": 0.57,
-            "size": 438.0
-          },
-          "bids": [
-            {
-              "price": 0.57,
-              "size": 438.0
-            },
-            {
-              "price": 0.56,
-              "size": 8315.0
-            },
-            {
-              "price": 0.55,
-              "size": 18526.0
-            },
-            {
-              "price": 0.54,
-              "size": 10338.8
-            },
-            {
-              "price": 0.53,
-              "size": 1133.0
-            },
-            {
-              "price": 0.52,
-              "size": 5592.0
-            },
-            {
-              "price": 0.51,
-              "size": 115.0
-            },
-            {
-              "price": 0.5,
-              "size": 200.0
-            },
-            {
-              "price": 0.49,
-              "size": 8443.0
-            },
-            {
-              "price": 0.48,
-              "size": 7100.0
-            },
-            {
-              "price": 0.47,
-              "size": 100.0
-            },
-            {
-              "price": 0.46,
-              "size": 100.0
-            },
-            {
-              "price": 0.45,
-              "size": 100.0
-            },
-            {
-              "price": 0.44,
-              "size": 100.0
-            },
-            {
-              "price": 0.43,
-              "size": 577.0
-            },
-            {
-              "price": 0.42,
-              "size": 714.0
-            },
-            {
-              "price": 0.41,
-              "size": 101.0
-            },
-            {
-              "price": 0.4,
-              "size": 2372.25
-            },
-            {
-              "price": 0.39,
-              "size": 100.0
-            },
-            {
-              "price": 0.38,
-              "size": 100.0
-            }
-          ],
-          "name": "Kansas City",
-          "ticker": "KXMLBGAME-26SEP071410AZKC-KC",
-          "volume": 573303.32
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Arizona vs Kansas City"
-    },
-    {
-      "askSum": 1.01,
-      "event": "KXMLBGAME-26SEP071410CHCMIL",
-      "grossEdge": -0.010000000000000009,
-      "netEdge": -0.03000000000000001,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.72,
-            "size": 120606.3
-          },
-          "asks": [
-            {
-              "price": 0.72,
-              "size": 120606.3
-            },
-            {
-              "price": 0.73,
-              "size": 60996.32
-            },
-            {
-              "price": 0.74,
-              "size": 31513.75
-            },
-            {
-              "price": 0.75,
-              "size": 2.01
-            },
-            {
-              "price": 0.76,
-              "size": 3153.01
-            },
-            {
-              "price": 0.77,
-              "size": 111.01
-            },
-            {
-              "price": 0.78,
-              "size": 2275.01
-            },
-            {
-              "price": 0.79,
-              "size": 8638.0
-            },
-            {
-              "price": 0.8,
-              "size": 7001.0
-            },
-            {
-              "price": 0.81,
-              "size": 25.0
-            },
-            {
-              "price": 0.8200000000000001,
-              "size": 394.33
-            },
-            {
-              "price": 0.84,
-              "size": 471.69
-            },
-            {
-              "price": 0.85,
-              "size": 1432.1
-            },
-            {
-              "price": 0.86,
-              "size": 476.17
-            },
-            {
-              "price": 0.87,
-              "size": 11042.61
-            },
-            {
-              "price": 0.88,
-              "size": 5323.61
-            },
-            {
-              "price": 0.89,
-              "size": 22980.71
-            },
-            {
-              "price": 0.9,
-              "size": 257.47
-            },
-            {
-              "price": 0.91,
-              "size": 1217.95
-            },
-            {
-              "price": 0.92,
-              "size": 11063.89
-            }
-          ],
-          "bid": {
-            "price": 0.71,
-            "size": 31259.8
-          },
-          "bids": [
-            {
-              "price": 0.71,
-              "size": 31259.8
-            },
-            {
-              "price": 0.7,
-              "size": 75519.43
-            },
-            {
-              "price": 0.69,
-              "size": 30824.15
-            },
-            {
-              "price": 0.68,
-              "size": 5279.56
-            },
-            {
-              "price": 0.67,
-              "size": 214.25
-            },
-            {
-              "price": 0.66,
-              "size": 220.0
-            },
-            {
-              "price": 0.65,
-              "size": 357.01
-            },
-            {
-              "price": 0.64,
-              "size": 13954.0
-            },
-            {
-              "price": 0.63,
-              "size": 100.0
-            },
-            {
-              "price": 0.62,
-              "size": 100.0
-            },
-            {
-              "price": 0.61,
-              "size": 125.0
-            },
-            {
-              "price": 0.6,
-              "size": 3100.0
-            },
-            {
-              "price": 0.59,
-              "size": 110.75
-            },
-            {
-              "price": 0.58,
-              "size": 170.0
-            },
-            {
-              "price": 0.57,
-              "size": 10100.0
-            },
-            {
-              "price": 0.56,
-              "size": 4100.0
-            },
-            {
-              "price": 0.55,
-              "size": 200.0
-            },
-            {
-              "price": 0.54,
-              "size": 251.0
-            },
-            {
-              "price": 0.53,
-              "size": 111.0
-            },
-            {
-              "price": 0.52,
-              "size": 119.45
-            }
-          ],
-          "name": "Chicago C",
-          "ticker": "KXMLBGAME-26SEP071410CHCMIL-CHC",
-          "volume": 1192201.88
-        },
-        {
-          "ask": {
-            "price": 0.29000000000000004,
-            "size": 42646.88
-          },
-          "asks": [
-            {
-              "price": 0.29000000000000004,
-              "size": 42646.88
-            },
-            {
-              "price": 0.30000000000000004,
-              "size": 135725.84
-            },
-            {
-              "price": 0.31000000000000005,
-              "size": 46563.15
-            },
-            {
-              "price": 0.31999999999999995,
-              "size": 59140.58
-            },
-            {
-              "price": 0.32999999999999996,
-              "size": 962.0
-            },
-            {
-              "price": 0.33999999999999997,
-              "size": 363.0
-            },
-            {
-              "price": 0.35,
-              "size": 292.32
-            },
-            {
-              "price": 0.36,
-              "size": 14433.01
-            },
-            {
-              "price": 0.37,
-              "size": 100.0
-            },
-            {
-              "price": 0.38,
-              "size": 100.0
-            },
-            {
-              "price": 0.39,
-              "size": 125.0
-            },
-            {
-              "price": 0.4,
-              "size": 7411.0
-            },
-            {
-              "price": 0.41000000000000003,
-              "size": 100.0
-            },
-            {
-              "price": 0.42000000000000004,
-              "size": 100.0
-            },
-            {
-              "price": 0.43000000000000005,
-              "size": 100.0
-            },
-            {
-              "price": 0.43999999999999995,
-              "size": 100.0
-            },
-            {
-              "price": 0.44999999999999996,
-              "size": 111.0
-            },
-            {
-              "price": 0.45999999999999996,
-              "size": 101.4
-            },
-            {
-              "price": 0.47,
-              "size": 10162.11
-            },
-            {
-              "price": 0.48,
-              "size": 4100.0
-            }
-          ],
-          "bid": {
-            "price": 0.28,
-            "size": 54130.15
-          },
-          "bids": [
-            {
-              "price": 0.28,
-              "size": 54130.15
-            },
-            {
-              "price": 0.27,
-              "size": 43258.18
-            },
-            {
-              "price": 0.26,
-              "size": 17280.15
-            },
-            {
-              "price": 0.24,
-              "size": 3001.0
-            },
-            {
-              "price": 0.21,
-              "size": 11.0
-            },
-            {
-              "price": 0.2,
-              "size": 3010.0
-            },
-            {
-              "price": 0.19,
-              "size": 65.0
-            },
-            {
-              "price": 0.17,
-              "size": 308.0
-            },
-            {
-              "price": 0.16,
-              "size": 4012.0
-            },
-            {
-              "price": 0.15,
-              "size": 31.0
-            },
-            {
-              "price": 0.14,
-              "size": 135.0
-            },
-            {
-              "price": 0.13,
-              "size": 828.38
-            },
-            {
-              "price": 0.12,
-              "size": 1958.68
-            },
-            {
-              "price": 0.11,
-              "size": 1702.05
-            },
-            {
-              "price": 0.1,
-              "size": 1837.0
-            },
-            {
-              "price": 0.09,
-              "size": 10749.77
-            },
-            {
-              "price": 0.08,
-              "size": 4181.0
-            },
-            {
-              "price": 0.07,
-              "size": 1200.57
-            },
-            {
-              "price": 0.06,
-              "size": 9321.33
-            },
-            {
-              "price": 0.05,
-              "size": 5094.5
-            }
-          ],
-          "name": "Milwaukee",
-          "ticker": "KXMLBGAME-26SEP071410CHCMIL-MIL",
-          "volume": 973015.04
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Chicago C vs Milwaukee"
-    },
-    {
-      "askSum": 1.03,
-      "event": "KXMLBGAME-26SEP071510MINDET",
-      "grossEdge": -0.030000000000000027,
-      "netEdge": -0.05000000000000003,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.31000000000000005,
-            "size": 6627.0
-          },
-          "asks": [
-            {
-              "price": 0.31000000000000005,
-              "size": 6627.0
-            },
-            {
-              "price": 0.31999999999999995,
-              "size": 3443.0
-            },
-            {
-              "price": 0.32999999999999996,
-              "size": 3683.0
-            },
-            {
-              "price": 0.33999999999999997,
-              "size": 1100.0
-            },
-            {
-              "price": 0.35,
-              "size": 3350.0
-            },
-            {
-              "price": 0.36,
-              "size": 1100.0
-            },
-            {
-              "price": 0.37,
-              "size": 1350.0
-            },
-            {
-              "price": 0.38,
-              "size": 100.0
-            },
-            {
-              "price": 0.39,
-              "size": 100.0
-            },
-            {
-              "price": 0.4,
-              "size": 1100.0
-            },
-            {
-              "price": 0.41000000000000003,
-              "size": 773.0
-            },
-            {
-              "price": 0.42000000000000004,
-              "size": 134.02
-            },
-            {
-              "price": 0.43000000000000005,
-              "size": 368.0
-            },
-            {
-              "price": 0.43999999999999995,
-              "size": 127.56
-            },
-            {
-              "price": 0.44999999999999996,
-              "size": 507.0
-            },
-            {
-              "price": 0.45999999999999996,
-              "size": 28542.56
-            },
-            {
-              "price": 0.47,
-              "size": 23500.2
-            },
-            {
-              "price": 0.48,
-              "size": 4191.23
-            },
-            {
-              "price": 0.49,
-              "size": 100.0
-            },
-            {
-              "price": 0.5,
-              "size": 101.2
-            }
-          ],
-          "bid": {
-            "price": 0.29,
-            "size": 6.0
-          },
-          "bids": [
-            {
-              "price": 0.29,
-              "size": 6.0
-            },
-            {
-              "price": 0.28,
-              "size": 2896.0
-            },
-            {
-              "price": 0.24,
-              "size": 107.0
-            },
-            {
-              "price": 0.23,
-              "size": 159.0
-            },
-            {
-              "price": 0.22,
-              "size": 629.0
-            },
-            {
-              "price": 0.21,
-              "size": 681.0
-            },
-            {
-              "price": 0.2,
-              "size": 7600.0
-            },
-            {
-              "price": 0.19,
-              "size": 3933.0
-            },
-            {
-              "price": 0.18,
-              "size": 228.0
-            },
-            {
-              "price": 0.17,
-              "size": 470.0
-            },
-            {
-              "price": 0.16,
-              "size": 2662.0
-            },
-            {
-              "price": 0.15,
-              "size": 10464.0
-            },
-            {
-              "price": 0.14,
-              "size": 5092.0
-            },
-            {
-              "price": 0.13,
-              "size": 1512.0
-            },
-            {
-              "price": 0.12,
-              "size": 1212.0
-            },
-            {
-              "price": 0.11,
-              "size": 212.0
-            },
-            {
-              "price": 0.1,
-              "size": 723.54
-            },
-            {
-              "price": 0.09,
-              "size": 10138.22
-            },
-            {
-              "price": 0.08,
-              "size": 5198.0
-            },
-            {
-              "price": 0.07,
-              "size": 1138.57
-            }
-          ],
-          "name": "Minnesota",
-          "ticker": "KXMLBGAME-26SEP071510MINDET-MIN",
-          "volume": 698083.32
-        },
-        {
-          "ask": {
-            "price": 0.72,
-            "size": 2991.0
-          },
-          "asks": [
-            {
-              "price": 0.72,
-              "size": 2991.0
-            },
-            {
-              "price": 0.77,
-              "size": 75.0
-            },
-            {
-              "price": 0.78,
-              "size": 297.18
-            },
-            {
-              "price": 0.79,
-              "size": 1693.0
-            },
-            {
-              "price": 0.8,
-              "size": 7850.85
-            },
-            {
-              "price": 0.81,
-              "size": 4450.0
-            },
-            {
-              "price": 0.8200000000000001,
-              "size": 4143.0
-            },
-            {
-              "price": 0.83,
-              "size": 20135.0
-            },
-            {
-              "price": 0.84,
-              "size": 3662.0
-            },
-            {
-              "price": 0.85,
-              "size": 10424.0
-            },
-            {
-              "price": 0.86,
-              "size": 5092.0
-            },
-            {
-              "price": 0.87,
-              "size": 1574.5
-            },
-            {
-              "price": 0.88,
-              "size": 5213.0
-            },
-            {
-              "price": 0.89,
-              "size": 214.0
-            },
-            {
-              "price": 0.9,
-              "size": 276.75
-            },
-            {
-              "price": 0.91,
-              "size": 320.79
-            },
-            {
-              "price": 0.92,
-              "size": 339.47
-            },
-            {
-              "price": 0.9299999999999999,
-              "size": 181.04
-            },
-            {
-              "price": 0.94,
-              "size": 210.07
-            },
-            {
-              "price": 0.95,
-              "size": 10442.0
-            }
-          ],
-          "bid": {
-            "price": 0.71,
-            "size": 1.0
-          },
-          "bids": [
-            {
-              "price": 0.71,
-              "size": 1.0
-            },
-            {
-              "price": 0.7,
-              "size": 16.0
-            },
-            {
-              "price": 0.69,
-              "size": 6680.0
-            },
-            {
-              "price": 0.68,
-              "size": 3433.0
-            },
-            {
-              "price": 0.67,
-              "size": 350.0
-            },
-            {
-              "price": 0.66,
-              "size": 1100.0
-            },
-            {
-              "price": 0.65,
-              "size": 3350.0
-            },
-            {
-              "price": 0.64,
-              "size": 1100.0
-            },
-            {
-              "price": 0.63,
-              "size": 1350.0
-            },
-            {
-              "price": 0.62,
-              "size": 100.0
-            },
-            {
-              "price": 0.61,
-              "size": 101.0
-            },
-            {
-              "price": 0.6,
-              "size": 100.0
-            },
-            {
-              "price": 0.59,
-              "size": 373.0
-            },
-            {
-              "price": 0.58,
-              "size": 125.0
-            },
-            {
-              "price": 0.57,
-              "size": 368.0
-            },
-            {
-              "price": 0.56,
-              "size": 2100.0
-            },
-            {
-              "price": 0.55,
-              "size": 607.0
-            },
-            {
-              "price": 0.54,
-              "size": 100.0
-            },
-            {
-              "price": 0.53,
-              "size": 129.32
-            },
-            {
-              "price": 0.52,
-              "size": 2100.0
-            }
-          ],
-          "name": "Detroit",
-          "ticker": "KXMLBGAME-26SEP071510MINDET-DET",
-          "volume": 297613.98
-        }
-      ],
-      "signal": "NO TRADE",
-      "status": "active",
-      "title": "Minnesota vs Detroit"
-    },
     {
       "askSum": 1.01,
       "event": "KXMLBGAME-26SEP071710WSHSD",
@@ -2547,357 +867,345 @@
       "outcomes": [
         {
           "ask": {
-            "price": 0.36,
-            "size": 692494.38
+            "price": 0.19999999999999996,
+            "size": 124664.13
           },
           "asks": [
             {
-              "price": 0.36,
-              "size": 692494.38
+              "price": 0.19999999999999996,
+              "size": 124664.13
             },
             {
-              "price": 0.37,
-              "size": 619017.08
+              "price": 0.20999999999999996,
+              "size": 59581.64
             },
             {
-              "price": 0.38,
-              "size": 301440.88
+              "price": 0.21999999999999997,
+              "size": 55752.86
             },
             {
-              "price": 0.39,
-              "size": 60093.0
-            },
-            {
-              "price": 0.4,
-              "size": 13408.0
-            },
-            {
-              "price": 0.41000000000000003,
-              "size": 1922.69
-            },
-            {
-              "price": 0.42000000000000004,
-              "size": 225.0
-            },
-            {
-              "price": 0.43000000000000005,
-              "size": 1584.0
-            },
-            {
-              "price": 0.43999999999999995,
-              "size": 3233.0
-            },
-            {
-              "price": 0.44999999999999996,
-              "size": 259.0
-            },
-            {
-              "price": 0.45999999999999996,
-              "size": 276.0
-            },
-            {
-              "price": 0.47,
-              "size": 258.0
-            },
-            {
-              "price": 0.48,
-              "size": 4097.0
-            },
-            {
-              "price": 0.5,
-              "size": 1.0
-            },
-            {
-              "price": 0.51,
-              "size": 2.0
-            },
-            {
-              "price": 0.53,
-              "size": 1.0
-            },
-            {
-              "price": 0.56,
-              "size": 4056.33
-            },
-            {
-              "price": 0.5800000000000001,
-              "size": 1952.0
-            },
-            {
-              "price": 0.5900000000000001,
-              "size": 1990.0
-            },
-            {
-              "price": 0.6,
-              "size": 1992.0
-            }
-          ],
-          "bid": {
-            "price": 0.35,
-            "size": 96184.13
-          },
-          "bids": [
-            {
-              "price": 0.35,
-              "size": 96184.13
-            },
-            {
-              "price": 0.34,
-              "size": 62470.21
-            },
-            {
-              "price": 0.33,
-              "size": 85670.95
-            },
-            {
-              "price": 0.32,
-              "size": 82594.4
-            },
-            {
-              "price": 0.31,
-              "size": 2845.03
-            },
-            {
-              "price": 0.3,
-              "size": 490.03
-            },
-            {
-              "price": 0.29,
-              "size": 27733.0
-            },
-            {
-              "price": 0.28,
-              "size": 3403.0
-            },
-            {
-              "price": 0.27,
-              "size": 463.0
-            },
-            {
-              "price": 0.26,
-              "size": 529.0
-            },
-            {
-              "price": 0.25,
-              "size": 595.0
+              "price": 0.22999999999999998,
+              "size": 4971.59
             },
             {
               "price": 0.24,
-              "size": 7611.0
+              "size": 6101.0
             },
             {
-              "price": 0.23,
-              "size": 2.0
+              "price": 0.25,
+              "size": 204.45
             },
             {
-              "price": 0.21,
-              "size": 2.0
+              "price": 0.26,
+              "size": 100.0
             },
             {
-              "price": 0.2,
-              "size": 1999.0
+              "price": 0.27,
+              "size": 181.31
             },
+            {
+              "price": 0.28,
+              "size": 3600.0
+            },
+            {
+              "price": 0.29000000000000004,
+              "size": 149.01
+            },
+            {
+              "price": 0.30000000000000004,
+              "size": 199.57
+            },
+            {
+              "price": 0.31000000000000005,
+              "size": 162.22
+            },
+            {
+              "price": 0.31999999999999995,
+              "size": 2171.0
+            },
+            {
+              "price": 0.32999999999999996,
+              "size": 998.55
+            },
+            {
+              "price": 0.33999999999999997,
+              "size": 100.0
+            },
+            {
+              "price": 0.35,
+              "size": 115.0
+            },
+            {
+              "price": 0.36,
+              "size": 284.36
+            },
+            {
+              "price": 0.37,
+              "size": 100.0
+            },
+            {
+              "price": 0.38,
+              "size": 100.0
+            },
+            {
+              "price": 0.39,
+              "size": 116.9
+            }
+          ],
+          "bid": {
+            "price": 0.19,
+            "size": 35094.18
+          },
+          "bids": [
             {
               "price": 0.19,
-              "size": 6048.0
+              "size": 35094.18
             },
             {
               "price": 0.18,
-              "size": 1998.0
+              "size": 74862.37
             },
             {
               "price": 0.17,
-              "size": 2018.0
+              "size": 30043.99
             },
             {
               "price": 0.16,
-              "size": 6003.0
+              "size": 26830.15
             },
             {
               "price": 0.15,
-              "size": 2002.0
+              "size": 1906.0
+            },
+            {
+              "price": 0.14,
+              "size": 150.0
+            },
+            {
+              "price": 0.12,
+              "size": 1020.0
+            },
+            {
+              "price": 0.11,
+              "size": 669.0
+            },
+            {
+              "price": 0.1,
+              "size": 1253.0
+            },
+            {
+              "price": 0.09,
+              "size": 3018.0
+            },
+            {
+              "price": 0.08,
+              "size": 3459.0
+            },
+            {
+              "price": 0.07,
+              "size": 4589.57
+            },
+            {
+              "price": 0.06,
+              "size": 19999.33
+            },
+            {
+              "price": 0.05,
+              "size": 5160.0
+            },
+            {
+              "price": 0.04,
+              "size": 975.0
+            },
+            {
+              "price": 0.03,
+              "size": 35269.67
+            },
+            {
+              "price": 0.02,
+              "size": 13652.09
+            },
+            {
+              "price": 0.01,
+              "size": 18654.0
             }
           ],
           "name": "Washington",
           "ticker": "KXMLBGAME-26SEP071710WSHSD-WSH",
-          "volume": 36961.86
+          "volume": 1657133.27
         },
         {
           "ask": {
-            "price": 0.65,
-            "size": 713837.19
+            "price": 0.81,
+            "size": 38632.21
           },
           "asks": [
             {
-              "price": 0.65,
-              "size": 713837.19
-            },
-            {
-              "price": 0.6599999999999999,
-              "size": 660359.93
-            },
-            {
-              "price": 0.6699999999999999,
-              "size": 414060.59
-            },
-            {
-              "price": 0.6799999999999999,
-              "size": 119811.0
-            },
-            {
-              "price": 0.69,
-              "size": 3308.0
-            },
-            {
-              "price": 0.7,
-              "size": 1267.0
-            },
-            {
-              "price": 0.71,
-              "size": 28655.0
-            },
-            {
-              "price": 0.72,
-              "size": 3405.0
-            },
-            {
-              "price": 0.73,
-              "size": 1838.0
-            },
-            {
-              "price": 0.74,
-              "size": 529.0
-            },
-            {
-              "price": 0.75,
-              "size": 1081.0
-            },
-            {
-              "price": 0.76,
-              "size": 3661.0
-            },
-            {
-              "price": 0.77,
-              "size": 6.03
-            },
-            {
-              "price": 0.79,
-              "size": 2.0
-            },
-            {
-              "price": 0.8,
-              "size": 6012.25
-            },
-            {
               "price": 0.81,
-              "size": 2013.0
+              "size": 38632.21
             },
             {
               "price": 0.8200000000000001,
-              "size": 2027.0
+              "size": 100788.45
             },
             {
               "price": 0.83,
-              "size": 2972.01
+              "size": 43506.98
             },
             {
               "price": 0.84,
-              "size": 1992.0
+              "size": 33001.23
             },
             {
               "price": 0.85,
-              "size": 2018.59
+              "size": 9116.0
+            },
+            {
+              "price": 0.86,
+              "size": 5.0
+            },
+            {
+              "price": 0.87,
+              "size": 96.0
+            },
+            {
+              "price": 0.88,
+              "size": 1165.0
+            },
+            {
+              "price": 0.89,
+              "size": 15.0
+            },
+            {
+              "price": 0.9,
+              "size": 10427.0
+            },
+            {
+              "price": 0.91,
+              "size": 8905.52
+            },
+            {
+              "price": 0.92,
+              "size": 1290.64
+            },
+            {
+              "price": 0.9299999999999999,
+              "size": 22386.88
+            },
+            {
+              "price": 0.94,
+              "size": 17206.74
+            },
+            {
+              "price": 0.95,
+              "size": 1993.41
+            },
+            {
+              "price": 0.96,
+              "size": 2822.96
+            },
+            {
+              "price": 0.97,
+              "size": 513.22
+            },
+            {
+              "price": 0.98,
+              "size": 41998.61
+            },
+            {
+              "price": 0.99,
+              "size": 18598.9
             }
           ],
           "bid": {
-            "price": 0.64,
-            "size": 165826.38
+            "price": 0.8,
+            "size": 64459.95
           },
           "bids": [
             {
+              "price": 0.8,
+              "size": 64459.95
+            },
+            {
+              "price": 0.79,
+              "size": 50715.33
+            },
+            {
+              "price": 0.78,
+              "size": 23838.86
+            },
+            {
+              "price": 0.77,
+              "size": 5065.0
+            },
+            {
+              "price": 0.76,
+              "size": 1102.0
+            },
+            {
+              "price": 0.75,
+              "size": 100.0
+            },
+            {
+              "price": 0.74,
+              "size": 208.0
+            },
+            {
+              "price": 0.73,
+              "size": 8433.0
+            },
+            {
+              "price": 0.72,
+              "size": 5600.0
+            },
+            {
+              "price": 0.71,
+              "size": 125.0
+            },
+            {
+              "price": 0.7,
+              "size": 100.0
+            },
+            {
+              "price": 0.69,
+              "size": 100.0
+            },
+            {
+              "price": 0.68,
+              "size": 100.0
+            },
+            {
+              "price": 0.67,
+              "size": 100.0
+            },
+            {
+              "price": 0.66,
+              "size": 100.0
+            },
+            {
+              "price": 0.65,
+              "size": 100.0
+            },
+            {
               "price": 0.64,
-              "size": 165826.38
+              "size": 2100.0
             },
             {
               "price": 0.63,
-              "size": 70348.45
+              "size": 100.0
             },
             {
               "price": 0.62,
-              "size": 85345.45
+              "size": 100.0
             },
             {
               "price": 0.61,
-              "size": 31056.01
-            },
-            {
-              "price": 0.6,
-              "size": 4909.01
-            },
-            {
-              "price": 0.59,
-              "size": 729.0
-            },
-            {
-              "price": 0.58,
-              "size": 262.0
-            },
-            {
-              "price": 0.57,
-              "size": 273.0
-            },
-            {
-              "price": 0.56,
-              "size": 7233.0
-            },
-            {
-              "price": 0.55,
-              "size": 259.0
-            },
-            {
-              "price": 0.54,
-              "size": 276.0
-            },
-            {
-              "price": 0.53,
-              "size": 258.0
-            },
-            {
-              "price": 0.52,
-              "size": 97.0
-            },
-            {
-              "price": 0.5,
-              "size": 4.0
-            },
-            {
-              "price": 0.49,
-              "size": 2.0
-            },
-            {
-              "price": 0.48,
-              "size": 4000.0
-            },
-            {
-              "price": 0.47,
-              "size": 1.0
-            },
-            {
-              "price": 0.46,
-              "size": 20.0
-            },
-            {
-              "price": 0.45,
-              "size": 706.0
-            },
-            {
-              "price": 0.44,
-              "size": 4506.0
+              "size": 130.6
             }
           ],
           "name": "San Diego",
           "ticker": "KXMLBGAME-26SEP071710WSHSD-SD",
-          "volume": 99287.19
+          "volume": 765545.26
         }
       ],
       "signal": "NO TRADE",
@@ -2913,44 +1221,44 @@
         {
           "ask": {
             "price": 0.44999999999999996,
-            "size": 381208.13
+            "size": 70439.17
           },
           "asks": [
             {
               "price": 0.44999999999999996,
-              "size": 381208.13
+              "size": 70439.17
             },
             {
               "price": 0.45999999999999996,
-              "size": 449919.23
+              "size": 456453.96
             },
             {
               "price": 0.47,
-              "size": 274304.39
+              "size": 458670.22
             },
             {
               "price": 0.48,
-              "size": 114970.02
+              "size": 174584.52
             },
             {
               "price": 0.49,
-              "size": 45873.0
+              "size": 46554.0
             },
             {
               "price": 0.5,
-              "size": 2220.0
+              "size": 2771.0
             },
             {
               "price": 0.51,
-              "size": 27196.0
+              "size": 1185.0
             },
             {
               "price": 0.52,
-              "size": 4495.0
+              "size": 2495.0
             },
             {
               "price": 0.53,
-              "size": 267.0
+              "size": 281.0
             },
             {
               "price": 0.54,
@@ -2958,15 +1266,19 @@
             },
             {
               "price": 0.55,
-              "size": 314.0
+              "size": 26328.0
             },
             {
               "price": 0.56,
-              "size": 7340.0
+              "size": 3356.18
             },
             {
               "price": 0.5700000000000001,
-              "size": 15.0
+              "size": 695.0
+            },
+            {
+              "price": 0.5800000000000001,
+              "size": 138.0
             },
             {
               "price": 0.5900000000000001,
@@ -2974,15 +1286,15 @@
             },
             {
               "price": 0.6,
-              "size": 203.0
+              "size": 225.8
             },
             {
               "price": 0.63,
-              "size": 2.0
+              "size": 14.0
             },
             {
               "price": 0.64,
-              "size": 4012.72
+              "size": 2012.72
             },
             {
               "price": 0.65,
@@ -2990,37 +1302,33 @@
             },
             {
               "price": 0.6599999999999999,
-              "size": 1992.0
-            },
-            {
-              "price": 0.6699999999999999,
-              "size": 1990.0
+              "size": 1993.0
             }
           ],
           "bid": {
             "price": 0.44,
-            "size": 95911.09
+            "size": 120853.3
           },
           "bids": [
             {
               "price": 0.44,
-              "size": 95911.09
+              "size": 120853.3
             },
             {
               "price": 0.43,
-              "size": 85385.61
+              "size": 87472.1
             },
             {
               "price": 0.42,
-              "size": 59297.32
+              "size": 62142.88
             },
             {
               "price": 0.41,
-              "size": 44453.02
+              "size": 45091.02
             },
             {
               "price": 0.4,
-              "size": 4772.0
+              "size": 2767.0
             },
             {
               "price": 0.39,
@@ -3036,26 +1344,30 @@
             },
             {
               "price": 0.36,
-              "size": 3395.0
+              "size": 1396.0
             },
             {
               "price": 0.35,
-              "size": 394.0
+              "size": 396.0
             },
             {
               "price": 0.34,
-              "size": 408.0
+              "size": 418.0
             },
             {
               "price": 0.33,
-              "size": 238.0
+              "size": 294.0
             },
             {
               "price": 0.32,
-              "size": 4001.0
+              "size": 2019.0
             },
             {
               "price": 0.31,
+              "size": 2.0
+            },
+            {
+              "price": 0.3,
               "size": 1.0
             },
             {
@@ -3077,45 +1389,41 @@
             {
               "price": 0.25,
               "size": 1990.0
-            },
-            {
-              "price": 0.24,
-              "size": 5991.0
             }
           ],
           "name": "St. Louis",
           "ticker": "KXMLBGAME-26SEP072010STLSF-STL",
-          "volume": 87576.09
+          "volume": 232672.38
         },
         {
           "ask": {
             "price": 0.56,
-            "size": 343306.78
+            "size": 596151.08
           },
           "asks": [
             {
               "price": 0.56,
-              "size": 343306.78
+              "size": 596151.08
             },
             {
               "price": 0.5700000000000001,
-              "size": 482535.31
+              "size": 545790.04
             },
             {
               "price": 0.5800000000000001,
-              "size": 228841.68
+              "size": 262154.25
             },
             {
               "price": 0.5900000000000001,
-              "size": 41402.0
+              "size": 41500.0
             },
             {
               "price": 0.6,
-              "size": 7247.0
+              "size": 3531.0
             },
             {
               "price": 0.61,
-              "size": 1542.82
+              "size": 1544.82
             },
             {
               "price": 0.62,
@@ -3127,19 +1435,19 @@
             },
             {
               "price": 0.64,
-              "size": 7395.0
+              "size": 3398.0
             },
             {
               "price": 0.65,
-              "size": 394.0
+              "size": 396.0
             },
             {
               "price": 0.6599999999999999,
-              "size": 408.0
+              "size": 418.0
             },
             {
               "price": 0.6699999999999999,
-              "size": 1307.24
+              "size": 1365.24
             },
             {
               "price": 0.6799999999999999,
@@ -3147,6 +1455,10 @@
             },
             {
               "price": 0.69,
+              "size": 45.56
+            },
+            {
+              "price": 0.7,
               "size": 1.0
             },
             {
@@ -3155,7 +1467,7 @@
             },
             {
               "price": 0.72,
-              "size": 4001.0
+              "size": 2003.0
             },
             {
               "price": 0.73,
@@ -3167,41 +1479,37 @@
             },
             {
               "price": 0.75,
-              "size": 2018.15
-            },
-            {
-              "price": 0.76,
-              "size": 2001.0
+              "size": 2360.58
             }
           ],
           "bid": {
             "price": 0.55,
-            "size": 63230.66
+            "size": 46548.65
           },
           "bids": [
             {
               "price": 0.55,
-              "size": 63230.66
+              "size": 46548.65
             },
             {
               "price": 0.54,
-              "size": 73617.89
+              "size": 80265.45
             },
             {
               "price": 0.53,
-              "size": 72786.45
+              "size": 73234.79
             },
             {
               "price": 0.52,
-              "size": 53087.6
+              "size": 44572.76
             },
             {
               "price": 0.51,
-              "size": 16696.02
+              "size": 19143.02
             },
             {
               "price": 0.5,
-              "size": 827.0
+              "size": 1783.0
             },
             {
               "price": 0.49,
@@ -3209,7 +1517,7 @@
             },
             {
               "price": 0.48,
-              "size": 3336.0
+              "size": 1336.0
             },
             {
               "price": 0.47,
@@ -3217,19 +1525,23 @@
             },
             {
               "price": 0.46,
-              "size": 297.0
+              "size": 731.0
             },
             {
               "price": 0.45,
-              "size": 323.0
+              "size": 326.0
             },
             {
               "price": 0.44,
-              "size": 3340.0
+              "size": 1354.0
             },
             {
               "price": 0.43,
-              "size": 15.0
+              "size": 683.0
+            },
+            {
+              "price": 0.42,
+              "size": 138.0
             },
             {
               "price": 0.41,
@@ -3237,11 +1549,11 @@
             },
             {
               "price": 0.4,
-              "size": 4003.0
+              "size": 2004.0
             },
             {
               "price": 0.37,
-              "size": 2.0
+              "size": 3.0
             },
             {
               "price": 0.36,
@@ -3253,16 +1565,12 @@
             },
             {
               "price": 0.34,
-              "size": 1992.0
-            },
-            {
-              "price": 0.33,
-              "size": 1990.0
+              "size": 1993.0
             }
           ],
           "name": "San Francisco",
           "ticker": "KXMLBGAME-26SEP072010STLSF-SF",
-          "volume": 125109.18
+          "volume": 243126.6
         }
       ],
       "signal": "NO TRADE",
@@ -3278,36 +1586,36 @@
         {
           "ask": {
             "price": 0.38,
-            "size": 317969.57
+            "size": 197406.37
           },
           "asks": [
             {
               "price": 0.38,
-              "size": 317969.57
+              "size": 197406.37
             },
             {
               "price": 0.39,
-              "size": 653045.45
+              "size": 713496.33
             },
             {
               "price": 0.4,
-              "size": 299917.44
+              "size": 625380.36
             },
             {
               "price": 0.41000000000000003,
-              "size": 76133.0
+              "size": 84496.29
             },
             {
               "price": 0.42000000000000004,
-              "size": 37654.0
+              "size": 23914.0
             },
             {
               "price": 0.43000000000000005,
-              "size": 8236.0
+              "size": 5963.57
             },
             {
               "price": 0.43999999999999995,
-              "size": 3004.0
+              "size": 1005.0
             },
             {
               "price": 0.44999999999999996,
@@ -3315,19 +1623,19 @@
             },
             {
               "price": 0.45999999999999996,
-              "size": 2856.0
+              "size": 2857.0
             },
             {
               "price": 0.47,
-              "size": 1146.0
+              "size": 30115.0
             },
             {
               "price": 0.48,
-              "size": 8452.57
+              "size": 4452.57
             },
             {
               "price": 0.49,
-              "size": 219.0
+              "size": 220.0
             },
             {
               "price": 0.5,
@@ -3350,46 +1658,46 @@
               "size": 179.0
             },
             {
+              "price": 0.55,
+              "size": 12.87
+            },
+            {
               "price": 0.56,
-              "size": 4001.0
+              "size": 2001.0
             },
             {
               "price": 0.5700000000000001,
-              "size": 18.51
-            },
-            {
-              "price": 0.5800000000000001,
-              "size": 1.0
+              "size": 20.51
             }
           ],
           "bid": {
             "price": 0.37,
-            "size": 67186.94
+            "size": 119143.99
           },
           "bids": [
             {
               "price": 0.37,
-              "size": 67186.94
+              "size": 119143.99
             },
             {
               "price": 0.36,
-              "size": 57914.5
+              "size": 61769.73
             },
             {
               "price": 0.35,
-              "size": 97278.98
+              "size": 62721.26
             },
             {
               "price": 0.34,
-              "size": 76233.24
+              "size": 19710.04
             },
             {
               "price": 0.33,
-              "size": 29636.03
+              "size": 29636.0
             },
             {
               "price": 0.32,
-              "size": 3465.0
+              "size": 1465.0
             },
             {
               "price": 0.31,
@@ -3401,15 +1709,15 @@
             },
             {
               "price": 0.29,
-              "size": 463.0
+              "size": 465.0
             },
             {
               "price": 0.28,
-              "size": 3007.0
+              "size": 1514.0
             },
             {
               "price": 0.27,
-              "size": 1.0
+              "size": 6.0
             },
             {
               "price": 0.26,
@@ -3421,15 +1729,15 @@
             },
             {
               "price": 0.24,
-              "size": 5990.0
+              "size": 3991.0
             },
             {
               "price": 0.23,
-              "size": 1991.0
+              "size": 1992.0
             },
             {
               "price": 0.22,
-              "size": 1992.56
+              "size": 1993.56
             },
             {
               "price": 0.21,
@@ -3441,7 +1749,7 @@
             },
             {
               "price": 0.19,
-              "size": 1997.0
+              "size": 1999.0
             },
             {
               "price": 0.18,
@@ -3450,37 +1758,37 @@
           ],
           "name": "Cincinnati",
           "ticker": "KXMLBGAME-26SEP072110CINLAD-CIN",
-          "volume": 60617.39
+          "volume": 214983.78
         },
         {
           "ask": {
             "price": 0.63,
-            "size": 92696.17
+            "size": 676729.09
           },
           "asks": [
             {
               "price": 0.63,
-              "size": 92696.17
+              "size": 676729.09
             },
             {
               "price": 0.64,
-              "size": 362375.72
+              "size": 709286.8
             },
             {
               "price": 0.65,
-              "size": 397907.92
+              "size": 350709.19
             },
             {
               "price": 0.6599999999999999,
-              "size": 118945.98
+              "size": 24635.0
             },
             {
               "price": 0.6699999999999999,
-              "size": 17198.0
+              "size": 2733.0
             },
             {
               "price": 0.6799999999999999,
-              "size": 4403.0
+              "size": 2403.0
             },
             {
               "price": 0.69,
@@ -3492,11 +1800,15 @@
             },
             {
               "price": 0.71,
-              "size": 28728.0
+              "size": 29278.44
             },
             {
               "price": 0.72,
-              "size": 7007.0
+              "size": 3514.0
+            },
+            {
+              "price": 0.73,
+              "size": 3.0
             },
             {
               "price": 0.74,
@@ -3504,15 +1816,15 @@
             },
             {
               "price": 0.75,
-              "size": 639.92
+              "size": 1099.36
             },
             {
               "price": 0.76,
-              "size": 1990.0
+              "size": 1991.0
             },
             {
               "price": 0.77,
-              "size": 1991.0
+              "size": 1992.0
             },
             {
               "price": 0.78,
@@ -3524,53 +1836,49 @@
             },
             {
               "price": 0.8,
-              "size": 5991.0
+              "size": 4775.5
             },
             {
               "price": 0.81,
-              "size": 1992.0
+              "size": 1997.13
             },
             {
               "price": 0.8200000000000001,
-              "size": 2028.64
-            },
-            {
-              "price": 0.83,
-              "size": 2183.06
+              "size": 2033.23
             }
           ],
           "bid": {
             "price": 0.62,
-            "size": 64013.11
+            "size": 52034.92
           },
           "bids": [
             {
               "price": 0.62,
-              "size": 64013.11
+              "size": 52034.92
             },
             {
               "price": 0.61,
-              "size": 243059.11
+              "size": 64667.73
             },
             {
               "price": 0.6,
-              "size": 99366.11
+              "size": 111127.86
             },
             {
               "price": 0.59,
-              "size": 10643.01
+              "size": 37698.98
             },
             {
               "price": 0.58,
-              "size": 2087.01
+              "size": 19148.01
             },
             {
               "price": 0.57,
-              "size": 28822.0
+              "size": 1597.0
             },
             {
               "price": 0.56,
-              "size": 3117.0
+              "size": 1083.0
             },
             {
               "price": 0.55,
@@ -3578,19 +1886,19 @@
             },
             {
               "price": 0.54,
-              "size": 14.0
+              "size": 15.0
             },
             {
               "price": 0.53,
-              "size": 168.0
+              "size": 28428.0
             },
             {
               "price": 0.52,
-              "size": 3191.0
+              "size": 1191.0
             },
             {
               "price": 0.51,
-              "size": 219.0
+              "size": 220.0
             },
             {
               "price": 0.5,
@@ -3602,7 +1910,7 @@
             },
             {
               "price": 0.48,
-              "size": 4310.0
+              "size": 2310.0
             },
             {
               "price": 0.47,
@@ -3622,12 +1930,12 @@
             },
             {
               "price": 0.43,
-              "size": 1.0
+              "size": 3.0
             }
           ],
           "name": "Los Angeles D",
           "ticker": "KXMLBGAME-26SEP072110CINLAD-LAD",
-          "volume": 86484.03
+          "volume": 213384.29
         }
       ],
       "signal": "NO TRADE",
@@ -3643,36 +1951,36 @@
         {
           "ask": {
             "price": 0.6599999999999999,
-            "size": 370470.81
+            "size": 413370.08
           },
           "asks": [
             {
               "price": 0.6599999999999999,
-              "size": 370470.81
+              "size": 413370.08
             },
             {
               "price": 0.6699999999999999,
-              "size": 518074.52
+              "size": 499988.08
             },
             {
               "price": 0.6799999999999999,
-              "size": 306971.51
+              "size": 211796.51
             },
             {
               "price": 0.69,
-              "size": 23319.0
+              "size": 36121.7
             },
             {
               "price": 0.7,
-              "size": 1284.0
+              "size": 16199.0
             },
             {
               "price": 0.71,
-              "size": 28523.0
+              "size": 28695.0
             },
             {
               "price": 0.72,
-              "size": 3426.0
+              "size": 1426.0
             },
             {
               "price": 0.73,
@@ -3680,19 +1988,19 @@
             },
             {
               "price": 0.74,
-              "size": 549.0
+              "size": 1073.06
             },
             {
               "price": 0.75,
-              "size": 609.76
+              "size": 725.32
             },
             {
               "price": 0.76,
-              "size": 3485.0
+              "size": 1653.0
             },
             {
               "price": 0.77,
-              "size": 2.0
+              "size": 366.0
             },
             {
               "price": 0.78,
@@ -3704,57 +2012,57 @@
             },
             {
               "price": 0.8,
-              "size": 5991.0
+              "size": 4022.0
             },
             {
               "price": 0.81,
-              "size": 2000.0
+              "size": 2001.49
             },
             {
               "price": 0.8200000000000001,
-              "size": 2031.49
+              "size": 2039.97
             },
             {
               "price": 0.83,
-              "size": 1991.0
+              "size": 1992.0
             },
             {
               "price": 0.84,
-              "size": 2173.66
+              "size": 2174.66
             },
             {
               "price": 0.85,
-              "size": 1991.0
+              "size": 1992.0
             }
           ],
           "bid": {
             "price": 0.65,
-            "size": 7510.19
+            "size": 78378.71
           },
           "bids": [
             {
               "price": 0.65,
-              "size": 7510.19
+              "size": 78378.71
             },
             {
               "price": 0.64,
-              "size": 72701.88
+              "size": 81056.26
             },
             {
               "price": 0.63,
-              "size": 94052.85
+              "size": 83338.33
             },
             {
               "price": 0.62,
-              "size": 44757.29
+              "size": 19648.01
             },
             {
               "price": 0.61,
-              "size": 14893.01
+              "size": 603.01
             },
             {
               "price": 0.6,
-              "size": 5374.01
+              "size": 3374.01
             },
             {
               "price": 0.59,
@@ -3766,11 +2074,11 @@
             },
             {
               "price": 0.57,
-              "size": 28315.0
+              "size": 28979.0
             },
             {
               "price": 0.56,
-              "size": 7226.0
+              "size": 3227.0
             },
             {
               "price": 0.55,
@@ -3778,7 +2086,7 @@
             },
             {
               "price": 0.54,
-              "size": 275.0
+              "size": 276.0
             },
             {
               "price": 0.53,
@@ -3798,54 +2106,54 @@
             },
             {
               "price": 0.48,
-              "size": 4001.0
+              "size": 2001.0
             },
             {
               "price": 0.47,
-              "size": 1.0
+              "size": 2.0
             },
             {
               "price": 0.45,
-              "size": 1531.0
+              "size": 4870.0
             },
             {
-              "price": 0.44,
-              "size": 4319.0
+              "price": 0.43,
+              "size": 1916.0
             }
           ],
           "name": "Toronto",
           "ticker": "KXMLBGAME-26SEP072205TORATH-TOR",
-          "volume": 88438.87
+          "volume": 190697.97
         },
         {
           "ask": {
             "price": 0.35,
-            "size": 16104.53
+            "size": 601631.87
           },
           "asks": [
             {
               "price": 0.35,
-              "size": 16104.53
+              "size": 601631.87
             },
             {
               "price": 0.36,
-              "size": 449727.01
+              "size": 519463.14
             },
             {
               "price": 0.37,
-              "size": 467302.56
+              "size": 213085.16
             },
             {
               "price": 0.38,
-              "size": 138573.41
+              "size": 38800.0
             },
             {
               "price": 0.39,
-              "size": 25542.0
+              "size": 8575.0
             },
             {
               "price": 0.4,
-              "size": 4343.0
+              "size": 2343.0
             },
             {
               "price": 0.41000000000000003,
@@ -3857,11 +2165,11 @@
             },
             {
               "price": 0.43000000000000005,
-              "size": 28315.0
+              "size": 28979.0
             },
             {
               "price": 0.43999999999999995,
-              "size": 3225.0
+              "size": 1226.0
             },
             {
               "price": 0.44999999999999996,
@@ -3869,7 +2177,7 @@
             },
             {
               "price": 0.45999999999999996,
-              "size": 275.0
+              "size": 276.0
             },
             {
               "price": 0.47,
@@ -3877,7 +2185,7 @@
             },
             {
               "price": 0.48,
-              "size": 4001.0
+              "size": 2001.0
             },
             {
               "price": 0.49,
@@ -3893,7 +2201,7 @@
             },
             {
               "price": 0.53,
-              "size": 1.0
+              "size": 2.0
             },
             {
               "price": 0.55,
@@ -3901,41 +2209,41 @@
             },
             {
               "price": 0.56,
-              "size": 4001.0
+              "size": 2001.0
             }
           ],
           "bid": {
             "price": 0.34,
-            "size": 87313.48
+            "size": 42527.28
           },
           "bids": [
             {
               "price": 0.34,
-              "size": 87313.48
+              "size": 42527.28
             },
             {
               "price": 0.33,
-              "size": 108108.43
+              "size": 76350.83
             },
             {
               "price": 0.32,
-              "size": 72115.95
+              "size": 59437.1
             },
             {
               "price": 0.31,
-              "size": 16560.03
+              "size": 16448.03
             },
             {
               "price": 0.3,
-              "size": 1219.0
+              "size": 19239.0
             },
             {
               "price": 0.29,
-              "size": 28483.0
+              "size": 28551.0
             },
             {
               "price": 0.28,
-              "size": 3426.0
+              "size": 1426.0
             },
             {
               "price": 0.27,
@@ -3947,15 +2255,15 @@
             },
             {
               "price": 0.25,
-              "size": 551.0
+              "size": 579.0
             },
             {
               "price": 0.24,
-              "size": 7485.0
+              "size": 3653.0
             },
             {
               "price": 0.23,
-              "size": 2.0
+              "size": 366.0
             },
             {
               "price": 0.21,
@@ -3963,7 +2271,7 @@
             },
             {
               "price": 0.2,
-              "size": 1997.0
+              "size": 1998.0
             },
             {
               "price": 0.19,
@@ -3971,15 +2279,15 @@
             },
             {
               "price": 0.18,
-              "size": 2001.0
+              "size": 2002.0
             },
             {
               "price": 0.17,
-              "size": 2023.0
+              "size": 2024.0
             },
             {
               "price": 0.16,
-              "size": 6003.0
+              "size": 4003.0
             },
             {
               "price": 0.15,
@@ -3987,12 +2295,12 @@
             },
             {
               "price": 0.14,
-              "size": 2000.0
+              "size": 2001.0
             }
           ],
           "name": "A's",
           "ticker": "KXMLBGAME-26SEP072205TORATH-ATH",
-          "volume": 39700.92
+          "volume": 67632.67
         }
       ],
       "signal": "NO TRADE",
@@ -4009,50 +2317,50 @@
       "gameId": 10079451,
       "gameStartTime": "2026-09-08 02:05:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 299260.2106,
+      "liquidity": 481872.2431,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.66,
-            "size": 79783.23
+            "size": 217068.19
           },
           "asks": [
             {
               "price": 0.66,
-              "size": 79783.23
+              "size": 217068.19
             },
             {
               "price": 0.67,
-              "size": 125807.61
+              "size": 154271.54
             },
             {
               "price": 0.68,
-              "size": 72691.8
+              "size": 91589.77
             },
             {
               "price": 0.69,
-              "size": 28691.4
+              "size": 17860.11
             },
             {
               "price": 0.7,
-              "size": 5260.0
+              "size": 5268.3
             },
             {
               "price": 0.71,
-              "size": 30438.69
+              "size": 31622.69
             },
             {
               "price": 0.72,
-              "size": 5775.0
+              "size": 5755.0
             },
             {
               "price": 0.73,
-              "size": 821.0
+              "size": 841.0
             },
             {
               "price": 0.74,
-              "size": 32.0
+              "size": 855.07
             },
             {
               "price": 0.75,
@@ -4064,19 +2372,19 @@
             },
             {
               "price": 0.77,
-              "size": 11462.0
+              "size": 10310.0
             },
             {
               "price": 0.78,
-              "size": 11.0
+              "size": 56.45
             },
             {
               "price": 0.79,
-              "size": 13.0
+              "size": 141.0
             },
             {
               "price": 0.8,
-              "size": 384.88
+              "size": 14.0
             },
             {
               "price": 0.81,
@@ -4084,7 +2392,7 @@
             },
             {
               "price": 0.82,
-              "size": 19.0
+              "size": 96.77
             },
             {
               "price": 0.83,
@@ -4092,7 +2400,7 @@
             },
             {
               "price": 0.84,
-              "size": 412.34
+              "size": 26.0
             },
             {
               "price": 0.85,
@@ -4101,60 +2409,60 @@
           ],
           "bid": {
             "price": 0.65,
-            "size": 57553.63
+            "size": 145931.21
           },
           "bids": [
             {
               "price": 0.65,
-              "size": 57553.63
+              "size": 145931.21
             },
             {
               "price": 0.64,
-              "size": 72907.45
+              "size": 171237.68
             },
             {
               "price": 0.63,
-              "size": 90474.26
+              "size": 54153.46
             },
             {
               "price": 0.62,
-              "size": 48857.05
+              "size": 46880.59
             },
             {
               "price": 0.61,
-              "size": 1430.0
+              "size": 2015.0
             },
             {
               "price": 0.6,
-              "size": 2560.0
+              "size": 2775.0
             },
             {
               "price": 0.59,
-              "size": 2000.0
+              "size": 2050.0
             },
             {
               "price": 0.58,
-              "size": 910.0
+              "size": 60.0
             },
             {
               "price": 0.57,
-              "size": 75.0
+              "size": 55.0
             },
             {
               "price": 0.56,
-              "size": 50.0
+              "size": 70.0
             },
             {
               "price": 0.55,
-              "size": 2447.0
+              "size": 32408.0
             },
             {
               "price": 0.54,
-              "size": 3686.4
+              "size": 2534.4
             },
             {
               "price": 0.53,
-              "size": 25.0
+              "size": 133.0
             },
             {
               "price": 0.52,
@@ -4162,7 +2470,7 @@
             },
             {
               "price": 0.51,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.5,
@@ -4185,9 +2493,9 @@
               "size": 9.0
             }
           ],
-          "bookHash": "4dc8af2883dd803b8a164c17082a74db05beb419",
-          "bookTimestamp": "1788811763640",
-          "lastTradePrice": 0.35,
+          "bookHash": "18407a3c30c50ae5855a75bf59e292c8d1a3f915",
+          "bookTimestamp": "1788821427470",
+          "lastTradePrice": 0.34,
           "name": "Toronto Blue Jays",
           "tickSize": "0.01",
           "tokenId": "98055693363629542051584303448010566750108798980262272234325648352653502325743"
@@ -4195,60 +2503,60 @@
         {
           "ask": {
             "price": 0.35,
-            "size": 57553.63
+            "size": 145931.21
           },
           "asks": [
             {
               "price": 0.35,
-              "size": 57553.63
+              "size": 145931.21
             },
             {
               "price": 0.36,
-              "size": 72907.45
+              "size": 171237.68
             },
             {
               "price": 0.37,
-              "size": 90474.26
+              "size": 54153.46
             },
             {
               "price": 0.38,
-              "size": 48857.05
+              "size": 46880.59
             },
             {
               "price": 0.39,
-              "size": 1430.0
+              "size": 2015.0
             },
             {
               "price": 0.4,
-              "size": 2560.0
+              "size": 2775.0
             },
             {
               "price": 0.41,
-              "size": 2000.0
+              "size": 2050.0
             },
             {
               "price": 0.42,
-              "size": 910.0
+              "size": 60.0
             },
             {
               "price": 0.43,
-              "size": 75.0
+              "size": 55.0
             },
             {
               "price": 0.44,
-              "size": 50.0
+              "size": 70.0
             },
             {
               "price": 0.45,
-              "size": 2447.0
+              "size": 32408.0
             },
             {
               "price": 0.46,
-              "size": 3686.4
+              "size": 2534.4
             },
             {
               "price": 0.47,
-              "size": 25.0
+              "size": 133.0
             },
             {
               "price": 0.48,
@@ -4256,7 +2564,7 @@
             },
             {
               "price": 0.49,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.5,
@@ -4281,44 +2589,44 @@
           ],
           "bid": {
             "price": 0.34,
-            "size": 79783.23
+            "size": 217068.19
           },
           "bids": [
             {
               "price": 0.34,
-              "size": 79783.23
+              "size": 217068.19
             },
             {
               "price": 0.33,
-              "size": 125807.61
+              "size": 154271.54
             },
             {
               "price": 0.32,
-              "size": 72691.8
+              "size": 91589.77
             },
             {
               "price": 0.31,
-              "size": 28691.4
+              "size": 17860.11
             },
             {
               "price": 0.3,
-              "size": 5260.0
+              "size": 5268.3
             },
             {
               "price": 0.29,
-              "size": 30438.69
+              "size": 31622.69
             },
             {
               "price": 0.28,
-              "size": 5775.0
+              "size": 5755.0
             },
             {
               "price": 0.27,
-              "size": 821.0
+              "size": 841.0
             },
             {
               "price": 0.26,
-              "size": 32.0
+              "size": 855.07
             },
             {
               "price": 0.25,
@@ -4330,19 +2638,19 @@
             },
             {
               "price": 0.23,
-              "size": 11462.0
+              "size": 10310.0
             },
             {
               "price": 0.22,
-              "size": 11.0
+              "size": 56.45
             },
             {
               "price": 0.21,
-              "size": 13.0
+              "size": 141.0
             },
             {
               "price": 0.2,
-              "size": 384.88
+              "size": 14.0
             },
             {
               "price": 0.19,
@@ -4350,7 +2658,7 @@
             },
             {
               "price": 0.18,
-              "size": 19.0
+              "size": 96.77
             },
             {
               "price": 0.17,
@@ -4358,16 +2666,16 @@
             },
             {
               "price": 0.16,
-              "size": 412.34
+              "size": 26.0
             },
             {
               "price": 0.15,
               "size": 460.83
             }
           ],
-          "bookHash": "6608ba301807def5f23176835c480deb576366f0",
-          "bookTimestamp": "1788811763640",
-          "lastTradePrice": 0.35,
+          "bookHash": "4553186c4e9111704021f77464984e84df08fb0f",
+          "bookTimestamp": "1788821427470",
+          "lastTradePrice": 0.34,
           "name": "Athletics",
           "tickSize": "0.01",
           "tokenId": "52013125045615590087292182899248281063817241773219416945024694554811315262489"
@@ -4378,7 +2686,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Toronto Blue Jays vs. Athletics",
-      "volume": 15050.380580999992
+      "volume": 54765.971610999964
     },
     {
       "askSum": 1.01,
@@ -4388,46 +2696,46 @@
       "gameId": 10079442,
       "gameStartTime": "2026-09-08 01:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 604564.1423,
+      "liquidity": 558909.1286,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.38,
-            "size": 511274.76
+            "size": 103776.85
           },
           "asks": [
             {
               "price": 0.38,
-              "size": 511274.76
+              "size": 103776.85
             },
             {
               "price": 0.39,
-              "size": 61050.8
+              "size": 137506.15
             },
             {
               "price": 0.4,
-              "size": 186120.55
+              "size": 78331.6
             },
             {
               "price": 0.41,
-              "size": 36966.61
+              "size": 53185.6
             },
             {
               "price": 0.42,
-              "size": 42081.59
+              "size": 25107.7
             },
             {
               "price": 0.43,
-              "size": 6010.0
+              "size": 2730.0
             },
             {
               "price": 0.44,
-              "size": 1855.0
+              "size": 31135.0
             },
             {
               "price": 0.45,
-              "size": 803.18
+              "size": 783.18
             },
             {
               "price": 0.46,
@@ -4435,7 +2743,7 @@
             },
             {
               "price": 0.47,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.48,
@@ -4443,7 +2751,7 @@
             },
             {
               "price": 0.49,
-              "size": 2653.0
+              "size": 2633.0
             },
             {
               "price": 0.5,
@@ -4455,7 +2763,7 @@
             },
             {
               "price": 0.52,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.53,
@@ -4480,32 +2788,32 @@
           ],
           "bid": {
             "price": 0.37,
-            "size": 29676.57
+            "size": 172537.81
           },
           "bids": [
             {
               "price": 0.37,
-              "size": 29676.57
+              "size": 172537.81
             },
             {
               "price": 0.36,
-              "size": 87702.57
+              "size": 96359.8
             },
             {
               "price": 0.35,
-              "size": 44698.34
+              "size": 31690.0
             },
             {
               "price": 0.34,
-              "size": 22397.22
+              "size": 17060.1
             },
             {
               "price": 0.33,
-              "size": 5861.5
+              "size": 5746.0
             },
             {
               "price": 0.32,
-              "size": 2592.0
+              "size": 2807.0
             },
             {
               "price": 0.31,
@@ -4513,27 +2821,27 @@
             },
             {
               "price": 0.3,
-              "size": 34.0
+              "size": 44.0
             },
             {
               "price": 0.29,
-              "size": 15.0
+              "size": 35.68
             },
             {
               "price": 0.28,
-              "size": 215.76
+              "size": 36.0
             },
             {
               "price": 0.27,
-              "size": 2471.39
+              "size": 2455.0
             },
             {
               "price": 0.26,
-              "size": 10143.0
+              "size": 10343.0
             },
             {
               "price": 0.25,
-              "size": 322.15
+              "size": 362.15
             },
             {
               "price": 0.24,
@@ -4541,11 +2849,11 @@
             },
             {
               "price": 0.23,
-              "size": 125.67
+              "size": 22.0
             },
             {
               "price": 0.22,
-              "size": 215.65
+              "size": 25.0
             },
             {
               "price": 0.21,
@@ -4553,19 +2861,19 @@
             },
             {
               "price": 0.2,
-              "size": 364.87
+              "size": 434.87
             },
             {
               "price": 0.19,
-              "size": 133.58
+              "size": 29.0
             },
             {
               "price": 0.18,
-              "size": 386.55
+              "size": 31.0
             }
           ],
-          "bookHash": "1299090a93464483fc50b5ce3f6bd00676f4b4b3",
-          "bookTimestamp": "1788811758888",
+          "bookHash": "e2474db8dca8b064abbf4add2a22a4692c5cabc6",
+          "bookTimestamp": "1788821431600",
           "lastTradePrice": 0.37,
           "name": "Cincinnati Reds",
           "tickSize": "0.01",
@@ -4574,32 +2882,32 @@
         {
           "ask": {
             "price": 0.63,
-            "size": 29676.57
+            "size": 172537.81
           },
           "asks": [
             {
               "price": 0.63,
-              "size": 29676.57
+              "size": 172537.81
             },
             {
               "price": 0.64,
-              "size": 87702.57
+              "size": 96359.8
             },
             {
               "price": 0.65,
-              "size": 44698.34
+              "size": 31690.0
             },
             {
               "price": 0.66,
-              "size": 22397.22
+              "size": 17060.1
             },
             {
               "price": 0.67,
-              "size": 5861.5
+              "size": 5746.0
             },
             {
               "price": 0.68,
-              "size": 2592.0
+              "size": 2807.0
             },
             {
               "price": 0.69,
@@ -4607,27 +2915,27 @@
             },
             {
               "price": 0.7,
-              "size": 34.0
+              "size": 44.0
             },
             {
               "price": 0.71,
-              "size": 15.0
+              "size": 35.68
             },
             {
               "price": 0.72,
-              "size": 215.76
+              "size": 36.0
             },
             {
               "price": 0.73,
-              "size": 2471.39
+              "size": 2455.0
             },
             {
               "price": 0.74,
-              "size": 10143.0
+              "size": 10343.0
             },
             {
               "price": 0.75,
-              "size": 322.15
+              "size": 362.15
             },
             {
               "price": 0.76,
@@ -4635,11 +2943,11 @@
             },
             {
               "price": 0.77,
-              "size": 125.67
+              "size": 22.0
             },
             {
               "price": 0.78,
-              "size": 215.65
+              "size": 25.0
             },
             {
               "price": 0.79,
@@ -4647,53 +2955,53 @@
             },
             {
               "price": 0.8,
-              "size": 364.87
+              "size": 434.87
             },
             {
               "price": 0.81,
-              "size": 133.58
+              "size": 29.0
             },
             {
               "price": 0.82,
-              "size": 386.55
+              "size": 31.0
             }
           ],
           "bid": {
             "price": 0.62,
-            "size": 511274.76
+            "size": 103776.85
           },
           "bids": [
             {
               "price": 0.62,
-              "size": 511274.76
+              "size": 103776.85
             },
             {
               "price": 0.61,
-              "size": 61050.8
+              "size": 137506.15
             },
             {
               "price": 0.6,
-              "size": 186120.55
+              "size": 78331.6
             },
             {
               "price": 0.59,
-              "size": 36966.61
+              "size": 53185.6
             },
             {
               "price": 0.58,
-              "size": 42081.59
+              "size": 25107.7
             },
             {
               "price": 0.57,
-              "size": 6010.0
+              "size": 2730.0
             },
             {
               "price": 0.56,
-              "size": 1855.0
+              "size": 31135.0
             },
             {
               "price": 0.55,
-              "size": 803.18
+              "size": 783.18
             },
             {
               "price": 0.54,
@@ -4701,7 +3009,7 @@
             },
             {
               "price": 0.53,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.52,
@@ -4709,7 +3017,7 @@
             },
             {
               "price": 0.51,
-              "size": 2653.0
+              "size": 2633.0
             },
             {
               "price": 0.5,
@@ -4721,7 +3029,7 @@
             },
             {
               "price": 0.48,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.47,
@@ -4744,8 +3052,8 @@
               "size": 6.0
             }
           ],
-          "bookHash": "bfd494e4d8a332e10db7039ddb0446f1ba99c47a",
-          "bookTimestamp": "1788811758888",
+          "bookHash": "bdbf60b193bb4b8e81b1554749d1aaab74093d9a",
+          "bookTimestamp": "1788821431600",
           "lastTradePrice": 0.37,
           "name": "Los Angeles Dodgers",
           "tickSize": "0.01",
@@ -4757,7 +3065,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Cincinnati Reds vs. Los Angeles Dodgers",
-      "volume": 227130.52122700002
+      "volume": 320819.1468550001
     },
     {
       "askSum": 1.01,
@@ -4767,66 +3075,66 @@
       "gameId": 10079450,
       "gameStartTime": "2026-09-08 00:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 336432.7,
+      "liquidity": 483527.3475,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
             "price": 0.45,
-            "size": 22715.22
+            "size": 61539.47
           },
           "asks": [
             {
               "price": 0.45,
-              "size": 22715.22
+              "size": 61539.47
             },
             {
               "price": 0.46,
-              "size": 135593.98
+              "size": 94758.86
             },
             {
               "price": 0.47,
-              "size": 88169.08
+              "size": 151056.49
             },
             {
               "price": 0.48,
-              "size": 59071.72
+              "size": 77358.82
             },
             {
               "price": 0.49,
-              "size": 18448.91
+              "size": 14950.61
             },
             {
               "price": 0.5,
-              "size": 1955.0
+              "size": 2155.0
             },
             {
               "price": 0.51,
-              "size": 5650.0
+              "size": 5105.0
             },
             {
               "price": 0.52,
-              "size": 790.0
+              "size": 720.0
             },
             {
               "price": 0.53,
-              "size": 805.0
+              "size": 725.0
             },
             {
               "price": 0.54,
-              "size": 5.0
+              "size": 805.0
             },
             {
               "price": 0.55,
-              "size": 29434.0
+              "size": 29596.0
             },
             {
               "price": 0.56,
-              "size": 12206.0
+              "size": 12186.0
             },
             {
               "price": 0.57,
-              "size": 10.0
+              "size": 30.0
             },
             {
               "price": 0.58,
@@ -4846,7 +3154,7 @@
             },
             {
               "price": 0.62,
-              "size": 35.31
+              "size": 9.0
             },
             {
               "price": 0.63,
@@ -4859,40 +3167,40 @@
           ],
           "bid": {
             "price": 0.44,
-            "size": 76893.1
+            "size": 205426.99
           },
           "bids": [
             {
               "price": 0.44,
-              "size": 76893.1
+              "size": 205426.99
             },
             {
               "price": 0.43,
-              "size": 118795.96
+              "size": 149017.24
             },
             {
               "price": 0.42,
-              "size": 57514.02
+              "size": 51753.34
             },
             {
               "price": 0.41,
-              "size": 14487.52
+              "size": 19802.77
             },
             {
               "price": 0.4,
-              "size": 9455.0
+              "size": 6785.0
             },
             {
               "price": 0.39,
-              "size": 2745.38
+              "size": 30108.38
             },
             {
               "price": 0.38,
-              "size": 5015.0
+              "size": 5725.0
             },
             {
               "price": 0.37,
-              "size": 25.0
+              "size": 15.0
             },
             {
               "price": 0.36,
@@ -4900,15 +3208,15 @@
             },
             {
               "price": 0.35,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.34,
-              "size": 2463.0
+              "size": 2443.0
             },
             {
               "price": 0.33,
-              "size": 10135.0
+              "size": 10155.0
             },
             {
               "price": 0.32,
@@ -4940,11 +3248,11 @@
             },
             {
               "price": 0.25,
-              "size": 2631.86
+              "size": 2561.15
             }
           ],
-          "bookHash": "aa8a13ee8aa823e538f408bd188bbe7fe86c8ae4",
-          "bookTimestamp": "1788811777517",
+          "bookHash": "3b740cbb2daae71d3044ac3ade16f341fd1bed2a",
+          "bookTimestamp": "1788821435718",
           "lastTradePrice": 0.55,
           "name": "St. Louis Cardinals",
           "tickSize": "0.01",
@@ -4953,40 +3261,40 @@
         {
           "ask": {
             "price": 0.56,
-            "size": 76893.1
+            "size": 205426.99
           },
           "asks": [
             {
               "price": 0.56,
-              "size": 76893.1
+              "size": 205426.99
             },
             {
               "price": 0.57,
-              "size": 118795.96
+              "size": 148921.24
             },
             {
               "price": 0.58,
-              "size": 57514.02
+              "size": 51854.34
             },
             {
               "price": 0.59,
-              "size": 14487.52
+              "size": 19802.77
             },
             {
               "price": 0.6,
-              "size": 9455.0
+              "size": 6785.0
             },
             {
               "price": 0.61,
-              "size": 2745.38
+              "size": 30108.38
             },
             {
               "price": 0.62,
-              "size": 5015.0
+              "size": 5725.0
             },
             {
               "price": 0.63,
-              "size": 25.0
+              "size": 15.0
             },
             {
               "price": 0.64,
@@ -4994,15 +3302,15 @@
             },
             {
               "price": 0.65,
-              "size": 5.0
+              "size": 25.0
             },
             {
               "price": 0.66,
-              "size": 2463.0
+              "size": 2443.0
             },
             {
               "price": 0.67,
-              "size": 10135.0
+              "size": 10155.0
             },
             {
               "price": 0.68,
@@ -5034,65 +3342,65 @@
             },
             {
               "price": 0.75,
-              "size": 2631.86
+              "size": 2561.15
             }
           ],
           "bid": {
             "price": 0.55,
-            "size": 22715.22
+            "size": 61539.47
           },
           "bids": [
             {
               "price": 0.55,
-              "size": 22715.22
+              "size": 61539.47
             },
             {
               "price": 0.54,
-              "size": 135593.98
+              "size": 94843.86
             },
             {
               "price": 0.53,
-              "size": 88169.08
+              "size": 150959.49
             },
             {
               "price": 0.52,
-              "size": 59071.72
+              "size": 77358.82
             },
             {
               "price": 0.51,
-              "size": 18448.91
+              "size": 14950.61
             },
             {
               "price": 0.5,
-              "size": 1955.0
+              "size": 2155.0
             },
             {
               "price": 0.49,
-              "size": 5650.0
+              "size": 5105.0
             },
             {
               "price": 0.48,
-              "size": 790.0
+              "size": 720.0
             },
             {
               "price": 0.47,
-              "size": 805.0
+              "size": 725.0
             },
             {
               "price": 0.46,
-              "size": 5.0
+              "size": 805.0
             },
             {
               "price": 0.45,
-              "size": 29434.0
+              "size": 29596.0
             },
             {
               "price": 0.44,
-              "size": 12206.0
+              "size": 12186.0
             },
             {
               "price": 0.43,
-              "size": 10.0
+              "size": 30.0
             },
             {
               "price": 0.42,
@@ -5112,7 +3420,7 @@
             },
             {
               "price": 0.38,
-              "size": 35.31
+              "size": 9.0
             },
             {
               "price": 0.37,
@@ -5123,8 +3431,8 @@
               "size": 11.0
             }
           ],
-          "bookHash": "016177a47dd223f474fa237e447c624431fd27ba",
-          "bookTimestamp": "1788811777517",
+          "bookHash": "c742df14e2896c1260df7395c17b73b582877ffb",
+          "bookTimestamp": "1788821439241",
           "lastTradePrice": 0.55,
           "name": "San Francisco Giants",
           "tickSize": "0.01",
@@ -5136,7 +3444,7 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "St. Louis Cardinals vs. San Francisco Giants",
-      "volume": 15784.836035000002
+      "volume": 21479.772956000004
     },
     {
       "askSum": 1.01,
@@ -5146,365 +3454,309 @@
       "gameId": 10079449,
       "gameStartTime": "2026-09-07 21:10:00+00",
       "grossEdge": -0.010000000000000009,
-      "liquidity": 400946.8103,
+      "liquidity": 34272.6327,
       "makerBaseFee": 1000,
       "outcomes": [
         {
           "ask": {
-            "price": 0.36,
-            "size": 192390.65
+            "price": 0.19,
+            "size": 21733.27
           },
           "asks": [
             {
-              "price": 0.36,
-              "size": 192390.65
-            },
-            {
-              "price": 0.37,
-              "size": 121855.01
-            },
-            {
-              "price": 0.38,
-              "size": 35087.99
-            },
-            {
-              "price": 0.39,
-              "size": 15070.3
-            },
-            {
-              "price": 0.4,
-              "size": 2431.0
-            },
-            {
-              "price": 0.41,
-              "size": 2705.0
-            },
-            {
-              "price": 0.42,
-              "size": 1955.0
-            },
-            {
-              "price": 0.43,
-              "size": 815.0
-            },
-            {
-              "price": 0.44,
-              "size": 25.0
-            },
-            {
-              "price": 0.45,
-              "size": 5.0
-            },
-            {
-              "price": 0.46,
-              "size": 2442.0
-            },
-            {
-              "price": 0.47,
-              "size": 2833.0
-            },
-            {
-              "price": 0.48,
-              "size": 30.0
-            },
-            {
-              "price": 0.49,
-              "size": 10.0
-            },
-            {
-              "price": 0.5,
-              "size": 11.0
-            },
-            {
-              "price": 0.51,
-              "size": 7.0
-            },
-            {
-              "price": 0.52,
-              "size": 8.0
-            },
-            {
-              "price": 0.53,
-              "size": 8.0
-            },
-            {
-              "price": 0.54,
-              "size": 9.0
-            },
-            {
-              "price": 0.55,
-              "size": 10.0
-            }
-          ],
-          "bid": {
-            "price": 0.35,
-            "size": 101572.6
-          },
-          "bids": [
-            {
-              "price": 0.35,
-              "size": 101572.6
-            },
-            {
-              "price": 0.34,
-              "size": 108547.47
-            },
-            {
-              "price": 0.33,
-              "size": 106242.79
-            },
-            {
-              "price": 0.32,
-              "size": 62619.91
-            },
-            {
-              "price": 0.31,
-              "size": 5243.71
-            },
-            {
-              "price": 0.3,
-              "size": 29902.0
-            },
-            {
-              "price": 0.29,
-              "size": 5795.69
-            },
-            {
-              "price": 0.28,
-              "size": 815.0
-            },
-            {
-              "price": 0.27,
-              "size": 5.0
-            },
-            {
-              "price": 0.26,
-              "size": 26.0
-            },
-            {
-              "price": 0.25,
-              "size": 2444.0
-            },
-            {
-              "price": 0.24,
-              "size": 10863.59
-            },
-            {
-              "price": 0.23,
-              "size": 9.0
-            },
-            {
-              "price": 0.22,
-              "size": 10.0
-            },
-            {
-              "price": 0.21,
-              "size": 11.0
+              "price": 0.19,
+              "size": 21733.27
             },
             {
               "price": 0.2,
-              "size": 132.22
+              "size": 22157.3
             },
             {
-              "price": 0.19,
-              "size": 570.35
+              "price": 0.21,
+              "size": 12109.51
             },
+            {
+              "price": 0.22,
+              "size": 7021.25
+            },
+            {
+              "price": 0.23,
+              "size": 3246.75
+            },
+            {
+              "price": 0.24,
+              "size": 205.0
+            },
+            {
+              "price": 0.25,
+              "size": 110.0
+            },
+            {
+              "price": 0.26,
+              "size": 100.0
+            },
+            {
+              "price": 0.28,
+              "size": 10.0
+            },
+            {
+              "price": 0.29,
+              "size": 1144.0
+            },
+            {
+              "price": 0.42,
+              "size": 468.2
+            },
+            {
+              "price": 0.43,
+              "size": 150.0
+            },
+            {
+              "price": 0.5,
+              "size": 714.0
+            },
+            {
+              "price": 0.59,
+              "size": 801.58
+            },
+            {
+              "price": 0.6,
+              "size": 5.0
+            },
+            {
+              "price": 0.62,
+              "size": 10.0
+            },
+            {
+              "price": 0.65,
+              "size": 105.0
+            },
+            {
+              "price": 0.66,
+              "size": 3031.15
+            },
+            {
+              "price": 0.71,
+              "size": 5774.99
+            },
+            {
+              "price": 0.73,
+              "size": 1025.92
+            }
+          ],
+          "bid": {
+            "price": 0.18,
+            "size": 41439.14
+          },
+          "bids": [
             {
               "price": 0.18,
-              "size": 18.0
+              "size": 41439.14
             },
             {
               "price": 0.17,
-              "size": 20.0
+              "size": 26508.77
             },
             {
               "price": 0.16,
-              "size": 148.19
+              "size": 5276.05
+            },
+            {
+              "price": 0.15,
+              "size": 245.0
+            },
+            {
+              "price": 0.14,
+              "size": 10.0
+            },
+            {
+              "price": 0.08,
+              "size": 1031.5
+            },
+            {
+              "price": 0.07,
+              "size": 5.0
+            },
+            {
+              "price": 0.06,
+              "size": 10.0
+            },
+            {
+              "price": 0.05,
+              "size": 11.86
+            },
+            {
+              "price": 0.04,
+              "size": 75.0
+            },
+            {
+              "price": 0.03,
+              "size": 4288.33
+            },
+            {
+              "price": 0.02,
+              "size": 4562.75
+            },
+            {
+              "price": 0.01,
+              "size": 12888.15
             }
           ],
-          "bookHash": "7dffc70f105fb1c65ea16948f6ebec136ee4556b",
-          "bookTimestamp": "1788811761742",
-          "lastTradePrice": 0.35,
+          "bookHash": "6653fa4769ea1da9edbae9570edb5689ef90ae5e",
+          "bookTimestamp": "1788821439174",
+          "lastTradePrice": 0.81,
           "name": "Washington Nationals",
           "tickSize": "0.01",
           "tokenId": "107631862351169864598684566850972614236118169398734413035880601594045647375991"
         },
         {
           "ask": {
-            "price": 0.65,
-            "size": 101572.6
+            "price": 0.82,
+            "size": 41439.14
           },
           "asks": [
             {
-              "price": 0.65,
-              "size": 101572.6
-            },
-            {
-              "price": 0.66,
-              "size": 108547.47
-            },
-            {
-              "price": 0.67,
-              "size": 106242.79
-            },
-            {
-              "price": 0.68,
-              "size": 62619.91
-            },
-            {
-              "price": 0.69,
-              "size": 5243.71
-            },
-            {
-              "price": 0.7,
-              "size": 29902.0
-            },
-            {
-              "price": 0.71,
-              "size": 5795.69
-            },
-            {
-              "price": 0.72,
-              "size": 815.0
-            },
-            {
-              "price": 0.73,
-              "size": 5.0
-            },
-            {
-              "price": 0.74,
-              "size": 26.0
-            },
-            {
-              "price": 0.75,
-              "size": 2444.0
-            },
-            {
-              "price": 0.76,
-              "size": 10863.59
-            },
-            {
-              "price": 0.77,
-              "size": 9.0
-            },
-            {
-              "price": 0.78,
-              "size": 10.0
-            },
-            {
-              "price": 0.79,
-              "size": 11.0
-            },
-            {
-              "price": 0.8,
-              "size": 132.22
-            },
-            {
-              "price": 0.81,
-              "size": 570.35
-            },
-            {
               "price": 0.82,
-              "size": 18.0
+              "size": 41439.14
             },
             {
               "price": 0.83,
-              "size": 20.0
+              "size": 26508.77
             },
             {
               "price": 0.84,
-              "size": 148.19
-            }
-          ],
-          "bid": {
-            "price": 0.64,
-            "size": 192390.65
-          },
-          "bids": [
-            {
-              "price": 0.64,
-              "size": 192390.65
+              "size": 5276.05
             },
             {
-              "price": 0.63,
-              "size": 121855.01
+              "price": 0.85,
+              "size": 245.0
             },
             {
-              "price": 0.62,
-              "size": 35087.99
+              "price": 0.86,
+              "size": 10.0
             },
             {
-              "price": 0.61,
-              "size": 15070.3
+              "price": 0.92,
+              "size": 1031.5
             },
             {
-              "price": 0.6,
-              "size": 2431.0
-            },
-            {
-              "price": 0.59,
-              "size": 2705.0
-            },
-            {
-              "price": 0.58,
-              "size": 1955.0
-            },
-            {
-              "price": 0.57,
-              "size": 815.0
-            },
-            {
-              "price": 0.56,
-              "size": 25.0
-            },
-            {
-              "price": 0.55,
+              "price": 0.93,
               "size": 5.0
             },
             {
-              "price": 0.54,
-              "size": 2442.0
-            },
-            {
-              "price": 0.53,
-              "size": 2833.0
-            },
-            {
-              "price": 0.52,
-              "size": 30.0
-            },
-            {
-              "price": 0.51,
+              "price": 0.94,
               "size": 10.0
+            },
+            {
+              "price": 0.95,
+              "size": 11.86
+            },
+            {
+              "price": 0.96,
+              "size": 75.0
+            },
+            {
+              "price": 0.97,
+              "size": 3288.33
+            },
+            {
+              "price": 0.98,
+              "size": 4362.75
+            },
+            {
+              "price": 0.99,
+              "size": 13088.15
+            }
+          ],
+          "bid": {
+            "price": 0.81,
+            "size": 21733.27
+          },
+          "bids": [
+            {
+              "price": 0.81,
+              "size": 21733.27
+            },
+            {
+              "price": 0.8,
+              "size": 22157.3
+            },
+            {
+              "price": 0.79,
+              "size": 12109.51
+            },
+            {
+              "price": 0.78,
+              "size": 7021.25
+            },
+            {
+              "price": 0.77,
+              "size": 3246.75
+            },
+            {
+              "price": 0.76,
+              "size": 205.0
+            },
+            {
+              "price": 0.75,
+              "size": 110.0
+            },
+            {
+              "price": 0.74,
+              "size": 100.0
+            },
+            {
+              "price": 0.72,
+              "size": 10.0
+            },
+            {
+              "price": 0.71,
+              "size": 1144.0
+            },
+            {
+              "price": 0.58,
+              "size": 468.2
+            },
+            {
+              "price": 0.57,
+              "size": 150.0
             },
             {
               "price": 0.5,
-              "size": 11.0
+              "size": 714.0
             },
             {
-              "price": 0.49,
-              "size": 7.0
+              "price": 0.41,
+              "size": 801.58
             },
             {
-              "price": 0.48,
-              "size": 8.0
+              "price": 0.4,
+              "size": 5.0
             },
             {
-              "price": 0.47,
-              "size": 8.0
-            },
-            {
-              "price": 0.46,
-              "size": 9.0
-            },
-            {
-              "price": 0.45,
+              "price": 0.38,
               "size": 10.0
+            },
+            {
+              "price": 0.35,
+              "size": 105.0
+            },
+            {
+              "price": 0.34,
+              "size": 3031.15
+            },
+            {
+              "price": 0.29,
+              "size": 5774.99
+            },
+            {
+              "price": 0.27,
+              "size": 1025.92
             }
           ],
-          "bookHash": "8abd4b12d97c72a12e6b45582efdc79b61e488fb",
-          "bookTimestamp": "1788811761742",
-          "lastTradePrice": 0.35,
+          "bookHash": "ac2d1df0ae7b0518bcc6ac3cd4d4462e182da123",
+          "bookTimestamp": "1788821439711",
+          "lastTradePrice": 0.81,
           "name": "San Diego Padres",
           "tickSize": "0.01",
           "tokenId": "56949231909472850701826386248720083616920044714616867774318860525315116542995"
@@ -5515,1891 +3767,17 @@
       "status": "active",
       "takerBaseFee": 1000,
       "title": "Washington Nationals vs. San Diego Padres",
-      "volume": 7058.349849999999
-    },
-    {
-      "askSum": 1.02,
-      "conditionId": "0xddc30002f7e9a9d52f81bf546d45e908b8e1f56eb2e06384a0814ac55c8a32d7",
-      "eventId": "947636",
-      "feesEnabled": true,
-      "gameId": 10079444,
-      "gameStartTime": "2026-09-07 19:10:00+00",
-      "grossEdge": -0.020000000000000018,
-      "liquidity": 32162.7465,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.22,
-            "size": 3996.15
-          },
-          "asks": [
-            {
-              "price": 0.22,
-              "size": 3996.15
-            },
-            {
-              "price": 0.23,
-              "size": 3179.37
-            },
-            {
-              "price": 0.24,
-              "size": 542.0
-            },
-            {
-              "price": 0.25,
-              "size": 1146.0
-            },
-            {
-              "price": 0.26,
-              "size": 1429.0
-            },
-            {
-              "price": 0.27,
-              "size": 171.0
-            },
-            {
-              "price": 0.31,
-              "size": 1621.0
-            },
-            {
-              "price": 0.41,
-              "size": 1813.0
-            },
-            {
-              "price": 0.43,
-              "size": 16.66
-            },
-            {
-              "price": 0.44,
-              "size": 653.28
-            },
-            {
-              "price": 0.48,
-              "size": 281.3
-            },
-            {
-              "price": 0.49,
-              "size": 282.0
-            },
-            {
-              "price": 0.5,
-              "size": 284.5
-            },
-            {
-              "price": 0.57,
-              "size": 795.23
-            },
-            {
-              "price": 0.64,
-              "size": 1239.99
-            },
-            {
-              "price": 0.68,
-              "size": 630.0
-            },
-            {
-              "price": 0.69,
-              "size": 645.16
-            },
-            {
-              "price": 0.7,
-              "size": 8251.66
-            },
-            {
-              "price": 0.71,
-              "size": 6392.34
-            },
-            {
-              "price": 0.72,
-              "size": 892.85
-            }
-          ],
-          "bid": {
-            "price": 0.2,
-            "size": 2288.04
-          },
-          "bids": [
-            {
-              "price": 0.2,
-              "size": 2288.04
-            },
-            {
-              "price": 0.19,
-              "size": 11316.53
-            },
-            {
-              "price": 0.18,
-              "size": 5306.06
-            },
-            {
-              "price": 0.17,
-              "size": 505.0
-            },
-            {
-              "price": 0.16,
-              "size": 1462.0
-            },
-            {
-              "price": 0.15,
-              "size": 5.0
-            },
-            {
-              "price": 0.11,
-              "size": 1825.0
-            },
-            {
-              "price": 0.08,
-              "size": 12.5
-            },
-            {
-              "price": 0.05,
-              "size": 12.48
-            },
-            {
-              "price": 0.04,
-              "size": 8640.0
-            },
-            {
-              "price": 0.03,
-              "size": 3488.33
-            },
-            {
-              "price": 0.02,
-              "size": 4364.41
-            },
-            {
-              "price": 0.01,
-              "size": 9361.75
-            }
-          ],
-          "bookHash": "0555b892490989493c940da00d2da8b05753f2de",
-          "bookTimestamp": "1788811788631",
-          "lastTradePrice": 0.77,
-          "name": "Minnesota Twins",
-          "tickSize": "0.01",
-          "tokenId": "5736759365322383160662508261299662668662704149447069313513938442894890013957"
-        },
-        {
-          "ask": {
-            "price": 0.8,
-            "size": 2288.04
-          },
-          "asks": [
-            {
-              "price": 0.8,
-              "size": 2288.04
-            },
-            {
-              "price": 0.81,
-              "size": 11316.53
-            },
-            {
-              "price": 0.82,
-              "size": 5306.06
-            },
-            {
-              "price": 0.83,
-              "size": 505.0
-            },
-            {
-              "price": 0.84,
-              "size": 1462.0
-            },
-            {
-              "price": 0.85,
-              "size": 5.0
-            },
-            {
-              "price": 0.89,
-              "size": 1825.0
-            },
-            {
-              "price": 0.92,
-              "size": 12.5
-            },
-            {
-              "price": 0.95,
-              "size": 12.48
-            },
-            {
-              "price": 0.96,
-              "size": 8640.0
-            },
-            {
-              "price": 0.97,
-              "size": 3488.33
-            },
-            {
-              "price": 0.98,
-              "size": 4364.41
-            },
-            {
-              "price": 0.99,
-              "size": 9361.75
-            }
-          ],
-          "bid": {
-            "price": 0.78,
-            "size": 3996.15
-          },
-          "bids": [
-            {
-              "price": 0.78,
-              "size": 3996.15
-            },
-            {
-              "price": 0.77,
-              "size": 3179.37
-            },
-            {
-              "price": 0.76,
-              "size": 542.0
-            },
-            {
-              "price": 0.75,
-              "size": 1146.0
-            },
-            {
-              "price": 0.74,
-              "size": 1429.0
-            },
-            {
-              "price": 0.73,
-              "size": 171.0
-            },
-            {
-              "price": 0.69,
-              "size": 1621.0
-            },
-            {
-              "price": 0.59,
-              "size": 1813.0
-            },
-            {
-              "price": 0.57,
-              "size": 16.66
-            },
-            {
-              "price": 0.56,
-              "size": 653.28
-            },
-            {
-              "price": 0.52,
-              "size": 281.3
-            },
-            {
-              "price": 0.51,
-              "size": 282.0
-            },
-            {
-              "price": 0.5,
-              "size": 284.5
-            },
-            {
-              "price": 0.43,
-              "size": 795.23
-            },
-            {
-              "price": 0.36,
-              "size": 1239.99
-            },
-            {
-              "price": 0.32,
-              "size": 630.0
-            },
-            {
-              "price": 0.31,
-              "size": 645.16
-            },
-            {
-              "price": 0.3,
-              "size": 8918.32
-            },
-            {
-              "price": 0.29,
-              "size": 6392.34
-            },
-            {
-              "price": 0.28,
-              "size": 892.85
-            }
-          ],
-          "bookHash": "d91302597b269a6f1dca0911042a9d78f06e795a",
-          "bookTimestamp": "1788811788643",
-          "lastTradePrice": 0.77,
-          "name": "Detroit Tigers",
-          "tickSize": "0.01",
-          "tokenId": "60234376227220931688026562213634053040009732478647373437917409381672164221888"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-min-det-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Minnesota Twins vs. Detroit Tigers",
-      "volume": 77838.88980399996
-    },
-    {
-      "askSum": 1.01,
-      "conditionId": "0xdc1e8ef6649b1610e3454f539f3f493668bf90061960341c437d04f0fc56d5df",
-      "eventId": "947635",
-      "feesEnabled": true,
-      "gameId": 10079448,
-      "gameStartTime": "2026-09-07 18:10:00+00",
-      "grossEdge": -0.010000000000000009,
-      "liquidity": 63840.6824,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.72,
-            "size": 57833.8
-          },
-          "asks": [
-            {
-              "price": 0.72,
-              "size": 57833.8
-            },
-            {
-              "price": 0.73,
-              "size": 4943.59
-            },
-            {
-              "price": 0.74,
-              "size": 1330.7
-            },
-            {
-              "price": 0.76,
-              "size": 75.0
-            },
-            {
-              "price": 0.77,
-              "size": 5.0
-            },
-            {
-              "price": 0.78,
-              "size": 5.0
-            },
-            {
-              "price": 0.87,
-              "size": 90.0
-            },
-            {
-              "price": 0.88,
-              "size": 200.0
-            },
-            {
-              "price": 0.92,
-              "size": 1875.0
-            },
-            {
-              "price": 0.93,
-              "size": 5.41
-            },
-            {
-              "price": 0.94,
-              "size": 19399.33
-            },
-            {
-              "price": 0.95,
-              "size": 155.0
-            },
-            {
-              "price": 0.96,
-              "size": 455.0
-            },
-            {
-              "price": 0.97,
-              "size": 2260.05
-            },
-            {
-              "price": 0.98,
-              "size": 5855.0
-            },
-            {
-              "price": 0.99,
-              "size": 17006.9
-            }
-          ],
-          "bid": {
-            "price": 0.71,
-            "size": 779.2
-          },
-          "bids": [
-            {
-              "price": 0.71,
-              "size": 779.2
-            },
-            {
-              "price": 0.7,
-              "size": 26337.95
-            },
-            {
-              "price": 0.69,
-              "size": 2117.29
-            },
-            {
-              "price": 0.68,
-              "size": 10643.12
-            },
-            {
-              "price": 0.67,
-              "size": 100.0
-            },
-            {
-              "price": 0.66,
-              "size": 10.0
-            },
-            {
-              "price": 0.6,
-              "size": 86.0
-            },
-            {
-              "price": 0.59,
-              "size": 200.0
-            },
-            {
-              "price": 0.49,
-              "size": 716.04
-            },
-            {
-              "price": 0.47,
-              "size": 14.38
-            },
-            {
-              "price": 0.42,
-              "size": 5.0
-            },
-            {
-              "price": 0.41,
-              "size": 801.58
-            },
-            {
-              "price": 0.38,
-              "size": 5.0
-            },
-            {
-              "price": 0.37,
-              "size": 2120.0
-            },
-            {
-              "price": 0.36,
-              "size": 6749.99
-            },
-            {
-              "price": 0.35,
-              "size": 2142.83
-            },
-            {
-              "price": 0.32,
-              "size": 500.0
-            },
-            {
-              "price": 0.29,
-              "size": 1551.71
-            },
-            {
-              "price": 0.27,
-              "size": 5584.71
-            },
-            {
-              "price": 0.25,
-              "size": 3120.0
-            }
-          ],
-          "bookHash": "2566dc5ef70169f30526a5d7b91aef2c576d4fa2",
-          "bookTimestamp": "1788811788682",
-          "lastTradePrice": 0.71,
-          "name": "Chicago Cubs",
-          "tickSize": "0.01",
-          "tokenId": "28363983524196036173299032276240333740395674084295428337879028558282719662101"
-        },
-        {
-          "ask": {
-            "price": 0.29,
-            "size": 779.2
-          },
-          "asks": [
-            {
-              "price": 0.29,
-              "size": 779.2
-            },
-            {
-              "price": 0.3,
-              "size": 26337.95
-            },
-            {
-              "price": 0.31,
-              "size": 2117.29
-            },
-            {
-              "price": 0.32,
-              "size": 10643.12
-            },
-            {
-              "price": 0.33,
-              "size": 100.0
-            },
-            {
-              "price": 0.34,
-              "size": 10.0
-            },
-            {
-              "price": 0.4,
-              "size": 86.0
-            },
-            {
-              "price": 0.41,
-              "size": 200.0
-            },
-            {
-              "price": 0.51,
-              "size": 716.04
-            },
-            {
-              "price": 0.53,
-              "size": 14.38
-            },
-            {
-              "price": 0.58,
-              "size": 5.0
-            },
-            {
-              "price": 0.59,
-              "size": 801.58
-            },
-            {
-              "price": 0.62,
-              "size": 5.0
-            },
-            {
-              "price": 0.63,
-              "size": 2120.0
-            },
-            {
-              "price": 0.64,
-              "size": 6749.99
-            },
-            {
-              "price": 0.65,
-              "size": 2142.83
-            },
-            {
-              "price": 0.68,
-              "size": 500.0
-            },
-            {
-              "price": 0.71,
-              "size": 1551.71
-            },
-            {
-              "price": 0.73,
-              "size": 5584.71
-            },
-            {
-              "price": 0.75,
-              "size": 3120.0
-            }
-          ],
-          "bid": {
-            "price": 0.28,
-            "size": 57833.8
-          },
-          "bids": [
-            {
-              "price": 0.28,
-              "size": 57833.8
-            },
-            {
-              "price": 0.27,
-              "size": 4943.59
-            },
-            {
-              "price": 0.26,
-              "size": 1330.7
-            },
-            {
-              "price": 0.24,
-              "size": 75.0
-            },
-            {
-              "price": 0.23,
-              "size": 5.0
-            },
-            {
-              "price": 0.22,
-              "size": 5.0
-            },
-            {
-              "price": 0.13,
-              "size": 90.0
-            },
-            {
-              "price": 0.12,
-              "size": 200.0
-            },
-            {
-              "price": 0.08,
-              "size": 1875.0
-            },
-            {
-              "price": 0.07,
-              "size": 5.41
-            },
-            {
-              "price": 0.06,
-              "size": 19399.33
-            },
-            {
-              "price": 0.05,
-              "size": 155.0
-            },
-            {
-              "price": 0.04,
-              "size": 455.0
-            },
-            {
-              "price": 0.03,
-              "size": 2260.05
-            },
-            {
-              "price": 0.02,
-              "size": 5855.0
-            },
-            {
-              "price": 0.01,
-              "size": 17006.9
-            }
-          ],
-          "bookHash": "44d40db8263636f41e6c183d46888655feafc206",
-          "bookTimestamp": "1788811788682",
-          "lastTradePrice": 0.71,
-          "name": "Milwaukee Brewers",
-          "tickSize": "0.01",
-          "tokenId": "58806152537799121016572876428283030679643815872058270942042368736993999904219"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-chc-mil-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Chicago Cubs vs. Milwaukee Brewers",
-      "volume": 92001.16893799997
-    },
-    {
-      "askSum": 1.04,
-      "conditionId": "0x3dbf759fa4640a47ea99d2dbaaf6925dfb99337c68190c886207a895eb376640",
-      "eventId": "947634",
-      "feesEnabled": true,
-      "gameId": 10079447,
-      "gameStartTime": "2026-09-07 18:10:00+00",
-      "grossEdge": -0.040000000000000036,
-      "liquidity": 78918.0065,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.43,
-            "size": 1000.0
-          },
-          "asks": [
-            {
-              "price": 0.43,
-              "size": 1000.0
-            },
-            {
-              "price": 0.44,
-              "size": 275.8
-            },
-            {
-              "price": 0.47,
-              "size": 615.99
-            },
-            {
-              "price": 0.48,
-              "size": 5.0
-            },
-            {
-              "price": 0.49,
-              "size": 85.0
-            },
-            {
-              "price": 0.5,
-              "size": 954.0
-            },
-            {
-              "price": 0.59,
-              "size": 200.0
-            },
-            {
-              "price": 0.66,
-              "size": 5.0
-            },
-            {
-              "price": 0.67,
-              "size": 687.87
-            },
-            {
-              "price": 0.72,
-              "size": 2000.0
-            },
-            {
-              "price": 0.73,
-              "size": 8184.81
-            },
-            {
-              "price": 0.74,
-              "size": 3036.29
-            },
-            {
-              "price": 0.77,
-              "size": 7350.14
-            },
-            {
-              "price": 0.79,
-              "size": 2761.9
-            },
-            {
-              "price": 0.8,
-              "size": 6650.0
-            },
-            {
-              "price": 0.82,
-              "size": 3165.54
-            },
-            {
-              "price": 0.84,
-              "size": 1562.5
-            },
-            {
-              "price": 0.85,
-              "size": 15411.99
-            },
-            {
-              "price": 0.87,
-              "size": 155.0
-            },
-            {
-              "price": 0.88,
-              "size": 2500.0
-            }
-          ],
-          "bid": {
-            "price": 0.39,
-            "size": 30.0
-          },
-          "bids": [
-            {
-              "price": 0.39,
-              "size": 30.0
-            },
-            {
-              "price": 0.38,
-              "size": 5.0
-            },
-            {
-              "price": 0.37,
-              "size": 12.0
-            },
-            {
-              "price": 0.36,
-              "size": 25.0
-            },
-            {
-              "price": 0.35,
-              "size": 37.0
-            },
-            {
-              "price": 0.34,
-              "size": 38.0
-            },
-            {
-              "price": 0.33,
-              "size": 58.0
-            },
-            {
-              "price": 0.3,
-              "size": 83.0
-            },
-            {
-              "price": 0.19,
-              "size": 10.0
-            },
-            {
-              "price": 0.18,
-              "size": 10.0
-            },
-            {
-              "price": 0.17,
-              "size": 200.0
-            },
-            {
-              "price": 0.15,
-              "size": 15.5
-            },
-            {
-              "price": 0.12,
-              "size": 10.0
-            },
-            {
-              "price": 0.1,
-              "size": 200.0
-            },
-            {
-              "price": 0.06,
-              "size": 18.31
-            },
-            {
-              "price": 0.05,
-              "size": 805.0
-            },
-            {
-              "price": 0.04,
-              "size": 3905.0
-            },
-            {
-              "price": 0.03,
-              "size": 2440.0
-            },
-            {
-              "price": 0.02,
-              "size": 5661.56
-            },
-            {
-              "price": 0.01,
-              "size": 7705.0
-            }
-          ],
-          "bookHash": "5d8b665590ead069a82b63f7f530d446ecf149ba",
-          "bookTimestamp": "1788811789282",
-          "lastTradePrice": 0.57,
-          "name": "Arizona Diamondbacks",
-          "tickSize": "0.01",
-          "tokenId": "107287922269972279043235280841337647399553479148370703994474802608952930298861"
-        },
-        {
-          "ask": {
-            "price": 0.61,
-            "size": 30.0
-          },
-          "asks": [
-            {
-              "price": 0.61,
-              "size": 30.0
-            },
-            {
-              "price": 0.62,
-              "size": 5.0
-            },
-            {
-              "price": 0.63,
-              "size": 22.0
-            },
-            {
-              "price": 0.64,
-              "size": 75.0
-            },
-            {
-              "price": 0.65,
-              "size": 25.0
-            },
-            {
-              "price": 0.66,
-              "size": 38.0
-            },
-            {
-              "price": 0.67,
-              "size": 58.0
-            },
-            {
-              "price": 0.7,
-              "size": 83.0
-            },
-            {
-              "price": 0.79,
-              "size": 45.0
-            },
-            {
-              "price": 0.81,
-              "size": 10.0
-            },
-            {
-              "price": 0.82,
-              "size": 10.0
-            },
-            {
-              "price": 0.83,
-              "size": 200.0
-            },
-            {
-              "price": 0.85,
-              "size": 15.5
-            },
-            {
-              "price": 0.88,
-              "size": 10.0
-            },
-            {
-              "price": 0.9,
-              "size": 200.0
-            },
-            {
-              "price": 0.94,
-              "size": 18.31
-            },
-            {
-              "price": 0.95,
-              "size": 805.0
-            },
-            {
-              "price": 0.96,
-              "size": 1410.0
-            },
-            {
-              "price": 0.97,
-              "size": 5120.0
-            },
-            {
-              "price": 0.98,
-              "size": 5661.56
-            }
-          ],
-          "bid": {
-            "price": 0.56,
-            "size": 202.68
-          },
-          "bids": [
-            {
-              "price": 0.56,
-              "size": 202.68
-            },
-            {
-              "price": 0.53,
-              "size": 604.29
-            },
-            {
-              "price": 0.51,
-              "size": 85.0
-            },
-            {
-              "price": 0.5,
-              "size": 954.0
-            },
-            {
-              "price": 0.41,
-              "size": 200.0
-            },
-            {
-              "price": 0.34,
-              "size": 5.0
-            },
-            {
-              "price": 0.33,
-              "size": 687.87
-            },
-            {
-              "price": 0.28,
-              "size": 2000.0
-            },
-            {
-              "price": 0.27,
-              "size": 8925.55
-            },
-            {
-              "price": 0.26,
-              "size": 2736.29
-            },
-            {
-              "price": 0.23,
-              "size": 7350.14
-            },
-            {
-              "price": 0.21,
-              "size": 2761.9
-            },
-            {
-              "price": 0.2,
-              "size": 6650.0
-            },
-            {
-              "price": 0.18,
-              "size": 3165.54
-            },
-            {
-              "price": 0.16,
-              "size": 1562.5
-            },
-            {
-              "price": 0.15,
-              "size": 15411.99
-            },
-            {
-              "price": 0.13,
-              "size": 155.0
-            },
-            {
-              "price": 0.12,
-              "size": 2500.0
-            },
-            {
-              "price": 0.1,
-              "size": 15500.0
-            },
-            {
-              "price": 0.08,
-              "size": 250.0
-            }
-          ],
-          "bookHash": "e7e6eab1fafa688becc0acd8e267a4e8b4225d23",
-          "bookTimestamp": "1788811789439",
-          "lastTradePrice": 0.56,
-          "name": "Kansas City Royals",
-          "tickSize": "0.01",
-          "tokenId": "15578962490046182623390062567120421375718022690116363396364807646610845988970"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-ari-kc-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Arizona Diamondbacks vs. Kansas City Royals",
-      "volume": 623896.2776469995
-    },
-    {
-      "askSum": 1.005,
-      "conditionId": "0x967ae947189baf7b87b23854bcc33d6a599dfdf8ca1887a90a77af4540b26a01",
-      "eventId": "947633",
-      "feesEnabled": true,
-      "gameId": 10079441,
-      "gameStartTime": "2026-09-07 17:35:00+00",
-      "grossEdge": -0.004999999999999893,
-      "liquidity": 30102.68031,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.02,
-            "size": 313.0
-          },
-          "asks": [
-            {
-              "price": 0.02,
-              "size": 313.0
-            },
-            {
-              "price": 0.023,
-              "size": 1000.0
-            },
-            {
-              "price": 0.024,
-              "size": 74.97
-            },
-            {
-              "price": 0.025,
-              "size": 1000.0
-            },
-            {
-              "price": 0.029,
-              "size": 68.0
-            },
-            {
-              "price": 0.03,
-              "size": 7141.71
-            },
-            {
-              "price": 0.04,
-              "size": 2275.0
-            },
-            {
-              "price": 0.05,
-              "size": 100.0
-            },
-            {
-              "price": 0.06,
-              "size": 5.0
-            },
-            {
-              "price": 0.061,
-              "size": 360.0
-            },
-            {
-              "price": 0.08,
-              "size": 5.0
-            },
-            {
-              "price": 0.09,
-              "size": 10.0
-            },
-            {
-              "price": 0.1,
-              "size": 5.0
-            },
-            {
-              "price": 0.119,
-              "size": 870.0
-            },
-            {
-              "price": 0.12,
-              "size": 108.81
-            },
-            {
-              "price": 0.14,
-              "size": 100.0
-            },
-            {
-              "price": 0.16,
-              "size": 100.0
-            },
-            {
-              "price": 0.2,
-              "size": 300.0
-            },
-            {
-              "price": 0.21,
-              "size": 17.72
-            },
-            {
-              "price": 0.22,
-              "size": 5.95
-            }
-          ],
-          "bid": {
-            "price": 0.015,
-            "size": 10.0
-          },
-          "bids": [
-            {
-              "price": 0.015,
-              "size": 10.0
-            },
-            {
-              "price": 0.014,
-              "size": 33.0
-            },
-            {
-              "price": 0.013,
-              "size": 1000.0
-            },
-            {
-              "price": 0.012,
-              "size": 110.0
-            },
-            {
-              "price": 0.011,
-              "size": 33.0
-            },
-            {
-              "price": 0.01,
-              "size": 989.85
-            },
-            {
-              "price": 0.007,
-              "size": 25.0
-            },
-            {
-              "price": 0.006,
-              "size": 450.0
-            },
-            {
-              "price": 0.003,
-              "size": 1750.0
-            },
-            {
-              "price": 0.002,
-              "size": 163.25
-            },
-            {
-              "price": 0.001,
-              "size": 7104.16
-            }
-          ],
-          "bookHash": "a238a1e9fd90b8859ca8a32051419951ebe45a3e",
-          "bookTimestamp": "1788811789591",
-          "lastTradePrice": 0.013,
-          "name": "Los Angeles Angels",
-          "tickSize": "0.001",
-          "tokenId": "95282682237520651194899782362232010397488330165707436462963088968294079497349"
-        },
-        {
-          "ask": {
-            "price": 0.985,
-            "size": 10.0
-          },
-          "asks": [
-            {
-              "price": 0.985,
-              "size": 10.0
-            },
-            {
-              "price": 0.986,
-              "size": 33.0
-            },
-            {
-              "price": 0.987,
-              "size": 1000.0
-            },
-            {
-              "price": 0.988,
-              "size": 110.0
-            },
-            {
-              "price": 0.989,
-              "size": 33.0
-            },
-            {
-              "price": 0.99,
-              "size": 989.85
-            },
-            {
-              "price": 0.993,
-              "size": 25.0
-            },
-            {
-              "price": 0.994,
-              "size": 450.0
-            },
-            {
-              "price": 0.997,
-              "size": 1750.0
-            },
-            {
-              "price": 0.998,
-              "size": 163.25
-            },
-            {
-              "price": 0.999,
-              "size": 7104.16
-            }
-          ],
-          "bid": {
-            "price": 0.98,
-            "size": 313.0
-          },
-          "bids": [
-            {
-              "price": 0.98,
-              "size": 313.0
-            },
-            {
-              "price": 0.978,
-              "size": 69.97
-            },
-            {
-              "price": 0.976,
-              "size": 5.0
-            },
-            {
-              "price": 0.975,
-              "size": 1000.0
-            },
-            {
-              "price": 0.971,
-              "size": 68.0
-            },
-            {
-              "price": 0.97,
-              "size": 7141.71
-            },
-            {
-              "price": 0.96,
-              "size": 2275.0
-            },
-            {
-              "price": 0.95,
-              "size": 100.0
-            },
-            {
-              "price": 0.94,
-              "size": 5.0
-            },
-            {
-              "price": 0.939,
-              "size": 360.0
-            },
-            {
-              "price": 0.92,
-              "size": 5.0
-            },
-            {
-              "price": 0.91,
-              "size": 10.0
-            },
-            {
-              "price": 0.9,
-              "size": 5.0
-            },
-            {
-              "price": 0.881,
-              "size": 870.0
-            },
-            {
-              "price": 0.88,
-              "size": 108.81
-            },
-            {
-              "price": 0.86,
-              "size": 100.0
-            },
-            {
-              "price": 0.84,
-              "size": 100.0
-            },
-            {
-              "price": 0.8,
-              "size": 300.0
-            },
-            {
-              "price": 0.79,
-              "size": 17.72
-            },
-            {
-              "price": 0.78,
-              "size": 5.95
-            }
-          ],
-          "bookHash": "5d57a44162a6d972c3855763de0861418d200017",
-          "bookTimestamp": "1788811789756",
-          "lastTradePrice": 0.013,
-          "name": "Boston Red Sox",
-          "tickSize": "0.001",
-          "tokenId": "15967961933745068819630353006056101316088918824688550763282263730773167508489"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-laa-bos-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Los Angeles Angels vs. Boston Red Sox",
-      "volume": 161130.36601399985
-    },
-    {
-      "askSum": 1.008,
-      "conditionId": "0x268c6b546ca3a86c5603d85cd09c833102c782660891197f8e96e6f8bc83b292",
-      "eventId": "947632",
-      "feesEnabled": true,
-      "gameId": 10079446,
-      "gameStartTime": "2026-09-07 17:35:00+00",
-      "grossEdge": -0.008000000000000007,
-      "liquidity": 25890.9615,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.016,
-            "size": 33.0
-          },
-          "asks": [
-            {
-              "price": 0.016,
-              "size": 33.0
-            },
-            {
-              "price": 0.017,
-              "size": 139.99
-            },
-            {
-              "price": 0.018,
-              "size": 546.0
-            },
-            {
-              "price": 0.02,
-              "size": 114.52
-            },
-            {
-              "price": 0.023,
-              "size": 1000.0
-            },
-            {
-              "price": 0.024,
-              "size": 5.0
-            },
-            {
-              "price": 0.029,
-              "size": 10.0
-            },
-            {
-              "price": 0.03,
-              "size": 2195.0
-            },
-            {
-              "price": 0.04,
-              "size": 2190.0
-            },
-            {
-              "price": 0.05,
-              "size": 13.42
-            },
-            {
-              "price": 0.07,
-              "size": 27.16
-            },
-            {
-              "price": 0.1,
-              "size": 10.0
-            },
-            {
-              "price": 0.15,
-              "size": 103.0
-            },
-            {
-              "price": 0.255,
-              "size": 320.0
-            },
-            {
-              "price": 0.27,
-              "size": 100.0
-            },
-            {
-              "price": 0.285,
-              "size": 126.0
-            },
-            {
-              "price": 0.317,
-              "size": 634.0
-            },
-            {
-              "price": 0.35,
-              "size": 120.0
-            },
-            {
-              "price": 0.36,
-              "size": 460.12
-            },
-            {
-              "price": 0.4,
-              "size": 5.0
-            }
-          ],
-          "bid": {
-            "price": 0.008,
-            "size": 3874.87
-          },
-          "bids": [
-            {
-              "price": 0.008,
-              "size": 3874.87
-            },
-            {
-              "price": 0.006,
-              "size": 200.0
-            },
-            {
-              "price": 0.003,
-              "size": 1750.0
-            },
-            {
-              "price": 0.002,
-              "size": 144.59
-            },
-            {
-              "price": 0.001,
-              "size": 4112.38
-            }
-          ],
-          "bookHash": "7c740190ad32fd87794910c43cfd9822a1cbc5f2",
-          "bookTimestamp": "1788811789837",
-          "lastTradePrice": 0.99,
-          "name": "Cleveland Guardians",
-          "tickSize": "0.001",
-          "tokenId": "48394143081432724606498329616053599541730630486284864632536681809300272018280"
-        },
-        {
-          "ask": {
-            "price": 0.992,
-            "size": 3874.87
-          },
-          "asks": [
-            {
-              "price": 0.992,
-              "size": 3874.87
-            },
-            {
-              "price": 0.994,
-              "size": 200.0
-            },
-            {
-              "price": 0.997,
-              "size": 1750.0
-            },
-            {
-              "price": 0.998,
-              "size": 144.59
-            },
-            {
-              "price": 0.999,
-              "size": 4112.38
-            }
-          ],
-          "bid": {
-            "price": 0.984,
-            "size": 33.0
-          },
-          "bids": [
-            {
-              "price": 0.984,
-              "size": 33.0
-            },
-            {
-              "price": 0.983,
-              "size": 139.99
-            },
-            {
-              "price": 0.982,
-              "size": 546.0
-            },
-            {
-              "price": 0.98,
-              "size": 114.52
-            },
-            {
-              "price": 0.976,
-              "size": 5.0
-            },
-            {
-              "price": 0.971,
-              "size": 10.0
-            },
-            {
-              "price": 0.97,
-              "size": 2195.0
-            },
-            {
-              "price": 0.96,
-              "size": 2190.0
-            },
-            {
-              "price": 0.95,
-              "size": 13.42
-            },
-            {
-              "price": 0.93,
-              "size": 27.16
-            },
-            {
-              "price": 0.9,
-              "size": 10.0
-            },
-            {
-              "price": 0.85,
-              "size": 103.0
-            },
-            {
-              "price": 0.745,
-              "size": 320.0
-            },
-            {
-              "price": 0.73,
-              "size": 100.0
-            },
-            {
-              "price": 0.683,
-              "size": 760.0
-            },
-            {
-              "price": 0.65,
-              "size": 120.0
-            },
-            {
-              "price": 0.64,
-              "size": 460.12
-            },
-            {
-              "price": 0.6,
-              "size": 5.0
-            },
-            {
-              "price": 0.57,
-              "size": 174.14
-            },
-            {
-              "price": 0.51,
-              "size": 44.98
-            }
-          ],
-          "bookHash": "35bb222042e25740e2b4d47535e45579b63b479c",
-          "bookTimestamp": "1788811790072",
-          "lastTradePrice": 0.99,
-          "name": "Baltimore Orioles",
-          "tickSize": "0.001",
-          "tokenId": "87848766938956288597041762595920786041144015572706129340386235952546019883417"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-cle-bal-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "Cleveland Guardians vs. Baltimore Orioles",
-      "volume": 248528.32662599985
-    },
-    {
-      "askSum": 1.004,
-      "conditionId": "0x3f3236a2c93b325b205bb40dc7ce5f456545e2e0bff1c25eca28d2eb96ba3e0d",
-      "eventId": "947631",
-      "feesEnabled": true,
-      "gameId": 10079445,
-      "gameStartTime": "2026-09-07 17:10:00+00",
-      "grossEdge": -0.0040000000000000036,
-      "liquidity": 25061.07855,
-      "makerBaseFee": 1000,
-      "outcomes": [
-        {
-          "ask": {
-            "price": 0.994,
-            "size": 49.19
-          },
-          "asks": [
-            {
-              "price": 0.994,
-              "size": 49.19
-            },
-            {
-              "price": 0.996,
-              "size": 59.99
-            },
-            {
-              "price": 0.997,
-              "size": 1250.0
-            },
-            {
-              "price": 0.998,
-              "size": 1000.0
-            },
-            {
-              "price": 0.999,
-              "size": 4768.16
-            }
-          ],
-          "bid": {
-            "price": 0.99,
-            "size": 1477.9
-          },
-          "bids": [
-            {
-              "price": 0.99,
-              "size": 1477.9
-            },
-            {
-              "price": 0.987,
-              "size": 1000.0
-            },
-            {
-              "price": 0.981,
-              "size": 144.0
-            },
-            {
-              "price": 0.98,
-              "size": 135.0
-            },
-            {
-              "price": 0.971,
-              "size": 10.0
-            },
-            {
-              "price": 0.97,
-              "size": 2164.91
-            },
-            {
-              "price": 0.96,
-              "size": 2245.0
-            },
-            {
-              "price": 0.95,
-              "size": 10.0
-            },
-            {
-              "price": 0.9,
-              "size": 200.0
-            },
-            {
-              "price": 0.853,
-              "size": 140.27
-            },
-            {
-              "price": 0.852,
-              "size": 165.0
-            },
-            {
-              "price": 0.851,
-              "size": 923.0
-            },
-            {
-              "price": 0.85,
-              "size": 300.0
-            },
-            {
-              "price": 0.811,
-              "size": 40.0
-            },
-            {
-              "price": 0.81,
-              "size": 400.0
-            },
-            {
-              "price": 0.771,
-              "size": 320.0
-            },
-            {
-              "price": 0.73,
-              "size": 100.0
-            },
-            {
-              "price": 0.701,
-              "size": 200.0
-            },
-            {
-              "price": 0.7,
-              "size": 950.0
-            },
-            {
-              "price": 0.618,
-              "size": 482.9
-            }
-          ],
-          "bookHash": "37fa597fbbb3efd26241c384984b7af1ccc773cb",
-          "bookTimestamp": "1788811786871",
-          "lastTradePrice": 0.006,
-          "name": "New York Mets",
-          "tickSize": "0.001",
-          "tokenId": "30813948076980025285772570627078077492292780478248806225112829601594116065121"
-        },
-        {
-          "ask": {
-            "price": 0.01,
-            "size": 1477.9
-          },
-          "asks": [
-            {
-              "price": 0.01,
-              "size": 1477.9
-            },
-            {
-              "price": 0.013,
-              "size": 1000.0
-            },
-            {
-              "price": 0.019,
-              "size": 144.0
-            },
-            {
-              "price": 0.02,
-              "size": 135.0
-            },
-            {
-              "price": 0.029,
-              "size": 10.0
-            },
-            {
-              "price": 0.03,
-              "size": 2164.91
-            },
-            {
-              "price": 0.04,
-              "size": 2245.0
-            },
-            {
-              "price": 0.05,
-              "size": 10.0
-            },
-            {
-              "price": 0.1,
-              "size": 200.0
-            },
-            {
-              "price": 0.147,
-              "size": 140.27
-            },
-            {
-              "price": 0.148,
-              "size": 165.0
-            },
-            {
-              "price": 0.149,
-              "size": 923.0
-            },
-            {
-              "price": 0.15,
-              "size": 300.0
-            },
-            {
-              "price": 0.189,
-              "size": 40.0
-            },
-            {
-              "price": 0.19,
-              "size": 400.0
-            },
-            {
-              "price": 0.229,
-              "size": 320.0
-            },
-            {
-              "price": 0.27,
-              "size": 100.0
-            },
-            {
-              "price": 0.299,
-              "size": 200.0
-            },
-            {
-              "price": 0.3,
-              "size": 950.0
-            },
-            {
-              "price": 0.382,
-              "size": 482.9
-            }
-          ],
-          "bid": {
-            "price": 0.006,
-            "size": 49.19
-          },
-          "bids": [
-            {
-              "price": 0.006,
-              "size": 49.19
-            },
-            {
-              "price": 0.004,
-              "size": 59.99
-            },
-            {
-              "price": 0.003,
-              "size": 1250.0
-            },
-            {
-              "price": 0.002,
-              "size": 1000.0
-            },
-            {
-              "price": 0.001,
-              "size": 4768.16
-            }
-          ],
-          "bookHash": "d8547c422eb3eb4aa68c811d65d82d2025434653",
-          "bookTimestamp": "1788811786871",
-          "lastTradePrice": 0.006,
-          "name": "Miami Marlins",
-          "tickSize": "0.001",
-          "tokenId": "92737539462623020744762493992321355690655686416231628770856492623139021093492"
-        }
-      ],
-      "signal": "NO TRADE",
-      "slug": "mlb-nym-mia-2026-09-07",
-      "status": "active",
-      "takerBaseFee": 1000,
-      "title": "New York Mets vs. Miami Marlins",
-      "volume": 297649.0340620001
+      "volume": 262375.968999
     }
   ],
   "schemaVersion": 1,
   "sourceHealth": {
-    "kalshiOpenEvents": 42,
+    "kalshiOpenEvents": 37,
     "kalshiStatus": 200,
-    "kalshiTodayMarkets": 20,
-    "marketObservedAt": "2026-09-07T20:09:54.838660Z",
+    "kalshiTodayMarkets": 8,
+    "marketObservedAt": "2026-09-07T22:50:41.715513Z",
     "mlbStatus": 200,
-    "polymarketMarkets": 10,
+    "polymarketMarkets": 4,
     "polymarketStatus": 200,
     "relay": "github-actions",
     "usingSnapshot": false
